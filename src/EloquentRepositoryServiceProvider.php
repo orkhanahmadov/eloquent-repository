@@ -14,7 +14,7 @@ class EloquentRepositoryServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/config.php' => config_path('eloquent-repository-generator.php'),
+                __DIR__.'/../config/config.php' => config_path('eloquent-repository-generator.php'),
             ], 'config');
 
             $this->commands([
@@ -28,6 +28,6 @@ class EloquentRepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'eloquent-repository-generator');
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'eloquent-repository-generator');
     }
 }

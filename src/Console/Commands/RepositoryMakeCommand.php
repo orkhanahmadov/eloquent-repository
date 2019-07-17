@@ -30,7 +30,7 @@ class RepositoryMakeCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/../stubs/repository.stub';
+        return __DIR__.'/../stubs/repository.stub';
     }
 
     /**
@@ -41,6 +41,6 @@ class RepositoryMakeCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Repositories';
+        return $rootNamespace.'\Repositories';
     }
 }

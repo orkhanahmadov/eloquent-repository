@@ -3,13 +3,13 @@
 namespace Innoscripta\EloquentRepository\Repository;
 
 use Exception;
-use Illuminate\Contracts\Cache\Factory as Cache;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Factory as Cache;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Arr;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
 use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
 
@@ -88,7 +88,7 @@ abstract class EloquentRepository implements Repository
     {
         if ($this instanceof Cachable) {
             return $this->cache->remember(
-                $this->cacheKey() . '.' . implode(',', $columns),
+                $this->cacheKey().'.'.implode(',', $columns),
                 $this->cacheTTL(),
                 function () use ($columns) {
                     return $this->entity->get($columns);
@@ -122,7 +122,7 @@ abstract class EloquentRepository implements Repository
     {
         if ($this instanceof Cachable) {
             $model = $this->cache->remember(
-                $this->cacheKey() . '.' . $modelId,
+                $this->cacheKey().'.'.$modelId,
                 $this->cacheTTL(),
                 function () use ($modelId) {
                     return $this->entity->find($modelId);
@@ -132,7 +132,7 @@ abstract class EloquentRepository implements Repository
             $model = $this->entity->find($modelId);
         }
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel()),
                 $modelId
@@ -188,7 +188,7 @@ abstract class EloquentRepository implements Repository
             $model = $this->entity->where($column, $value)->first();
         }
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel())
             );
@@ -209,7 +209,7 @@ abstract class EloquentRepository implements Repository
     {
         $model = $this->entity->whereIn($column, $values)->first();
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel())
             );
@@ -244,7 +244,7 @@ abstract class EloquentRepository implements Repository
     public function update($model, array $properties)
     {
         if ($this instanceof Cachable) {
-            $this->cache->forget($this->cacheKey() . '.' . $model->id);
+            $this->cache->forget($this->cacheKey().'.'.$model->id);
         }
 
         $model->fill($properties)->save();
@@ -259,7 +259,6 @@ abstract class EloquentRepository implements Repository
      *
      * @return bool|mixed|null
      * @throws Exception
-     *
      */
     public function findAndDelete($modelId)
     {
@@ -275,12 +274,11 @@ abstract class EloquentRepository implements Repository
      *
      * @return bool|mixed|null
      * @throws Exception
-     *
      */
     public function delete($model)
     {
         if ($this instanceof Cachable) {
-            $this->cache->forget($this->cacheKey() . '.' . $model->id);
+            $this->cache->forget($this->cacheKey().'.'.$model->id);
         }
 
         return $model->delete();
@@ -311,7 +309,7 @@ abstract class EloquentRepository implements Repository
     {
         $model = $this->entity->onlyTrashed()->find($modelId);
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel()),
                 $modelId
@@ -345,7 +343,7 @@ abstract class EloquentRepository implements Repository
         $criteria = Arr::flatten($criteria);
 
         foreach ($criteria as $criterion) {
-            /** @var Criteria\Criteria $criterion */
+            /* @var Criteria\Criteria $criterion */
             $this->entity = $criterion->apply($this->entity);
         }
 
