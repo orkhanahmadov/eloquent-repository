@@ -1,0 +1,53 @@
+{
+    "name": "innoscripta/laravel-repository",
+    "description": "Model Repository for Laravel",
+    "keywords": [
+        "innoscripta",
+        "laravel-repository",
+        "repository",
+        "eloquent",
+        "model"
+    ],
+    "homepage": "https://github.com/innoscripta/laravel-repository",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Orkhan Ahmadov",
+            "email": "ahmadov90@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "5.8.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Innoscripta\\LaravelRepository\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Innoscripta\\LaravelRepository\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Innoscripta\\LaravelRepository\\LaravelRepositoryServiceProvider"
+            ]
+        }
+    }
+}
