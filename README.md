@@ -1,9 +1,15 @@
 # Very short description of the package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/innoscripta/laravel-repository.svg?style=flat-square)](https://packagist.org/packages/innoscripta/laravel-repository)
-[![Build Status](https://img.shields.io/travis/innoscripta/laravel-repository/master.svg?style=flat-square)](https://travis-ci.org/innoscripta/laravel-repository)
+[![Latest Stable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/stable)](https://packagist.org/packages/innoscripta/eloquent-repository)
+[![Latest Unstable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/unstable)](https://packagist.org/packages/innoscripta/eloquent-repository)
+[![Total Downloads](https://poser.pugx.org/innoscripta/eloquent-repository/downloads)](https://packagist.org/packages/innoscripta/eloquent-repository)
+[![License](https://poser.pugx.org/innoscripta/eloquent-repository/license)](https://packagist.org/packages/innoscripta/eloquent-repository)
+
+[![Build Status](https://travis-ci.org/innoscripta/eloquent-repository.svg?branch=master)](https://travis-ci.org/innoscripta/eloquent-repository)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/maintainability)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/test_coverage)](https://codeclimate.com/github/innoscripta/eloquent-repository/test_coverage)
 [![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/laravel-repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/innoscripta/laravel-repository)
-[![Total Downloads](https://img.shields.io/packagist/dt/innoscripta/laravel-repository.svg?style=flat-square)](https://packagist.org/packages/innoscripta/laravel-repository)
+[![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
