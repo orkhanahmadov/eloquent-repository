@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use Innoscripta\EloquentRepositoryGenerator\EloquentRepository;
+
+class DummyClass extends EloquentRepository
+{
+    protected function entity()
+    {
+        return DummyModel::class;
+    }
+}
