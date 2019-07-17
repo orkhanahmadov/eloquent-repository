@@ -2,9 +2,9 @@
 
 namespace Innoscripta\EloquentRepository\Tests;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class RepositoryTest extends TestCase
 {
@@ -133,7 +133,7 @@ class RepositoryTest extends TestCase
 
         $result = $this->repository->findWhere([
             'id' => 15,
-            'name' => 'model name'
+            'name' => 'model name',
         ]);
         $this->assertCount(1, $result);
         $this->assertEquals(15, $result[0]['id']);
