@@ -1,6 +1,6 @@
 {
-    "name": "innoscripta/eloquent-repository-generator",
-    "description": "Eloquent Repository Generator for Laravel",
+    "name": "innoscripta/eloquent-repository",
+    "description": "Eloquent Repository for Laravel",
     "keywords": [
         "innoscripta",
         "laravel-repository",
@@ -11,7 +11,7 @@
         "eloquent",
         "model"
     ],
-    "homepage": "https://github.com/innoscripta/eloquent-repository-generator",
+    "homepage": "https://github.com/innoscripta/eloquent-repository",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Innoscripta\\EloquentRepositoryGenerator\\": "src"
+            "Innoscripta\\EloquentRepository\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Innoscripta\\EloquentRepositoryGenerator\\Tests\\": "tests"
+            "Innoscripta\\EloquentRepository\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -49,7 +49,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Innoscripta\\EloquentRepositoryGenerator\\EloquentRepositoryGeneratorServiceProvider"
+                "Innoscripta\\EloquentRepository\\EloquentRepositoryServiceProvider"
             ]
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Innoscripta\EloquentRepositoryGenerator\Console\Commands;
+namespace Innoscripta\EloquentRepository\Console\Commands;
 
 class RepositoryMakeCommand
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Innoscripta\EloquentRepositoryGenerator\Repositories\Eloquent\Criteria;
+namespace Innoscripta\EloquentRepository\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Arr;
-use Innoscripta\EloquentRepositoryGenerator\Repositories\Criteria\Criterion;
+use Innoscripta\EloquentRepository\Repository\Criteria\Criterion;
 
 class EagerLoad implements Criterion
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Innoscripta\EloquentRepositoryGenerator\Repositories;
+namespace Innoscripta\EloquentRepository\Repository;
 
 use Exception;
 use Illuminate\Contracts\Cache\Factory as Cache;
@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
-use Innoscripta\EloquentRepositoryGenerator\Repositories\Contracts\Cachable;
-use Innoscripta\EloquentRepositoryGenerator\Repositories\Contracts\Repository;
+use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
+use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
 
 abstract class EloquentRepository implements Repository
 {
@@ -112,6 +112,37 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
+     * Finds a model with ID.
+     *
+     * @param int|string $modelId
+     *
+     * @return Builder|Builder[]|Collection|Model|null
+     */
+    public function find($modelId)
+    {
+        if ($this instanceof Cachable) {
+            $model = $this->cache->remember(
+                $this->cacheKey() . '.' . $modelId,
+                $this->cacheTTL(),
+                function () use ($modelId) {
+                    return $this->entity->find($modelId);
+                }
+            );
+        } else {
+            $model = $this->entity->find($modelId);
+        }
+
+        if (!$model) {
+            throw (new ModelNotFoundException)->setModel(
+                get_class($this->entity->getModel()),
+                $modelId
+            );
+        }
+
+        return $model;
+    }
+
+    /**
      * Finds models with "where" condition.
      *
      * @param string|array $column
@@ -200,37 +231,6 @@ abstract class EloquentRepository implements Repository
         $model = $this->find($modelId);
 
         return $this->update($model, $properties);
-    }
-
-    /**
-     * Finds a model with ID.
-     *
-     * @param int|string $modelId
-     *
-     * @return Builder|Builder[]|Collection|Model|null
-     */
-    public function find($modelId)
-    {
-        if ($this instanceof Cachable) {
-            $model = $this->cache->remember(
-                $this->cacheKey() . '.' . $modelId,
-                $this->cacheTTL(),
-                function () use ($modelId) {
-                    return $this->entity->find($modelId);
-                }
-            );
-        } else {
-            $model = $this->entity->find($modelId);
-        }
-
-        if (!$model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->entity->getModel()),
-                $modelId
-            );
-        }
-
-        return $model;
     }
 
     /**

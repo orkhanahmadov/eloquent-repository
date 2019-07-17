@@ -1,6 +1,6 @@
 <?php
 
-namespace Innoscripta\EloquentRepositoryGenerator\Repositories\Contracts;
+namespace Innoscripta\EloquentRepository\Repository\Contracts;
 
 interface Repository
 {

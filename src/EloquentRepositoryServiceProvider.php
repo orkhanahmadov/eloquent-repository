@@ -1,11 +1,11 @@
 <?php
 
-namespace Innoscripta\EloquentRepositoryGenerator;
+namespace Innoscripta\EloquentRepository;
 
 use Illuminate\Support\ServiceProvider;
-use Innoscripta\EloquentRepositoryGenerator\Console\Commands\RepositoryMakeCommand;
+use Innoscripta\EloquentRepository\Console\Commands\RepositoryMakeCommand;
 
-class EloquentRepositoryGeneratorServiceProvider extends ServiceProvider
+class EloquentRepositoryServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
