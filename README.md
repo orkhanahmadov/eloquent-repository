@@ -8,7 +8,7 @@
 [![Build Status](https://travis-ci.org/innoscripta/eloquent-repository.svg?branch=master)](https://travis-ci.org/innoscripta/eloquent-repository)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/maintainability)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/test_coverage)](https://codeclimate.com/github/innoscripta/eloquent-repository/test_coverage)
-[![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/laravel-repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/innoscripta/laravel-repository)
+[![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/eloquent-repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/innoscripta/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
