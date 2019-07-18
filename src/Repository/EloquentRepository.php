@@ -3,13 +3,13 @@
 namespace Innoscripta\EloquentRepository\Repository;
 
 use Exception;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
 use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
 use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
 
@@ -244,7 +244,7 @@ abstract class EloquentRepository implements Repository
     public function update($model, array $properties)
     {
         if ($this instanceof Cachable) {
-            $this->cache->forget($this->cacheKey().'.'.$model->id);
+            $this->forgetCache($model);
         }
 
         $model->fill($properties)->save();
@@ -278,7 +278,7 @@ abstract class EloquentRepository implements Repository
     public function delete($model)
     {
         if ($this instanceof Cachable) {
-            $this->cache->forget($this->cacheKey().'.'.$model->id);
+            $this->forgetCache($model);
         }
 
         return $model->delete();
@@ -368,5 +368,16 @@ abstract class EloquentRepository implements Repository
     public function cacheTTL(): int
     {
         return 3600;
+    }
+
+    /**
+     * Removes cache for model
+     *
+     * @param Model $model
+     */
+    public function forgetCache($model): void
+    {
+        $this->cache->forget($this->cacheKey().'.*');
+        $this->cache->forget($this->cacheKey().'.'.$model->id);
     }
 }

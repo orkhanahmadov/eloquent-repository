@@ -2,10 +2,9 @@
 
 namespace Innoscripta\EloquentRepository\Tests;
 
-use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
 use Innoscripta\EloquentRepository\Repository\EloquentRepository;
 
-class FakeModelRepository extends EloquentRepository implements Cachable
+class FakeRepository extends EloquentRepository
 {
     /**
      * Defines entity.
