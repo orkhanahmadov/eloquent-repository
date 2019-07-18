@@ -2,6 +2,7 @@
 
 namespace Innoscripta\EloquentRepository\Tests;
 
+use Carbon\Carbon;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -14,7 +15,7 @@ class RepositoryTest extends TestCase
     {
         parent::setUp();
 
-        DB::statement('CREATE TABLE models (id Int, name Varchar);');
+        DB::statement('CREATE TABLE models (id INT, name VARCHAR , deleted_at TIMESTAMP);');
 
         $this->repository = app()->make(FakeModelRepository::class);
     }
@@ -42,10 +43,12 @@ class RepositoryTest extends TestCase
             [
                 'id' => 5,
                 'name' => 'model1',
+                'deleted_at' => null,
             ],
             [
                 'id' => 15,
                 'name' => 'model2',
+                'deleted_at' => null,
             ],
         ], $result->toArray());
     }
@@ -169,5 +172,86 @@ class RepositoryTest extends TestCase
 
         $result = $this->repository->findWhereInFirst('id', [15, 25]);
         $this->assertEquals(15, $result['id']);
+    }
+
+    public function testFindAndUpdate()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name']);
+
+        $result = $this->repository->findAndUpdate($model->id, [
+            'name' => 'updated name',
+        ]);
+        $this->assertEquals('updated name', $result->name);
+        $this->assertEquals('updated name', $model->refresh()->name);
+    }
+
+    public function testUpdate()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name']);
+        Cache::put('models.'.$model->id, $model, 100);
+
+        $this->assertNotNull(Cache::get('models.'.$model->id));
+        $result = $this->repository->update($model, [
+            'name' => 'updated name',
+        ]);
+        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertEquals('updated name', $result->name);
+        $this->assertEquals('updated name', $model->refresh()->name);
+    }
+
+    public function testFindAndDelete()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name']);
+        $this->assertNull($model->deleted_at);
+
+        $result = $this->repository->findAndDelete($model->id);
+
+        $this->assertNotNull($model->refresh()->deleted_at);
+        $this->assertTrue($result);
+    }
+
+    public function testDelete()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name']);
+        Cache::put('models.'.$model->id, $model, 100);
+        $this->assertNotNull(Cache::get('models.'.$model->id));
+        $this->assertNull($model->deleted_at);
+
+        $result = $this->repository->delete($model);
+
+        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNotNull($model->refresh()->deleted_at);
+        $this->assertTrue($result);
+    }
+
+    public function testFindAndRestore()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => Carbon::now()->subDay()]);
+        $this->assertNotNull($model->deleted_at);
+
+        $result = $this->repository->findAndRestore($model->id);
+
+        $this->assertNull($model->refresh()->deleted_at);
+        $this->assertTrue($result);
+    }
+
+    public function testFindFromTrashed()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => Carbon::now()->subDay()]);
+
+        $result = $this->repository->findFromTrashed($model->id);
+
+        $this->assertEquals($model->id, $result->id);
+    }
+
+    public function testRestore()
+    {
+        $model = Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => Carbon::now()->subDay()]);
+        $this->assertNotNull($model->deleted_at);
+
+        $result = $this->repository->restore($model);
+
+        $this->assertNull($model->refresh()->deleted_at);
+        $this->assertTrue($result);
     }
 }
