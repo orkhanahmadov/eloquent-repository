@@ -2,7 +2,9 @@
 
 namespace Innoscripta\EloquentRepository\Console\Commands;
 
-class RepositoryMakeCommand
+use Illuminate\Console\Command;
+
+class RepositoryMakeCommand extends Command
 {
     /**
      * The name and signature of the console command.
