@@ -2,10 +2,10 @@
 
 namespace Innoscripta\EloquentRepository;
 
-use Illuminate\Support\ServiceProvider;
-use Innoscripta\EloquentRepository\Console\Commands\RepositoryMakeCommand;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Innoscripta\EloquentRepository\Console\RepositoryMakeCommand;
 
-class EloquentRepositoryServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Bootstrap the application services.

@@ -1,11 +1,14 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Tests;
+namespace Innoscripta\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Orchestra\Testbench\TestCase;
+use Innoscripta\EloquentRepository\Tests\FakeCachableRepository;
+use Innoscripta\EloquentRepository\Tests\FakeRepository;
+use Innoscripta\EloquentRepository\Tests\Model;
+use Innoscripta\EloquentRepository\Tests\TestCase;
 
 class RepositoryTest extends TestCase
 {
