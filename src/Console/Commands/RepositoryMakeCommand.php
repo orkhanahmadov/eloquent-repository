@@ -2,9 +2,9 @@
 
 namespace Innoscripta\EloquentRepository\Console\Commands;
 
-use Illuminate\Console\Command;
+use Illuminate\Console\GeneratorCommand;
 
-class RepositoryMakeCommand extends Command
+class RepositoryMakeCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
