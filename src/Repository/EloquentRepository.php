@@ -3,13 +3,13 @@
 namespace Innoscripta\EloquentRepository\Repository;
 
 use Exception;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
 use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
 use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
 
@@ -72,6 +72,8 @@ abstract class EloquentRepository implements Repository
     /**
      * Returns all models.
      *
+     * @throws BindingResolutionException
+     *
      * @return Builder[]|Collection
      */
     public function all()
@@ -83,6 +85,8 @@ abstract class EloquentRepository implements Repository
      * Returns all models with selected columns.
      *
      * @param array $columns
+     *
+     * @throws BindingResolutionException
      *
      * @return Builder[]|Collection
      */
@@ -117,6 +121,8 @@ abstract class EloquentRepository implements Repository
      * Finds a model with ID.
      *
      * @param int|string $modelId
+     *
+     * @throws BindingResolutionException
      *
      * @return Builder|Builder[]|Collection|Model|null
      */
@@ -226,6 +232,8 @@ abstract class EloquentRepository implements Repository
      * @param int|string $modelId
      * @param array $properties
      *
+     * @throws BindingResolutionException
+     *
      * @return Builder|Model
      */
     public function findAndUpdate($modelId, array $properties)
@@ -240,6 +248,8 @@ abstract class EloquentRepository implements Repository
      *
      * @param Model $model
      * @param array $properties
+     *
+     * @throws BindingResolutionException
      *
      * @return Builder|Model
      */

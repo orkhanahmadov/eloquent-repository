@@ -3,12 +3,13 @@
 namespace Innoscripta\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Innoscripta\EloquentRepository\Tests\FakeCachableRepository;
+use Innoscripta\EloquentRepository\Tests\FakeRepository;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
-use Innoscripta\EloquentRepository\Tests\FakeCachableRepository;
 
 class RepositoryTest extends TestCase
 {
@@ -113,6 +114,15 @@ class RepositoryTest extends TestCase
         $this->assertEquals('model2', $result->name);
     }
 
+    public function testFindException()
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model] 15');
+        Model::create(['id' => 5, 'name' => 'model1']);
+
+        $this->repository->find(15);
+    }
+
     public function testFindCached()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
@@ -128,7 +138,7 @@ class RepositoryTest extends TestCase
         $this->assertCount(1, DB::getQueryLog());
     }
 
-    public function testWhere()
+    public function testFindWhere()
     {
         Model::create(['id' => 5, 'name' => 'model name']);
         Model::create(['id' => 15, 'name' => 'model name']);
@@ -147,7 +157,7 @@ class RepositoryTest extends TestCase
         $this->assertEquals(15, $result[0]['id']);
     }
 
-    public function testWhereIn()
+    public function testFindWhereIn()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
         Model::create(['id' => 15, 'name' => 'model2']);
@@ -159,17 +169,29 @@ class RepositoryTest extends TestCase
         $this->assertEquals(25, $result[1]['id']);
     }
 
-    public function testWhereFirst()
+    public function testFindWhereFirst()
     {
         Model::create(['id' => 5, 'name' => 'model name']);
         Model::create(['id' => 15, 'name' => 'model name']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->findWhereFirst('name', 'model name');
-        $this->assertEquals(5, $result['id']);
+        $result1 = $this->repository->findWhereFirst('name', 'model name');
+        $result2 = $this->repository->findWhereFirst(['name' => 'model3']);
+        $this->assertEquals(5, $result1['id']);
+        $this->assertEquals(25, $result2['id']);
     }
 
-    public function testWhereInFirst()
+    public function testFindWhereFirstException()
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model].');
+        Model::create(['id' => 5, 'name' => 'model name']);
+        Model::create(['id' => 15, 'name' => 'model name']);
+
+        $this->repository->findWhereFirst('name', 'other model name');
+    }
+
+    public function testFindWhereInFirst()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
         Model::create(['id' => 15, 'name' => 'model2']);
@@ -177,6 +199,16 @@ class RepositoryTest extends TestCase
 
         $result = $this->cachedRepository->findWhereInFirst('id', [15, 25]);
         $this->assertEquals(15, $result['id']);
+    }
+
+    public function testFindWhereInFirstException()
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model].');
+        Model::create(['id' => 5, 'name' => 'model name']);
+        Model::create(['id' => 15, 'name' => 'model name']);
+
+        $this->repository->findWhereInFirst('id', [10, 25]);
     }
 
     public function testFindAndUpdate()
@@ -247,6 +279,15 @@ class RepositoryTest extends TestCase
         $result = $this->cachedRepository->findFromTrashed($model->id);
 
         $this->assertEquals($model->id, $result->id);
+    }
+
+    public function testFindFromTrashedException()
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model] 10');
+        Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => now()->subDay()]);
+
+        $this->repository->findFromTrashed(10);
     }
 
     public function testRestore()
