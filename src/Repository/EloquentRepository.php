@@ -28,9 +28,9 @@ abstract class EloquentRepository implements Repository
     /**
      * EloquentRepository constructor.
      *
-     * @param Cache $cache
-     *
      * @throws BindingResolutionException
+     *
+     * @param Cache $cache
      */
     public function __construct(Cache $cache)
     {
@@ -40,6 +40,8 @@ abstract class EloquentRepository implements Repository
 
     /**
      * Resolves entity.
+     *
+     * @throws BindingResolutionException
      *
      * @return mixed
      */
@@ -353,6 +355,8 @@ abstract class EloquentRepository implements Repository
     /**
      * Defines cache key.
      *
+     * @throws BindingResolutionException
+     *
      * @return string
      */
     public function cacheKey(): string
@@ -372,6 +376,8 @@ abstract class EloquentRepository implements Repository
 
     /**
      * Removes cache for model
+     *
+     * @throws BindingResolutionException
      *
      * @param Model $model
      */

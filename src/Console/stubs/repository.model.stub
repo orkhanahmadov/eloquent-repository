@@ -2,12 +2,13 @@
 
 namespace DummyNamespace;
 
+use DummyFullModelClass;
 use Innoscripta\EloquentRepository\Repository\EloquentRepository;
 
 class DummyClass extends EloquentRepository
 {
     protected function entity(): string
     {
-        return DummyModel::class;
+        return DummyModelClass::class;
     }
 }
