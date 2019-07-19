@@ -19,7 +19,7 @@ interface Cachable
     public function cacheTTL(): int;
 
     /**
-     * Removes cache for model
+     * Removes cache for model.
      *
      * @param $model
      */
