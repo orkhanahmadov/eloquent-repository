@@ -49,7 +49,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Innoscripta\\EloquentRepository\\EloquentRepositoryServiceProvider"
+                "Innoscripta\\EloquentRepository\\ServiceProvider"
             ]
         }
     }
