@@ -1,4 +1,4 @@
-# Very short description of the package
+# WIP - Very short description of the package
 
 [![Latest Stable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/stable)](https://packagist.org/packages/innoscripta/eloquent-repository)
 [![Latest Unstable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/unstable)](https://packagist.org/packages/innoscripta/eloquent-repository)
@@ -18,7 +18,7 @@ This is where your description should go. Try and limit it to a paragraph or two
 You can install the package via composer:
 
 ```bash
-composer require innoscripta/laravel-repository
+composer require innoscripta/eloquent-repository
 ```
 
 ## Usage
