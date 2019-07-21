@@ -2,7 +2,7 @@
 
 namespace Innoscripta\EloquentRepository\Tests;
 
-use Innoscripta\EloquentRepository\Repository\EloquentRepository;
+use Innoscripta\EloquentRepository\EloquentRepository;
 
 class FakeModelRelationRepository extends EloquentRepository
 {

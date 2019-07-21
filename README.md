@@ -27,14 +27,15 @@ composer require innoscripta/eloquent-repository
 
 ## Usage
 
-Create a class that you want it act repository and extend `Innoscripta\EloquentRepository\Repository\EloquentRepository` abstract class.
+Create a class that you want it act repository and extend `Innoscripta\EloquentRepository\EloquentRepository` abstract class.
+
 Repository class must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from `entity` method.
 
 ``` php
 namespace App\Repositories;
 
 use App\User;
-use Innoscripta\EloquentRepository\Repository\EloquentRepository;
+use Innoscripta\EloquentRepository\EloquentRepository;
 
 class UserRepository extends EloquentRepository
 {
@@ -93,7 +94,11 @@ $user->findFromTrashed(1); // finds "soft deleted" user with ID=1 and returns it
 
 ### Criteria
 
+// todo
+
 ### Extending
+
+// todo
 
 ### Testing
 
