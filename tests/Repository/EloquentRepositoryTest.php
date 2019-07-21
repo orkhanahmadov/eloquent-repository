@@ -2,16 +2,16 @@
 
 namespace Innoscripta\EloquentRepository\Tests\Repository;
 
-use BadMethodCallException;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Cache;
+use BadMethodCallException;
 use Illuminate\Support\Facades\DB;
-use Innoscripta\EloquentRepository\Tests\FakeModelCachableRepository;
-use Innoscripta\EloquentRepository\Tests\FakeModelRelationRepository;
-use Innoscripta\EloquentRepository\Tests\FakeModelRepository;
+use Illuminate\Support\Facades\Cache;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Innoscripta\EloquentRepository\Tests\FakeModelRepository;
+use Innoscripta\EloquentRepository\Tests\FakeModelCachableRepository;
+use Innoscripta\EloquentRepository\Tests\FakeModelRelationRepository;
 
 class EloquentRepositoryTest extends TestCase
 {
