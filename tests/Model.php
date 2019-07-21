@@ -10,11 +10,9 @@ class Model extends BaseModel
 {
     use SoftDeletes;
 
-    protected $guarded = [];
-
     public $incrementing = false;
-
     public $timestamps = false;
+    protected $guarded = [];
 
     public function relations()
     {

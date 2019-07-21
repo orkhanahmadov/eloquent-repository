@@ -6,8 +6,8 @@
 [![License](https://poser.pugx.org/innoscripta/eloquent-repository/license)](https://packagist.org/packages/innoscripta/eloquent-repository)
 
 [![Build Status](https://travis-ci.org/innoscripta/eloquent-repository.svg?branch=master)](https://travis-ci.org/innoscripta/eloquent-repository)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/maintainability)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/test_coverage)](https://codeclimate.com/github/innoscripta/eloquent-repository/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/1d0316bf39dcbc1ea910/maintainability)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
 [![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/eloquent-repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/innoscripta/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 

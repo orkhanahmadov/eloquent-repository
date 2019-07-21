@@ -3,28 +3,18 @@
 namespace Innoscripta\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Innoscripta\EloquentRepository\Tests\FakeCachableRepository;
+use Innoscripta\EloquentRepository\Tests\FakeRepository;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
-use Innoscripta\EloquentRepository\Tests\FakeCachableRepository;
 
 class EloquentRepositoryTest extends TestCase
 {
     private $repository;
     private $cachedRepository;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
-
-        $this->repository = app()->make(FakeRepository::class);
-        $this->cachedRepository = app()->make(FakeCachableRepository::class);
-    }
 
     public function testCreate()
     {
@@ -225,13 +215,13 @@ class EloquentRepositoryTest extends TestCase
     public function testUpdate()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
-        Cache::put('models.'.$model->id, $model, 100);
+        Cache::put('models.' . $model->id, $model, 100);
 
-        $this->assertNotNull(Cache::get('models.'.$model->id));
+        $this->assertNotNull(Cache::get('models.' . $model->id));
         $result = $this->cachedRepository->update($model, [
             'name' => 'updated name',
         ]);
-        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNull(Cache::get('models.' . $model->id));
         $this->assertEquals('updated name', $result->name);
         $this->assertEquals('updated name', $model->refresh()->name);
     }
@@ -250,13 +240,13 @@ class EloquentRepositoryTest extends TestCase
     public function testDelete()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
-        Cache::put('models.'.$model->id, $model, 100);
-        $this->assertNotNull(Cache::get('models.'.$model->id));
+        Cache::put('models.' . $model->id, $model, 100);
+        $this->assertNotNull(Cache::get('models.' . $model->id));
         $this->assertNull($model->deleted_at);
 
         $result = $this->cachedRepository->delete($model);
 
-        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNull(Cache::get('models.' . $model->id));
         $this->assertNotNull($model->refresh()->deleted_at);
         $this->assertTrue($result);
     }
@@ -315,11 +305,21 @@ class EloquentRepositoryTest extends TestCase
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
         Cache::put('models.*', Model::all(), 100);
-        Cache::put('models.'.$model->id, $model, 100);
+        Cache::put('models.' . $model->id, $model, 100);
 
         $this->cachedRepository->forgetCache($model);
 
         $this->assertNull(Cache::get('models.*'));
-        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNull(Cache::get('models.' . $model->id));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
+
+        $this->repository = app()->make(FakeRepository::class);
+        $this->cachedRepository = app()->make(FakeCachableRepository::class);
     }
 }

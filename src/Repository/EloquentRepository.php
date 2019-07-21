@@ -3,13 +3,13 @@
 namespace Innoscripta\EloquentRepository\Repository;
 
 use Exception;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
 use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
 use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
 
@@ -28,9 +28,9 @@ abstract class EloquentRepository implements Repository
     /**
      * EloquentRepository constructor.
      *
+     * @param Cache $cache
      * @throws BindingResolutionException
      *
-     * @param Cache $cache
      */
     public function __construct(Cache $cache)
     {
@@ -41,9 +41,9 @@ abstract class EloquentRepository implements Repository
     /**
      * Resolves entity.
      *
+     * @return mixed
      * @throws BindingResolutionException
      *
-     * @return mixed
      */
     protected function resolveEntity()
     {
@@ -72,9 +72,9 @@ abstract class EloquentRepository implements Repository
     /**
      * Returns all models.
      *
+     * @return Builder[]|Collection
      * @throws BindingResolutionException
      *
-     * @return Builder[]|Collection
      */
     public function all()
     {
@@ -86,15 +86,15 @@ abstract class EloquentRepository implements Repository
      *
      * @param array $columns
      *
+     * @return Builder[]|Collection
      * @throws BindingResolutionException
      *
-     * @return Builder[]|Collection
      */
     public function get(array $columns = ['*'])
     {
         if ($this instanceof Cachable) {
             return $this->cache->remember(
-                $this->cacheKey().'.'.implode(',', $columns),
+                $this->cacheKey() . '.' . implode(',', $columns),
                 $this->cacheTTL(),
                 function () use ($columns) {
                     return $this->entity->get($columns);
@@ -115,39 +115,6 @@ abstract class EloquentRepository implements Repository
     public function paginate(int $perPage)
     {
         return $this->entity->paginate($perPage);
-    }
-
-    /**
-     * Finds a model with ID.
-     *
-     * @param int|string $modelId
-     *
-     * @throws BindingResolutionException
-     *
-     * @return Builder|Builder[]|Collection|Model|null
-     */
-    public function find($modelId)
-    {
-        if ($this instanceof Cachable) {
-            $model = $this->cache->remember(
-                $this->cacheKey().'.'.$modelId,
-                $this->cacheTTL(),
-                function () use ($modelId) {
-                    return $this->entity->find($modelId);
-                }
-            );
-        } else {
-            $model = $this->entity->find($modelId);
-        }
-
-        if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->entity->getModel()),
-                $modelId
-            );
-        }
-
-        return $model;
     }
 
     /**
@@ -196,7 +163,7 @@ abstract class EloquentRepository implements Repository
             $model = $this->entity->where($column, $value)->first();
         }
 
-        if (! $model) {
+        if (!$model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel())
             );
@@ -217,7 +184,7 @@ abstract class EloquentRepository implements Repository
     {
         $model = $this->entity->whereIn($column, $values)->first();
 
-        if (! $model) {
+        if (!$model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel())
             );
@@ -232,9 +199,9 @@ abstract class EloquentRepository implements Repository
      * @param int|string $modelId
      * @param array $properties
      *
+     * @return Builder|Model
      * @throws BindingResolutionException
      *
-     * @return Builder|Model
      */
     public function findAndUpdate($modelId, array $properties)
     {
@@ -244,14 +211,47 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
+     * Finds a model with ID.
+     *
+     * @param int|string $modelId
+     *
+     * @return Builder|Builder[]|Collection|Model|null
+     * @throws BindingResolutionException
+     *
+     */
+    public function find($modelId)
+    {
+        if ($this instanceof Cachable) {
+            $model = $this->cache->remember(
+                $this->cacheKey() . '.' . $modelId,
+                $this->cacheTTL(),
+                function () use ($modelId) {
+                    return $this->entity->find($modelId);
+                }
+            );
+        } else {
+            $model = $this->entity->find($modelId);
+        }
+
+        if (!$model) {
+            throw (new ModelNotFoundException)->setModel(
+                get_class($this->entity->getModel()),
+                $modelId
+            );
+        }
+
+        return $model;
+    }
+
+    /**
      * Updates a model given properties.
      *
      * @param Model $model
      * @param array $properties
      *
+     * @return Builder|Model
      * @throws BindingResolutionException
      *
-     * @return Builder|Model
      */
     public function update($model, array $properties)
     {
@@ -321,7 +321,7 @@ abstract class EloquentRepository implements Repository
     {
         $model = $this->entity->onlyTrashed()->find($modelId);
 
-        if (! $model) {
+        if (!$model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel()),
                 $modelId
@@ -363,18 +363,6 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
-     * Defines cache key.
-     *
-     * @throws BindingResolutionException
-     *
-     * @return string
-     */
-    public function cacheKey(): string
-    {
-        return $this->resolveEntity()->getTable();
-    }
-
-    /**
      * Defines cache time-to-live seconds.
      *
      * @return int
@@ -387,13 +375,25 @@ abstract class EloquentRepository implements Repository
     /**
      * Removes cache for model.
      *
+     * @param Model $model
      * @throws BindingResolutionException
      *
-     * @param Model $model
      */
     public function forgetCache($model): void
     {
-        $this->cache->forget($this->cacheKey().'.*');
-        $this->cache->forget($this->cacheKey().'.'.$model->id);
+        $this->cache->forget($this->cacheKey() . '.*');
+        $this->cache->forget($this->cacheKey() . '.' . $model->id);
+    }
+
+    /**
+     * Defines cache key.
+     *
+     * @return string
+     * @throws BindingResolutionException
+     *
+     */
+    public function cacheKey(): string
+    {
+        return $this->resolveEntity()->getTable();
     }
 }

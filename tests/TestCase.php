@@ -2,6 +2,7 @@
 
 namespace Innoscripta\EloquentRepository\Tests;
 
+use Illuminate\Foundation\Application;
 use Innoscripta\EloquentRepository\ServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -9,7 +10,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Resolve application aliases.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      *
      * @return array
      */

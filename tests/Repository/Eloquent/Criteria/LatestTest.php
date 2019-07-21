@@ -12,15 +12,6 @@ class LatestTest extends TestCase
 {
     private $repository;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
-
-        $this->repository = app()->make(FakeRepository::class);
-    }
-
     public function testLatest()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
@@ -29,5 +20,14 @@ class LatestTest extends TestCase
         $result = $this->repository->withCriteria(new Latest())->get();
 
         $this->assertEquals(15, $result->first()->id);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
+
+        $this->repository = app()->make(FakeRepository::class);
     }
 }

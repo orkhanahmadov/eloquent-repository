@@ -12,15 +12,6 @@ class ScopeTest extends TestCase
 {
     private $repository;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
-
-        $this->repository = app()->make(FakeRepository::class);
-    }
-
     public function testScope()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
@@ -33,5 +24,14 @@ class ScopeTest extends TestCase
 
         $this->assertCount(1, $result);
         $this->assertEquals(15, $result->first()->id);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
+
+        $this->repository = app()->make(FakeRepository::class);
     }
 }

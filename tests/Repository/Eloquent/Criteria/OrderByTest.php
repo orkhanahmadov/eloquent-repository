@@ -12,15 +12,6 @@ class OrderByTest extends TestCase
 {
     private $repository;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
-
-        $this->repository = app()->make(FakeRepository::class);
-    }
-
     public function testOrderBy()
     {
         Model::create(['id' => 5, 'name' => 'abc']);
@@ -29,5 +20,14 @@ class OrderByTest extends TestCase
         $result = $this->repository->withCriteria(new OrderBy('name', 'desc'))->get();
 
         $this->assertEquals(15, $result->first()->id);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
+
+        $this->repository = app()->make(FakeRepository::class);
     }
 }
