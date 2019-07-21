@@ -3,10 +3,10 @@
 namespace Innoscripta\EloquentRepository\Tests\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Facades\DB;
-use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\Scope;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
+use Innoscripta\EloquentRepository\Tests\FakeRepository;
+use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\Scope;
 
 class ScopeTest extends TestCase
 {
@@ -19,7 +19,7 @@ class ScopeTest extends TestCase
         Model::create(['id' => 25, 'name' => 'model']);
 
         $result = $this->repository->withCriteria([
-            new Scope('idGreaterThan10', 'idLessThan20')
+            new Scope('idGreaterThan10', 'idLessThan20'),
         ])->get();
 
         $this->assertCount(1, $result);
