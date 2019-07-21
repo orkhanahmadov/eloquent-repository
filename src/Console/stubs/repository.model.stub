@@ -7,7 +7,12 @@ use Innoscripta\EloquentRepository\Repository\EloquentRepository;
 
 class DummyClass extends EloquentRepository
 {
-    protected function entity(): string
+    /**
+     * Defines entity.
+     *
+     * @return mixed
+     */
+    protected function entity()
     {
         return DummyModelClass::class;
     }

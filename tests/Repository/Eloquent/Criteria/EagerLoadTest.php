@@ -3,11 +3,11 @@
 namespace Innoscripta\EloquentRepository\Tests\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Facades\DB;
-use Innoscripta\EloquentRepository\Tests\Model;
-use Innoscripta\EloquentRepository\Tests\TestCase;
-use Innoscripta\EloquentRepository\Tests\ModelRelation;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
 use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\EagerLoad;
+use Innoscripta\EloquentRepository\Tests\FakeRepository;
+use Innoscripta\EloquentRepository\Tests\Model;
+use Innoscripta\EloquentRepository\Tests\ModelRelation;
+use Innoscripta\EloquentRepository\Tests\TestCase;
 
 class EagerLoadTest extends TestCase
 {
