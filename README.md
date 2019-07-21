@@ -1,14 +1,13 @@
-# Eloquent Repository for Laravel
+# :floppy_disk: Eloquent Repository for Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/stable)](https://packagist.org/packages/innoscripta/eloquent-repository)
 [![Latest Unstable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/unstable)](https://packagist.org/packages/innoscripta/eloquent-repository)
-[![Total Downloads](https://poser.pugx.org/innoscripta/eloquent-repository/downloads)](https://packagist.org/packages/innoscripta/eloquent-repository)
-[![GitHub license](https://img.shields.io/github/license/innoscripta/eloquent-repository.svg?style=flat-square)](https://github.com/innoscripta/eloquent-repository/blob/master/LICENSE.md)
+[![GitHub license](https://img.shields.io/github/license/innoscripta/eloquent-repository.svg)](https://github.com/innoscripta/eloquent-repository/blob/master/LICENSE.md)
 
-[![Build Status](https://img.shields.io/travis/innoscripta/eloquent-repository.svg?style=flat-square)](https://travis-ci.org/innoscripta/eloquent-repository)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/innoscripta/eloquent-repository.svg?style=flat-square)](https://codeclimate.com/github/innoscripta/eloquent-repository/test_coverage)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/innoscripta/eloquent-repository.svg?style=flat-square)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
-[![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/eloquent-repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/innoscripta/eloquent-repository)
+[![Build Status](https://img.shields.io/travis/innoscripta/eloquent-repository.svg)](https://travis-ci.org/innoscripta/eloquent-repository)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/innoscripta/eloquent-repository.svg)](https://codeclimate.com/github/innoscripta/eloquent-repository/test_coverage)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/innoscripta/eloquent-repository.svg)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
+[![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/eloquent-repository.svg)](https://scrutinizer-ci.com/g/innoscripta/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
 Eloquent Repository package for Laravel created with total "repository pattern" in-mind.
