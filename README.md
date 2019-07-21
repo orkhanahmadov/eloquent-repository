@@ -12,7 +12,7 @@
 
 Eloquent Repository package for Laravel created with total "repository pattern" in-mind.
 
-### Requirements
+## Requirements
 
 **PHP 7.2** or higher.
 
@@ -26,9 +26,9 @@ composer require innoscripta/eloquent-repository
 
 ## Usage
 
-Create a class that you want it act repository and extend `Innoscripta\EloquentRepository\EloquentRepository` abstract class.
+Create a repository class and extend `Innoscripta\EloquentRepository\EloquentRepository` abstract class.
 
-Repository class must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from `entity` method.
+Repository class that extends `EloquentRepository` must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from the method.
 
 ``` php
 namespace App\Repositories;
@@ -50,42 +50,139 @@ class UserRepository extends EloquentRepository
 }
 ```
 
-`EloquentRepository` abstract class has many familiar shortcut methods just like Eloquent methods.
-
-Available methods:
+You can use Laravel's container to inject `UserRepository` repository.
 
 ``` php
-$users = new UserRepository();
+namespace App\Http\Controllers;
 
-$user->create(['first_name' => 'John', 'last_name' => 'Doe']); // creates a user with given parameters and returns it
+use App\Repositories\UserRepository;
 
-$user->all(); // returns all users with all columns
-
-$user->get(); // returns all users. method accepts list of columns to get as array
-
-$user->paginate(10); // paginates all users with given "per page" value and returns result
-
-$user->find(1); // finds user with ID=1 and returns it. throws exception when not found
-
-$user->getWhere('first_name', 'John'); // finds all users with "first_name" column "John"
-$user->getWhere(['first_name' => 'John', 'last_name' => 'Doe']); // you can also pass multiple where statements in first parameter
-
-$user->getWhereFirst('first_name', 'John'); // finds first user with "first_name" column "John"
-$user->getWhereFirst(['first_name' => 'John', 'last_name' => 'Doe']); // you can also pass multiple where statements in first parameter
-
-$user->getWhereIn('first_name', ['John', 'Jane', 'Dave']); // finds all users with "first_name" column "John", "Jane" or "Dave"
-$user->getWhereInFirst('first_name', ['John', 'Jane', 'Dave']); // finds first user with "first_name" column "John", "Jane" or "Dave"
-
-$user->update($userModelInstance, ['first_name' => 'Dave']); // updates $userModelInstance with given values and returns updated instance
-$user->findAndUpdate(1, ['first_name' => 'Dave']); // finds user with ID=1, updates it with given values and returns instance
-
-$user->delete($userModelInstance); // deletes $userModelInstance
-$user->findAndDelete(1); // finds user with ID=1 and deletes it
-
-$user->restore($userModelInstance); // restores "soft deleted" user model
-$user->findAndRestore(1); // finds "soft deleted" user with ID=1 and restores it
-$user->findFromTrashed(1); // finds "soft deleted" user with ID=1 and returns it
+class HomeController extends Controller
+{
+    public function index(UserRepository $userRepository)
+    {
+        return $userRepository->get();
+    }
+}
 ```
+
+### Available methods
+
+Extending `EloquentRepository` class offers has many familiar shortcut methods from Eloquent.
+
+**Create a model:**
+``` php
+$userRepository->create(['first_name' => 'John', 'last_name' => 'Doe']);
+```
+Creates a user with given parameters and returns created model instance.
+
+**Return all models:**
+``` php
+$userRepository->all();
+```
+Finds and returns all users with all allowed columns.
+
+**Return all models with listed columns:**
+``` php
+$userRepository->get(['id', 'first_name']);
+```
+Finds and returns all users with listed columns. You can skip list of columns, method will act same as `all()`.
+
+**Paginate and return all models with given "per page" value:**
+``` php
+$userRepository->paginate(10);
+```
+Paginates all users with given "per page" value and returns paginated result.
+
+**Find a user with primary key:**
+``` php
+$userRepository->find(1); 
+```
+Finds user with given primary key and returns model instance. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+
+**Return all users with given "where" statement:**
+``` php
+$userRepository->getWhere('first_name', 'John');
+```
+Returns all users where `first_name` is "John".
+
+You can also pass multiple multiple "where" statements in first parameter and skip second parameter.
+``` php
+$userRepository->getWhere(['first_name' => 'John', 'last_name' => 'Doe']);
+```
+Returns all users where `first_name` is "John" and `last_name` is "Doe".
+
+**Return first user with given "where" statement:**
+``` php
+$userRepository->getWhereFirst('first_name', 'John');
+$userRepository->getWhereFirst(['first_name' => 'John', 'last_name' => 'Doe']);
+```
+Returns first user where `first_name` is "John".
+
+You can also pass multiple multiple "where" statements in first parameter and skip second parameter.
+``` php
+$userRepository->getWhereFirst(['first_name' => 'John', 'last_name' => 'Doe']);
+```
+Returns first user where `first_name` is "John" and `last_name` is "Doe".
+
+**Return all users with given "whereIn" statement:**
+``` php
+$userRepository->getWhereIn('first_name', ['John', 'Jane', 'Dave']);
+```
+Returns all users where `first_name` is "John", "Jane" or "Dave".
+
+**Return first user with given "whereIn" statement:**
+``` php
+$userRepository->getWhereInFirst('first_name', ['John', 'Jane', 'Dave']);
+```
+Returns first user where `first_name` is "John", "Jane" or "Dave".
+
+**Update a model with given properties:**
+``` php
+$user = \App\User::find(1);
+$userRepository->update($user, ['first_name' => 'Dave']);
+$userRepository->findAndUpdate(1, ['first_name' => 'Dave']); // finds user with ID=1, updates it with given values and returns instance
+```
+Updates `$user` model's `first_name` to "Dave" and returns updated instance.
+
+**Find a model using primary key and update with given properties:**
+``` php
+$userRepository->findAndUpdate(1, ['first_name' => 'Dave']);
+```
+Finds a user with given primary key, updates `first_name` to "Dave" and returns updated instance. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+
+**Delete a model:**
+``` php
+$user = \App\User::find(1);
+$userRepository->delete($user);
+$userRepository->findAndDelete(1); // finds user with ID=1 and deletes it
+```
+Deletes `$user` model.
+
+**Find a model using primary key and delete:**
+``` php
+$userRepository->findAndDelete(1);
+```
+Finds a user with given primary key and deletes. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+
+**Restore a "soft deleted" model:**
+``` php
+$user = \App\User::onlyTrashed()->find(1);
+$userRepository->restore($user);
+```
+Restores a "soft deleted" a `$user` model. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception.
+
+**Find a "soft deleted" model using primary key and restore:**
+``` php
+$userRepository->findAndRestore(1);
+```
+Finds a "soft deleted" user with given primary key and restores. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+
+**Find a "soft deleted" model:**
+``` php
+$userRepository->findFromTrashed(1);
+```
+Finds a "soft deleted" user with given primary key. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
 
 ### Caching
 
