@@ -88,6 +88,16 @@ interface Repository
     public function getWhereInFirst(string $column, array $values);
 
     /**
+     * Updates a model given properties.
+     *
+     * @param int|string $modelId
+     * @param array $properties
+     *
+     * @return mixed
+     */
+    public function update($modelId, array $properties);
+
+    /**
      * Finds a model with ID and updates it with given properties.
      *
      * @param int|string $modelId
@@ -98,14 +108,13 @@ interface Repository
     public function findAndUpdate($modelId, array $properties);
 
     /**
-     * Updates a model given properties.
+     * Deletes a model.
      *
-     * @param int|string $modelId
-     * @param array $properties
+     * @param mixed $model
      *
-     * @return mixed
+     * @return bool|mixed|null
      */
-    public function update($modelId, array $properties);
+    public function delete($model);
 
     /**
      * Finds a model with ID and deletes it.
@@ -117,13 +126,13 @@ interface Repository
     public function findAndDelete($modelId);
 
     /**
-     * Deletes a model.
+     * Restores soft deleted model.
      *
      * @param mixed $model
      *
-     * @return bool|mixed|null
+     * @return bool
      */
-    public function delete($model);
+    public function restore($model);
 
     /**
      * Finds a soft deleted model with given ID and restores it.
@@ -142,13 +151,4 @@ interface Repository
      * @return mixed
      */
     public function findFromTrashed($modelId);
-
-    /**
-     * Restores soft deleted model.
-     *
-     * @param mixed $model
-     *
-     * @return bool
-     */
-    public function restore($model);
 }
