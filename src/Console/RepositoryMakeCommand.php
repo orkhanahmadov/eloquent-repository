@@ -2,11 +2,11 @@
 
 namespace Innoscripta\EloquentRepository\Console;
 
-use Illuminate\Console\GeneratorCommand;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class RepositoryMakeCommand extends GeneratorCommand
 {
@@ -44,7 +44,7 @@ class RepositoryMakeCommand extends GeneratorCommand
             $stub = '/stubs/repository.stub';
         }
 
-        return __DIR__ . $stub;
+        return __DIR__.$stub;
     }
 
     /**
@@ -77,7 +77,7 @@ class RepositoryMakeCommand extends GeneratorCommand
     {
         $modelClass = $this->parseModel($this->option('model'));
 
-        if (!class_exists($modelClass)) {
+        if (! class_exists($modelClass)) {
             if ($this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
                 $this->call('make:model', ['name' => $modelClass]);
             }
@@ -105,8 +105,8 @@ class RepositoryMakeCommand extends GeneratorCommand
 
         $model = trim(str_replace('/', '\\', $model), '\\');
 
-        if (!Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
-            $model = $rootNamespace . $model;
+        if (! Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
+            $model = $rootNamespace.$model;
         }
 
         return $model;
@@ -132,6 +132,6 @@ class RepositoryMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Repositories';
+        return $rootNamespace.'\Repositories';
     }
 }
