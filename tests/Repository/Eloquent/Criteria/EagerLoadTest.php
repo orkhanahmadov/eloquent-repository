@@ -3,11 +3,11 @@
 namespace Innoscripta\EloquentRepository\Tests\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Facades\DB;
-use Innoscripta\EloquentRepository\Tests\Model;
-use Innoscripta\EloquentRepository\Tests\TestCase;
-use Innoscripta\EloquentRepository\Tests\ModelRelation;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
 use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\EagerLoad;
+use Innoscripta\EloquentRepository\Tests\FakeModelRepository;
+use Innoscripta\EloquentRepository\Tests\Model;
+use Innoscripta\EloquentRepository\Tests\ModelRelation;
+use Innoscripta\EloquentRepository\Tests\TestCase;
 
 class EagerLoadTest extends TestCase
 {
@@ -30,6 +30,6 @@ class EagerLoadTest extends TestCase
         DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
         DB::statement('CREATE TABLE model_relations (id INT, model_id INT);');
 
-        $this->repository = app()->make(FakeRepository::class);
+        $this->repository = app()->make(FakeModelRepository::class);
     }
 }

@@ -55,7 +55,7 @@ interface Repository
      *
      * @return mixed
      */
-    public function findWhere($column, $value);
+    public function getWhere($column, $value);
 
     /**
      * Finds models with "whereIn" condition.
@@ -65,7 +65,7 @@ interface Repository
      *
      * @return mixed
      */
-    public function findWhereIn(string $column, array $values);
+    public function getWhereIn(string $column, array $values);
 
     /**
      * Finds first model with "where" condition.
@@ -75,7 +75,7 @@ interface Repository
      *
      * @return mixed
      */
-    public function findWhereFirst($column, $value);
+    public function getWhereFirst($column, $value);
 
     /**
      * Finds first model with "whereIn" condition.
@@ -85,7 +85,7 @@ interface Repository
      *
      * @return mixed
      */
-    public function findWhereInFirst(string $column, array $values);
+    public function getWhereInFirst(string $column, array $values);
 
     /**
      * Finds a model with ID and updates it with given properties.

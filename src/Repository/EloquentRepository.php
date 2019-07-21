@@ -2,14 +2,15 @@
 
 namespace Innoscripta\EloquentRepository\Repository;
 
+use BadMethodCallException;
 use Exception;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
 use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
 use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
 
@@ -114,98 +115,6 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
-     * Finds models with "where" condition.
-     *
-     * @param string|array $column
-     * @param mixed $value
-     *
-     * @return Builder[]|Collection
-     */
-    public function findWhere($column, $value = null)
-    {
-        if (is_array($column)) {
-            return $this->entity->where($column)->get();
-        }
-
-        return $this->entity->where($column, $value)->get();
-    }
-
-    /**
-     * Finds models with "whereIn" condition.
-     *
-     * @param string $column
-     * @param array $values
-     *
-     * @return Builder[]|Collection
-     */
-    public function findWhereIn(string $column, array $values)
-    {
-        return $this->entity->whereIn($column, $values)->get();
-    }
-
-    /**
-     * Finds first model with "where" condition.
-     *
-     * @param string|array $column
-     * @param mixed $value
-     *
-     * @return Builder|Model|object|null
-     */
-    public function findWhereFirst($column, $value = null)
-    {
-        if (is_array($column)) {
-            $model = $this->entity->where($column)->first();
-        } else {
-            $model = $this->entity->where($column, $value)->first();
-        }
-
-        if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->entity->getModel())
-            );
-        }
-
-        return $model;
-    }
-
-    /**
-     * Finds first model with "whereIn" condition.
-     *
-     * @param string $column
-     * @param array $values
-     *
-     * @return Builder|Model|object|null
-     */
-    public function findWhereInFirst(string $column, array $values)
-    {
-        $model = $this->entity->whereIn($column, $values)->first();
-
-        if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->entity->getModel())
-            );
-        }
-
-        return $model;
-    }
-
-    /**
-     * Finds a model with ID and updates it with given properties.
-     *
-     * @param int|string $modelId
-     * @param array $properties
-     *
-     * @return Builder|Model
-     * @throws BindingResolutionException
-     */
-    public function findAndUpdate($modelId, array $properties)
-    {
-        $model = $this->find($modelId);
-
-        return $this->update($model, $properties);
-    }
-
-    /**
      * Finds a model with ID.
      *
      * @param int|string $modelId
@@ -238,6 +147,82 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
+     * Finds models with "where" condition.
+     *
+     * @param string|array $column
+     * @param mixed $value
+     *
+     * @return Builder[]|Collection
+     */
+    public function getWhere($column, $value = null)
+    {
+        if (is_array($column)) {
+            return $this->entity->where($column)->get();
+        }
+
+        return $this->entity->where($column, $value)->get();
+    }
+
+    /**
+     * Finds models with "whereIn" condition.
+     *
+     * @param string $column
+     * @param array $values
+     *
+     * @return Builder[]|Collection
+     */
+    public function getWhereIn(string $column, array $values)
+    {
+        return $this->entity->whereIn($column, $values)->get();
+    }
+
+    /**
+     * Finds first model with "where" condition.
+     *
+     * @param string|array $column
+     * @param mixed $value
+     *
+     * @return Builder|Model|object|null
+     */
+    public function getWhereFirst($column, $value = null)
+    {
+        if (is_array($column)) {
+            $model = $this->entity->where($column)->first();
+        } else {
+            $model = $this->entity->where($column, $value)->first();
+        }
+
+        if (! $model) {
+            throw (new ModelNotFoundException)->setModel(
+                get_class($this->entity->getModel())
+            );
+        }
+
+        return $model;
+    }
+
+    /**
+     * Finds first model with "whereIn" condition.
+     *
+     * @param string $column
+     * @param array $values
+     *
+     * @return Builder|Model|object|null
+     */
+    public function getWhereInFirst(string $column, array $values)
+    {
+        $model = $this->entity->whereIn($column, $values)->first();
+
+        if (! $model) {
+            throw (new ModelNotFoundException)->setModel(
+                get_class($this->entity->getModel())
+            );
+        }
+
+        return $model;
+    }
+
+    /**
      * Updates a model given properties.
      *
      * @param Model $model
@@ -258,18 +243,19 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
-     * Finds a model with ID and deletes it.
+     * Finds a model with ID and updates it with given properties.
      *
      * @param int|string $modelId
+     * @param array $properties
      *
-     * @return bool|mixed|null
-     * @throws Exception
+     * @return Builder|Model
+     * @throws BindingResolutionException
      */
-    public function findAndDelete($modelId)
+    public function findAndUpdate($modelId, array $properties)
     {
         $model = $this->find($modelId);
 
-        return $this->delete($model);
+        return $this->update($model, $properties);
     }
 
     /**
@@ -287,6 +273,37 @@ abstract class EloquentRepository implements Repository
         }
 
         return $model->delete();
+    }
+
+    /**
+     * Finds a model with ID and deletes it.
+     *
+     * @param int|string $modelId
+     *
+     * @return bool|mixed|null
+     * @throws Exception
+     */
+    public function findAndDelete($modelId)
+    {
+        $model = $this->find($modelId);
+
+        return $this->delete($model);
+    }
+
+    /**
+     * Restores soft deleted model.
+     *
+     * @param Model $model
+     *
+     * @return bool|null
+     */
+    public function restore($model)
+    {
+        if (! method_exists($this->entity, 'restore')) {
+            throw new BadMethodCallException('Model is not using "soft delete" feature.');
+        }
+
+        return $model->restore();
     }
 
     /**
@@ -312,6 +329,10 @@ abstract class EloquentRepository implements Repository
      */
     public function findFromTrashed($modelId)
     {
+        if (! method_exists($this->entity, 'restore')) {
+            throw new BadMethodCallException('Model is not using "soft delete" feature.');
+        }
+
         $model = $this->entity->onlyTrashed()->find($modelId);
 
         if (! $model) {
@@ -322,18 +343,6 @@ abstract class EloquentRepository implements Repository
         }
 
         return $model;
-    }
-
-    /**
-     * Restores soft deleted model.
-     *
-     * @param Model $model
-     *
-     * @return bool|null
-     */
-    public function restore($model)
-    {
-        return $model->restore();
     }
 
     /**

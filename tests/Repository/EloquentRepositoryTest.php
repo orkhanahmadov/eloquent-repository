@@ -2,14 +2,16 @@
 
 namespace Innoscripta\EloquentRepository\Tests\Repository;
 
+use BadMethodCallException;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Innoscripta\EloquentRepository\Tests\FakeModelCachableRepository;
+use Innoscripta\EloquentRepository\Tests\FakeModelRelationRepository;
+use Innoscripta\EloquentRepository\Tests\FakeModelRepository;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
-use Innoscripta\EloquentRepository\Tests\FakeCachableRepository;
 
 class EloquentRepositoryTest extends TestCase
 {
@@ -128,18 +130,18 @@ class EloquentRepositoryTest extends TestCase
         $this->assertCount(1, DB::getQueryLog());
     }
 
-    public function testFindWhere()
+    public function testGetWhere()
     {
         Model::create(['id' => 5, 'name' => 'model name']);
         Model::create(['id' => 15, 'name' => 'model name']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->findWhere('name', 'model name');
+        $result = $this->cachedRepository->getWhere('name', 'model name');
         $this->assertCount(2, $result);
         $this->assertEquals(5, $result[0]['id']);
         $this->assertEquals(15, $result[1]['id']);
 
-        $result = $this->cachedRepository->findWhere([
+        $result = $this->cachedRepository->getWhere([
             'id' => 15,
             'name' => 'model name',
         ]);
@@ -147,58 +149,58 @@ class EloquentRepositoryTest extends TestCase
         $this->assertEquals(15, $result[0]['id']);
     }
 
-    public function testFindWhereIn()
+    public function testGetWhereIn()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
         Model::create(['id' => 15, 'name' => 'model2']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->findWhereIn('id', [5, 25]);
+        $result = $this->cachedRepository->getWhereIn('id', [5, 25]);
         $this->assertCount(2, $result);
         $this->assertEquals(5, $result[0]['id']);
         $this->assertEquals(25, $result[1]['id']);
     }
 
-    public function testFindWhereFirst()
+    public function testGetWhereFirst()
     {
         Model::create(['id' => 5, 'name' => 'model name']);
         Model::create(['id' => 15, 'name' => 'model name']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result1 = $this->repository->findWhereFirst('name', 'model name');
-        $result2 = $this->repository->findWhereFirst(['name' => 'model3']);
+        $result1 = $this->repository->getWhereFirst('name', 'model name');
+        $result2 = $this->repository->getWhereFirst(['name' => 'model3']);
         $this->assertEquals(5, $result1['id']);
         $this->assertEquals(25, $result2['id']);
     }
 
-    public function testFindWhereFirstException()
+    public function testGetWhereFirstException()
     {
         $this->expectException(ModelNotFoundException::class);
         $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model].');
         Model::create(['id' => 5, 'name' => 'model name']);
         Model::create(['id' => 15, 'name' => 'model name']);
 
-        $this->repository->findWhereFirst('name', 'other model name');
+        $this->repository->getWhereFirst('name', 'other model name');
     }
 
-    public function testFindWhereInFirst()
+    public function testGetWhereInFirst()
     {
         Model::create(['id' => 5, 'name' => 'model1']);
         Model::create(['id' => 15, 'name' => 'model2']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->findWhereInFirst('id', [15, 25]);
+        $result = $this->cachedRepository->getWhereInFirst('id', [15, 25]);
         $this->assertEquals(15, $result['id']);
     }
 
-    public function testFindWhereInFirstException()
+    public function testGetWhereInFirstException()
     {
         $this->expectException(ModelNotFoundException::class);
         $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model].');
         Model::create(['id' => 5, 'name' => 'model name']);
         Model::create(['id' => 15, 'name' => 'model name']);
 
-        $this->repository->findWhereInFirst('id', [10, 25]);
+        $this->repository->getWhereInFirst('id', [10, 25]);
     }
 
     public function testFindAndUpdate()
@@ -256,7 +258,7 @@ class EloquentRepositoryTest extends TestCase
         $model = Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => Carbon::now()->subDay()]);
         $this->assertNotNull($model->deleted_at);
 
-        $result = $this->cachedRepository->findAndRestore($model->id);
+        $result = $this->repository->findAndRestore($model->id);
 
         $this->assertNull($model->refresh()->deleted_at);
         $this->assertTrue($result);
@@ -266,18 +268,31 @@ class EloquentRepositoryTest extends TestCase
     {
         $model = Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => Carbon::now()->subDay()]);
 
-        $result = $this->cachedRepository->findFromTrashed($model->id);
+        $result = $this->repository->findFromTrashed($model->id);
 
         $this->assertEquals($model->id, $result->id);
     }
 
-    public function testFindFromTrashedException()
+    public function testFindFromTrashedNotFoundException()
     {
         $this->expectException(ModelNotFoundException::class);
         $this->expectExceptionMessage('No query results for model [Innoscripta\EloquentRepository\Tests\Model] 10');
         Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => now()->subDay()]);
 
         $this->repository->findFromTrashed(10);
+    }
+
+    public function testFindFromTrashedBadMethodCallException()
+    {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('Model is not using "soft delete" feature.');
+
+        DB::statement('CREATE TABLE model_relations (id INT, name VARCHAR);');
+        $model = Model::create(['id' => 5, 'name' => 'model name']);
+        $repository = app()->make(FakeModelRelationRepository::class);
+
+        $repository->delete($model);
+        $repository->findFromTrashed($model->id);
     }
 
     public function testRestore()
@@ -291,14 +306,27 @@ class EloquentRepositoryTest extends TestCase
         $this->assertTrue($result);
     }
 
+    public function testRestoreBadMethodCallException()
+    {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('Model is not using "soft delete" feature.');
+
+        DB::statement('CREATE TABLE model_relations (id INT, name VARCHAR);');
+        $model = Model::create(['id' => 5, 'name' => 'model name']);
+        $repository = app()->make(FakeModelRelationRepository::class);
+
+        $repository->delete($model);
+        $repository->restore($model);
+    }
+
     public function testCacheKey()
     {
-        $this->assertEquals('models', $this->cachedRepository->cacheKey());
+        $this->assertEquals((new Model())->getTable(), $this->cachedRepository->cacheKey());
     }
 
     public function testCacheTTL()
     {
-        $this->assertEquals(3600, $this->cachedRepository->cacheTTL());
+        $this->assertEquals(60 * 60, $this->cachedRepository->cacheTTL());
     }
 
     public function testForgetCache()
@@ -319,7 +347,7 @@ class EloquentRepositoryTest extends TestCase
 
         DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
 
-        $this->repository = app()->make(FakeRepository::class);
-        $this->cachedRepository = app()->make(FakeCachableRepository::class);
+        $this->repository = app()->make(FakeModelRepository::class);
+        $this->cachedRepository = app()->make(FakeModelCachableRepository::class);
     }
 }

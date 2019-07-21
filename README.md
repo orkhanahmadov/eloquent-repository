@@ -1,4 +1,4 @@
-# WIP - Very short description of the package
+# Eloquent Repository for Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/stable)](https://packagist.org/packages/innoscripta/eloquent-repository)
 [![Latest Unstable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/unstable)](https://packagist.org/packages/innoscripta/eloquent-repository)
@@ -11,7 +11,11 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/eloquent-repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/innoscripta/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+Eloquent Repository package for Laravel created with total "repository pattern" in-mind.
+
+### Requirements
+
+**PHP 7.2** or higher.
 
 ## Installation
 
@@ -23,9 +27,73 @@ composer require innoscripta/eloquent-repository
 
 ## Usage
 
+Create a class that you want it act repository and extend `Innoscripta\EloquentRepository\Repository\EloquentRepository` abstract class.
+Repository class must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from `entity` method.
+
 ``` php
-// Usage description here
+namespace App\Repositories;
+
+use App\User;
+use Innoscripta\EloquentRepository\Repository\EloquentRepository;
+
+class UserRepository extends EloquentRepository
+{
+    /**
+     * Defines entity.
+     *
+     * @return mixed
+     */
+    protected function entity()
+    {
+        return User::class;
+    }
+}
 ```
+
+`EloquentRepository` abstract class has many familiar shortcut methods just like Eloquent methods.
+
+Available methods:
+
+``` php
+$users = new UserRepository();
+
+$user->create(['first_name' => 'John', 'last_name' => 'Doe']); // creates a user with given parameters and returns it
+
+$user->all(); // returns all users with all columns
+
+$user->get(); // returns all users. method accepts list of columns to get as array
+
+$user->paginate(10); // paginates all users with given "per page" value and returns result
+
+$user->find(1); // finds user with ID=1 and returns it. throws exception when not found
+
+$user->getWhere('first_name', 'John'); // finds all users with "first_name" column "John"
+$user->getWhere(['first_name' => 'John', 'last_name' => 'Doe']); // you can also pass multiple where statements in first parameter
+
+$user->getWhereFirst('first_name', 'John'); // finds first user with "first_name" column "John"
+$user->getWhereFirst(['first_name' => 'John', 'last_name' => 'Doe']); // you can also pass multiple where statements in first parameter
+
+$user->getWhereIn('first_name', ['John', 'Jane', 'Dave']); // finds all users with "first_name" column "John", "Jane" or "Dave"
+$user->getWhereInFirst('first_name', ['John', 'Jane', 'Dave']); // finds first user with "first_name" column "John", "Jane" or "Dave"
+
+$user->update($userModelInstance, ['first_name' => 'Dave']); // updates $userModelInstance with given values and returns updated instance
+$user->findAndUpdate(1, ['first_name' => 'Dave']); // finds user with ID=1, updates it with given values and returns instance
+
+$user->delete($userModelInstance); // deletes $userModelInstance
+$user->findAndDelete(1); // finds user with ID=1 and deletes it
+
+$user->restore($userModelInstance); // restores "soft deleted" user model
+$user->findAndRestore(1); // finds "soft deleted" user with ID=1 and restores it
+$user->findFromTrashed(1); // finds "soft deleted" user with ID=1 and returns it
+```
+
+### Caching
+
+// todo
+
+### Criteria
+
+### Extending
 
 ### Testing
 

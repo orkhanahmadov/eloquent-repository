@@ -3,10 +3,10 @@
 namespace Innoscripta\EloquentRepository\Tests\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Facades\DB;
+use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\Scope;
+use Innoscripta\EloquentRepository\Tests\FakeModelRepository;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
-use Innoscripta\EloquentRepository\Tests\FakeRepository;
-use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\Scope;
 
 class ScopeTest extends TestCase
 {
@@ -32,6 +32,6 @@ class ScopeTest extends TestCase
 
         DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
 
-        $this->repository = app()->make(FakeRepository::class);
+        $this->repository = app()->make(FakeModelRepository::class);
     }
 }
