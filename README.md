@@ -1,4 +1,4 @@
-# :floppy_disk: Eloquent Repository for Laravel
+# Eloquent Repository for Laravel 5
 
 [![Latest Stable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/stable)](https://packagist.org/packages/innoscripta/eloquent-repository)
 [![Latest Unstable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/unstable)](https://packagist.org/packages/innoscripta/eloquent-repository)
@@ -184,25 +184,55 @@ $userRepository->findFromTrashed(1);
 ```
 Finds a "soft deleted" user with given primary key. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
 
-### Caching
-
-// todo
-
 ### Criteria
 
 // todo
+
+### Caching
+
+Repository also supports caching models. To enable caching implement `Innoscripta\EloquentRepository\Repository\Contracts\Cachable` interface to your repository:
+
+``` php
+namespace App\Repositories;
+
+use App\User;
+use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
+use Innoscripta\EloquentRepository\EloquentRepository;
+
+class UserRepository extends EloquentRepository implements Cachable
+{
+    /**
+     * Defines entity.
+     *
+     * @return mixed
+     */
+    protected function entity()
+    {
+        return User::class;
+    }
+}
+```
+
+Once implemented, `all` , `get()` and `find()` methods will cache models.
+Repository will empty the cache automatically when `update()`, `findAndUpdate()`, `delete()` and `findAndDelete()` methods used.
+
+You can implement `cacheKey()` method in your repository to set cache key. Default is model's table name.
+
+You can implement `cacheTTL()` method in your repository to set cache time-to-live. Default is 3600 seconds (1 hour).
+
+You can implement `forgetCache($model)` method in your repository to change cache invalidation logic when `update()`, `findAndUpdate()`, `delete()`, `findAndDelete()` methods being used.
 
 ### Extending
 
 // todo
 
-### Testing
+## Testing
 
 ``` bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
@@ -210,7 +240,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email ahmadov90@gmail.com instead of using the issue tracker.
 
