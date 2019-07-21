@@ -9,9 +9,9 @@ class FakeRepository extends EloquentRepository
     /**
      * Defines entity.
      *
-     * @return string
+     * @return mixed
      */
-    protected function entity(): string
+    protected function entity()
     {
         return Model::class;
     }

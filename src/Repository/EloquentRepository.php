@@ -53,9 +53,9 @@ abstract class EloquentRepository implements Repository
     /**
      * Defines entity.
      *
-     * @return string
+     * @return mixed
      */
-    abstract protected function entity(): string;
+    abstract protected function entity();
 
     /**
      * Creates model.

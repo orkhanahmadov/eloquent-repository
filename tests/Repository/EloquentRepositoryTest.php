@@ -11,7 +11,7 @@ use Innoscripta\EloquentRepository\Tests\FakeRepository;
 use Innoscripta\EloquentRepository\Tests\Model;
 use Innoscripta\EloquentRepository\Tests\TestCase;
 
-class RepositoryTest extends TestCase
+class EloquentRepositoryTest extends TestCase
 {
     private $repository;
     private $cachedRepository;
@@ -20,7 +20,7 @@ class RepositoryTest extends TestCase
     {
         parent::setUp();
 
-        DB::statement('CREATE TABLE models (id INT, name VARCHAR , deleted_at TIMESTAMP);');
+        DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
 
         $this->repository = app()->make(FakeRepository::class);
         $this->cachedRepository = app()->make(FakeCachableRepository::class);
