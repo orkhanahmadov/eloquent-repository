@@ -3,11 +3,11 @@
 namespace Orkhanahmadov\EloquentRepository\Tests\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Facades\DB;
-use Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\EagerLoad;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
 use Orkhanahmadov\EloquentRepository\Tests\Model;
-use Orkhanahmadov\EloquentRepository\Tests\ModelRelation;
 use Orkhanahmadov\EloquentRepository\Tests\TestCase;
+use Orkhanahmadov\EloquentRepository\Tests\ModelRelation;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\EagerLoad;
 
 class EagerLoadTest extends TestCase
 {
