@@ -13,6 +13,10 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/config.php' => config_path('eloquent-repository.php'),
+            ], 'config');
+
             $this->commands([
                 RepositoryMakeCommand::class,
             ]);
@@ -24,6 +28,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'eloquent-repository');
     }
 }
