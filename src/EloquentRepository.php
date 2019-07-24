@@ -2,19 +2,19 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use BadMethodCallException;
 use Exception;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Contracts\Cache\Factory as Cache;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use BadMethodCallException;
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Config\Repository as Config;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 abstract class EloquentRepository implements Repository
 {
@@ -98,7 +98,7 @@ abstract class EloquentRepository implements Repository
     {
         if ($this instanceof Cachable) {
             return $this->cache->remember(
-                $this->cacheKey() . '.' . implode(',', $columns),
+                $this->cacheKey().'.'.implode(',', $columns),
                 $this->cacheTTL(),
                 function () use ($columns) {
                     return $this->entity->get($columns);
@@ -167,7 +167,7 @@ abstract class EloquentRepository implements Repository
             $model = $this->entity->where($column, $value)->first();
         }
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel())
             );
@@ -188,7 +188,7 @@ abstract class EloquentRepository implements Repository
     {
         $model = $this->entity->whereIn($column, $values)->first();
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel())
             );
@@ -225,7 +225,7 @@ abstract class EloquentRepository implements Repository
     {
         if ($this instanceof Cachable) {
             $model = $this->cache->remember(
-                $this->cacheKey() . '.' . $modelId,
+                $this->cacheKey().'.'.$modelId,
                 $this->cacheTTL(),
                 function () use ($modelId) {
                     return $this->entity->find($modelId);
@@ -235,7 +235,7 @@ abstract class EloquentRepository implements Repository
             $model = $this->entity->find($modelId);
         }
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel()),
                 $modelId
@@ -320,13 +320,13 @@ abstract class EloquentRepository implements Repository
      */
     public function findFromTrashed($modelId)
     {
-        if (!method_exists($this->entity, 'restore')) {
+        if (! method_exists($this->entity, 'restore')) {
             throw new BadMethodCallException('Model is not using "soft delete" feature.');
         }
 
         $model = $this->entity->onlyTrashed()->find($modelId);
 
-        if (!$model) {
+        if (! $model) {
             throw (new ModelNotFoundException)->setModel(
                 get_class($this->entity->getModel()),
                 $modelId
@@ -345,7 +345,7 @@ abstract class EloquentRepository implements Repository
      */
     public function restore($model)
     {
-        if (!method_exists($this->entity, 'restore')) {
+        if (! method_exists($this->entity, 'restore')) {
             throw new BadMethodCallException('Model is not using "soft delete" feature.');
         }
 
@@ -390,10 +390,10 @@ abstract class EloquentRepository implements Repository
     public function forgetCache($model): void
     {
         $this->cache->forget(
-            $this->cacheKey() . '.*'
+            $this->cacheKey().'.*'
         );
         $this->cache->forget(
-            $this->cacheKey() . '.' . $model->id
+            $this->cacheKey().'.'.$model->id
         );
     }
 
