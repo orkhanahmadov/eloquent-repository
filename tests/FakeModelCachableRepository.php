@@ -1,9 +1,9 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Tests;
+namespace Orkhanahmadov\EloquentRepository\Tests;
 
-use Innoscripta\EloquentRepository\EloquentRepository;
-use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
 
 class FakeModelCachableRepository extends EloquentRepository implements Cachable
 {

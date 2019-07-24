@@ -1,13 +1,13 @@
 # Eloquent Repository for Laravel 5
 
-[![Latest Stable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/stable)](https://packagist.org/packages/innoscripta/eloquent-repository)
-[![Latest Unstable Version](https://poser.pugx.org/innoscripta/eloquent-repository/v/unstable)](https://packagist.org/packages/innoscripta/eloquent-repository)
-[![GitHub license](https://img.shields.io/github/license/innoscripta/eloquent-repository.svg)](https://github.com/innoscripta/eloquent-repository/blob/master/LICENSE.md)
+[![Latest Stable Version](https://poser.pugx.org/orkhanahmadov/eloquent-repository/v/stable)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
+[![Latest Unstable Version](https://poser.pugx.org/orkhanahmadov/eloquent-repository/v/unstable)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
+[![GitHub license](https://img.shields.io/github/license/orkhanahmadov/eloquent-repository.svg)](https://github.com/orkhanahmadov/eloquent-repository/blob/master/LICENSE.md)
 
-[![Build Status](https://img.shields.io/travis/innoscripta/eloquent-repository.svg)](https://travis-ci.org/innoscripta/eloquent-repository)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/innoscripta/eloquent-repository.svg)](https://codeclimate.com/github/innoscripta/eloquent-repository/test_coverage)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/innoscripta/eloquent-repository.svg)](https://codeclimate.com/github/innoscripta/eloquent-repository/maintainability)
-[![Quality Score](https://img.shields.io/scrutinizer/g/innoscripta/eloquent-repository.svg)](https://scrutinizer-ci.com/g/innoscripta/eloquent-repository)
+[![Build Status](https://img.shields.io/travis/orkhanahmadov/eloquent-repository.svg)](https://travis-ci.org/orkhanahmadov/eloquent-repository)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/orkhanahmadov/eloquent-repository.svg)](https://codeclimate.com/github/orkhanahmadov/eloquent-repository/test_coverage)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/orkhanahmadov/eloquent-repository.svg)](https://codeclimate.com/github/orkhanahmadov/eloquent-repository/maintainability)
+[![Quality Score](https://img.shields.io/scrutinizer/g/orkhanahmadov/eloquent-repository.svg)](https://scrutinizer-ci.com/g/orkhanahmadov/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
 Eloquent Repository package for Laravel created with total "repository pattern" in-mind.
@@ -21,12 +21,12 @@ Eloquent Repository package for Laravel created with total "repository pattern" 
 You can install the package via composer:
 
 ```bash
-composer require innoscripta/eloquent-repository
+composer require orkhanahmadov/eloquent-repository
 ```
 
 ## Usage
 
-Create a repository class and extend `Innoscripta\EloquentRepository\EloquentRepository` abstract class.
+Create a repository class and extend `Orkhanahmadov\EloquentRepository\EloquentRepository` abstract class.
 
 Repository class that extends `EloquentRepository` must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from the method.
 
@@ -34,7 +34,7 @@ Repository class that extends `EloquentRepository` must implement `entity` metho
 namespace App\Repositories;
 
 use App\User;
-use Innoscripta\EloquentRepository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class UserRepository extends EloquentRepository
 {
@@ -190,14 +190,14 @@ Finds a "soft deleted" user with given primary key. If model is not using "soft 
 
 ### Caching
 
-Repository also supports caching models. To enable caching implement `Innoscripta\EloquentRepository\Repository\Contracts\Cachable` interface to your repository:
+Repository also supports caching models. To enable caching implement `Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable` interface to your repository:
 
 ``` php
 namespace App\Repositories;
 
 use App\User;
-use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
-use Innoscripta\EloquentRepository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class UserRepository extends EloquentRepository implements Cachable
 {
@@ -246,13 +246,9 @@ If you discover any security related issues, please email ahmadov90@gmail.com in
 
 ## Credits
 
-- [Orkhan Ahmadov](https://github.com/innoscripta)
+- [Orkhan Ahmadov](https://github.com/orkhanahmadov)
 - [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).

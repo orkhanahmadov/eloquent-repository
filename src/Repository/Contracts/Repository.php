@@ -1,17 +1,17 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Repository\Contracts;
+namespace Orkhanahmadov\EloquentRepository\Repository\Contracts;
 
 interface Repository
 {
     /**
      * Creates model.
      *
-     * @param array $properties
+     * @param mixed $properties
      *
      * @return mixed
      */
-    public function create(array $properties);
+    public function create($properties);
 
     /**
      * Returns all models.
@@ -91,11 +91,11 @@ interface Repository
      * Updates a model given properties.
      *
      * @param int|string $modelId
-     * @param array $properties
+     * @param mixed $properties
      *
      * @return mixed
      */
-    public function update($modelId, array $properties);
+    public function update($modelId, $properties);
 
     /**
      * Finds a model with ID and updates it with given properties.

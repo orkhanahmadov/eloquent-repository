@@ -1,8 +1,8 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Tests;
+namespace Orkhanahmadov\EloquentRepository\Tests;
 
-use Innoscripta\EloquentRepository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class FakeModelRepository extends EloquentRepository
 {

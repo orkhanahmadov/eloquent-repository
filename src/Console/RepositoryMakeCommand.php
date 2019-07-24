@@ -1,12 +1,12 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Console;
+namespace Orkhanahmadov\EloquentRepository\Console;
 
+use Illuminate\Console\GeneratorCommand;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class RepositoryMakeCommand extends GeneratorCommand
 {

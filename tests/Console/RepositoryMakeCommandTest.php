@@ -1,9 +1,9 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Tests\Console;
+namespace Orkhanahmadov\EloquentRepository\Tests\Console;
 
 use InvalidArgumentException;
-use Innoscripta\EloquentRepository\Tests\TestCase;
+use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 
 class RepositoryMakeCommandTest extends TestCase
 {

@@ -1,8 +1,7 @@
 {
-    "name": "innoscripta/eloquent-repository",
+    "name": "orkhanahmadov/eloquent-repository",
     "description": "Eloquent Repository for Laravel",
     "keywords": [
-        "innoscripta",
         "laravel-repository",
         "eloquent-repository",
         "eloquent-repository-generator",
@@ -11,7 +10,7 @@
         "eloquent",
         "model"
     ],
-    "homepage": "https://github.com/innoscripta/eloquent-repository",
+    "homepage": "https://github.com/orkhanahmadov/eloquent-repository",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -31,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Innoscripta\\EloquentRepository\\": "src"
+            "Orkhanahmadov\\EloquentRepository\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Innoscripta\\EloquentRepository\\Tests\\": "tests"
+            "Orkhanahmadov\\EloquentRepository\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -49,7 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Innoscripta\\EloquentRepository\\ServiceProvider"
+                "Orkhanahmadov\\EloquentRepository\\ServiceProvider"
             ]
         }
     }

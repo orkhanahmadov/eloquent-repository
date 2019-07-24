@@ -1,12 +1,12 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Tests\Repository\Eloquent\Criteria;
+namespace Orkhanahmadov\EloquentRepository\Tests\Repository\Eloquent\Criteria;
 
 use Illuminate\Support\Facades\DB;
-use Innoscripta\EloquentRepository\Tests\Model;
-use Innoscripta\EloquentRepository\Tests\TestCase;
-use Innoscripta\EloquentRepository\Tests\FakeModelRepository;
-use Innoscripta\EloquentRepository\Repository\Eloquent\Criteria\OrderBy;
+use Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\OrderBy;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Orkhanahmadov\EloquentRepository\Tests\Model;
+use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 
 class OrderByTest extends TestCase
 {

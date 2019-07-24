@@ -1,6 +1,6 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Repository\Contracts;
+namespace Orkhanahmadov\EloquentRepository\Repository\Contracts;
 
 interface Cachable
 {

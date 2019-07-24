@@ -1,6 +1,6 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Repository\Criteria;
+namespace Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 interface Criteria
 {

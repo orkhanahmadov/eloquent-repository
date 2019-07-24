@@ -1,8 +1,8 @@
 <?php
 
-namespace Innoscripta\EloquentRepository\Repository\Eloquent\Criteria;
+namespace Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria;
 
-use Innoscripta\EloquentRepository\Repository\Criteria\Criterion;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
 class Latest implements Criterion
 {

@@ -1,19 +1,19 @@
 <?php
 
-namespace Innoscripta\EloquentRepository;
+namespace Orkhanahmadov\EloquentRepository;
 
-use Exception;
 use BadMethodCallException;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
+use Exception;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Cache\Factory as Cache;
-use Innoscripta\EloquentRepository\Repository\Criteria;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Innoscripta\EloquentRepository\Repository\Contracts\Cachable;
-use Innoscripta\EloquentRepository\Repository\Contracts\Repository;
+use Illuminate\Support\Arr;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 abstract class EloquentRepository implements Repository
 {
@@ -60,11 +60,11 @@ abstract class EloquentRepository implements Repository
     /**
      * Creates model.
      *
-     * @param array $properties
+     * @param mixed $properties
      *
      * @return Builder|Model
      */
-    public function create(array $properties)
+    public function create($properties)
     {
         return $this->entity->create($properties);
     }
@@ -227,12 +227,12 @@ abstract class EloquentRepository implements Repository
      * Updates a model given properties.
      *
      * @param Model $model
-     * @param array $properties
+     * @param mixed $properties
      *
      * @return Builder|Model
      * @throws BindingResolutionException
      */
-    public function update($model, array $properties)
+    public function update($model, $properties)
     {
         if ($this instanceof Cachable) {
             $this->forgetCache($model);
