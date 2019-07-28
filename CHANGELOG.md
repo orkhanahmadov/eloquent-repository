@@ -2,6 +2,6 @@
 
 All notable changes to `eloquent-repository` will be documented in this file
 
-## 1.0.0 - 2019-07-XX
+## 1.0.0 - 2019-07-28
 
-- initial release
+- Initial release
