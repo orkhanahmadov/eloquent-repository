@@ -14,7 +14,7 @@ Eloquent Repository package for Laravel created with total "repository pattern" 
 
 ## Requirements
 
-**PHP 7.1** or higher and **Laravel 5.5** or higher.
+**Laravel 5.5** or higher and **PHP 7.1** or higher.
 
 ## Installation
 
@@ -240,7 +240,7 @@ Every criteria class must implement `Orkhanahmadov\EloquentRepository\Repository
 ``` php
 use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
-class First implements Criterion
+class Ascending implements Criterion
 {
     /**
      * @var string
