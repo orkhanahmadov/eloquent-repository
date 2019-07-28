@@ -186,7 +186,86 @@ Finds a "soft deleted" user with given primary key. If model is not using "soft 
 
 ### Criteria
 
-// todo
+Package uses "criteria" for creating flexible queries. To use criteria chain `withCriteria()` method to repository. List of available criteria:
+
+**EagerLoad:**
+
+Use `Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\EagerLoad` to eager load relationships with query.
+
+``` php
+$userRepository->withCriteria(new EagerLoad('posts', 'country'))->get();
+```
+This will return all users with `posts` and `country` relationships eager loaded.
+
+**Scope:**
+
+Use `Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\Scope` to apply eloquent query scopes.
+
+``` php
+$userRepository->withCriteria(new Scope('active', 'admin'))->get();
+```
+This will apply `active` and `active` scopes to query and return all available users.
+
+**OrderBy:**
+
+Use `Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\OrderBy` to order results with specified column and type.
+
+``` php
+$userRepository->withCriteria(new OrderBy('username', 'asc'))->get();
+```
+This will return order users by ascending `username` column and return all of them.
+
+**Latest:**
+
+Use `Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\Latest` to order results with specified column and in descending order.
+
+``` php
+$userRepository->withCriteria(new OrderBy('username'))->get();
+```
+This will return order users by descending `username` column and return all of them.
+
+You can apply multiple scopes to repository at the same time.
+
+``` php
+$userRepository->withCriteria([
+    new EagerLoad('posts', 'country'),
+    new Scope('active', 'admin'),
+    new OrderBy('id')
+])->get();
+```
+
+You can create your own criteria classes and use them with `withCriteria()` method.
+Every criteria class must implement `Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion` interface. This interface requires having `apply($entity)` method:
+
+``` php
+use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
+
+class First implements Criterion
+{
+    /**
+     * @var string
+     */
+    private $column;
+
+    /**
+     * @param string $column
+     */
+    public function __construct($column = 'id')
+    {
+        $this->column = $column;
+    }
+
+    /**
+     * @param $entity
+     *
+     * @return mixed
+     */
+    public function apply($entity)
+    {
+        return $entity->orderBy($this->column);
+    }
+}
+```
 
 ### Caching
 
@@ -220,11 +299,7 @@ You can implement `cacheKey()` method in your repository to set cache key. Defau
 
 You can implement `cacheTTL()` method in your repository to set cache time-to-live. Default is 3600 seconds (1 hour).
 
-You can implement `forgetCache($model)` method in your repository to change cache invalidation logic when `update()`, `findAndUpdate()`, `delete()`, `findAndDelete()` methods being used.
-
-### Extending
-
-// todo
+You can implement `invalidateCache($model)` method in your repository to change cache invalidation logic when `update()`, `findAndUpdate()`, `delete()`, `findAndDelete()` methods being used.
 
 ## Testing
 

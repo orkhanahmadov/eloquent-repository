@@ -2,6 +2,7 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria;
 
+use Illuminate\Database\Eloquent\Builder;
 use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
 class OrderBy implements Criterion
@@ -28,9 +29,9 @@ class OrderBy implements Criterion
     }
 
     /**
-     * @param $entity
+     * @param Builder|mixed $entity
      *
-     * @return mixed
+     * @return Builder|mixed
      */
     public function apply($entity)
     {

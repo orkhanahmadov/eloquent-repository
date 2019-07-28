@@ -2,16 +2,16 @@
 
 namespace Orkhanahmadov\EloquentRepository\Tests\Repository;
 
-use Carbon\Carbon;
 use BadMethodCallException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
-use Orkhanahmadov\EloquentRepository\Tests\Model;
-use Orkhanahmadov\EloquentRepository\Tests\TestCase;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelCachableRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Orkhanahmadov\EloquentRepository\Tests\Model;
+use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 
 class EloquentRepositoryTest extends TestCase
 {
@@ -327,16 +327,16 @@ class EloquentRepositoryTest extends TestCase
 
     public function testCacheTTL()
     {
-        $this->assertEquals(config('eloquent-repository.cache.ttl'), $this->cachedRepository->cacheTTL());
+        $this->assertEquals(60 * 60, $this->cachedRepository->cacheTTL());
     }
 
-    public function testForgetCache()
+    public function testInvalidateCache()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
         Cache::put('models.*', Model::all(), 100);
         Cache::put('models.'.$model->id, $model, 100);
 
-        $this->cachedRepository->forgetCache($model);
+        $this->cachedRepository->invalidateCache($model);
 
         $this->assertNull(Cache::get('models.*'));
         $this->assertNull(Cache::get('models.'.$model->id));

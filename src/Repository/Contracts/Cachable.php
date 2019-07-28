@@ -23,5 +23,5 @@ interface Cachable
      *
      * @param $model
      */
-    public function forgetCache($model): void;
+    public function invalidateCache($model): void;
 }

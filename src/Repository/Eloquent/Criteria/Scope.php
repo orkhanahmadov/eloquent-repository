@@ -2,6 +2,7 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
@@ -18,9 +19,9 @@ class Scope implements Criterion
     }
 
     /**
-     * @param $entity
+     * @param Builder|mixed $entity
      *
-     * @return mixed
+     * @return Builder|mixed
      */
     public function apply($entity)
     {
