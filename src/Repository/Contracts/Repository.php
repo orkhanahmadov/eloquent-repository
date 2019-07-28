@@ -61,11 +61,11 @@ interface Repository
      * Finds models with "whereIn" condition.
      *
      * @param string $column
-     * @param array $values
+     * @param array|mixed $values
      *
      * @return mixed
      */
-    public function getWhereIn(string $column, array $values);
+    public function getWhereIn(string $column, $values);
 
     /**
      * Finds first model with "where" condition.
@@ -81,11 +81,11 @@ interface Repository
      * Finds first model with "whereIn" condition.
      *
      * @param string $column
-     * @param array $values
+     * @param array|mixed $values
      *
      * @return mixed
      */
-    public function getWhereInFirst(string $column, array $values);
+    public function getWhereInFirst(string $column, $values);
 
     /**
      * Updates a model given properties.
@@ -101,11 +101,11 @@ interface Repository
      * Finds a model with ID and updates it with given properties.
      *
      * @param int|string $modelId
-     * @param array $properties
+     * @param array|mixed $properties
      *
      * @return mixed
      */
-    public function findAndUpdate($modelId, array $properties);
+    public function findAndUpdate($modelId, $properties);
 
     /**
      * Deletes a model.

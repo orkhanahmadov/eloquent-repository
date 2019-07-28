@@ -2,18 +2,18 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use Exception;
 use BadMethodCallException;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
+use Exception;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 abstract class EloquentRepository implements Repository
 {
@@ -135,11 +135,11 @@ abstract class EloquentRepository implements Repository
      * Finds models with "whereIn" condition.
      *
      * @param string $column
-     * @param array $values
+     * @param array|mixed $values
      *
      * @return Builder[]|Collection
      */
-    public function getWhereIn(string $column, array $values)
+    public function getWhereIn(string $column, $values)
     {
         return $this->entity->whereIn($column, $values)->get();
     }
@@ -173,11 +173,11 @@ abstract class EloquentRepository implements Repository
      * Finds first model with "whereIn" condition.
      *
      * @param string $column
-     * @param array $values
+     * @param array|mixed $values
      *
      * @return Builder|Model|object|null
      */
-    public function getWhereInFirst(string $column, array $values)
+    public function getWhereInFirst(string $column, $values)
     {
         $model = $this->entity->whereIn($column, $values)->first();
 
@@ -194,12 +194,12 @@ abstract class EloquentRepository implements Repository
      * Finds a model with ID and updates it with given properties.
      *
      * @param int|string $modelId
-     * @param array $properties
+     * @param array|mixed $properties
      *
      * @return Builder|Model
      * @throws BindingResolutionException
      */
-    public function findAndUpdate($modelId, array $properties)
+    public function findAndUpdate($modelId, $properties)
     {
         $model = $this->find($modelId);
 
