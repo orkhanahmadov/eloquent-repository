@@ -14,7 +14,7 @@ Eloquent Repository package for Laravel created with total "repository pattern" 
 
 ## Requirements
 
-**PHP 7.2** or higher.
+**PHP 7.1** or higher.
 
 ## Installation
 
