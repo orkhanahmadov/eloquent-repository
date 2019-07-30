@@ -135,7 +135,7 @@ abstract class EloquentRepository implements Repository
      * Finds models with "whereIn" condition.
      *
      * @param string $column
-     * @param array|mixed $values
+     * @param mixed $values
      *
      * @return Builder[]|Collection
      */
@@ -173,7 +173,7 @@ abstract class EloquentRepository implements Repository
      * Finds first model with "whereIn" condition.
      *
      * @param string $column
-     * @param array|mixed $values
+     * @param mixed $values
      *
      * @return Builder|Model|object|null
      */
@@ -194,7 +194,7 @@ abstract class EloquentRepository implements Repository
      * Finds a model with ID and updates it with given properties.
      *
      * @param int|string $modelId
-     * @param array|mixed $properties
+     * @param mixed $properties
      *
      * @return Builder|Model
      * @throws BindingResolutionException

@@ -61,7 +61,7 @@ interface Repository
      * Finds models with "whereIn" condition.
      *
      * @param string $column
-     * @param array|mixed $values
+     * @param mixed $values
      *
      * @return mixed
      */
@@ -81,7 +81,7 @@ interface Repository
      * Finds first model with "whereIn" condition.
      *
      * @param string $column
-     * @param array|mixed $values
+     * @param mixed $values
      *
      * @return mixed
      */
@@ -101,7 +101,7 @@ interface Repository
      * Finds a model with ID and updates it with given properties.
      *
      * @param int|string $modelId
-     * @param array|mixed $properties
+     * @param mixed $properties
      *
      * @return mixed
      */
