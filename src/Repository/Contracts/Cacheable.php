@@ -2,7 +2,7 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Contracts;
 
-interface Cachable
+interface Cacheable
 {
     /**
      * Defines cache key.

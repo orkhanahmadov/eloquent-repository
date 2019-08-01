@@ -3,9 +3,9 @@
 namespace Orkhanahmadov\EloquentRepository\Tests;
 
 use Orkhanahmadov\EloquentRepository\EloquentRepository;
-use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
-class FakeModelCachableRepository extends EloquentRepository implements Cachable
+class FakeModelCacheableRepository extends EloquentRepository implements Cacheable
 {
     /**
      * Defines entity.

@@ -10,7 +10,7 @@ use Orkhanahmadov\EloquentRepository\Tests\Model;
 use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelCachableRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
 
 class EloquentRepositoryTest extends TestCase
@@ -349,6 +349,6 @@ class EloquentRepositoryTest extends TestCase
         DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
 
         $this->repository = app()->make(FakeModelRepository::class);
-        $this->cachedRepository = app()->make(FakeModelCachableRepository::class);
+        $this->cachedRepository = app()->make(FakeModelCacheableRepository::class);
     }
 }

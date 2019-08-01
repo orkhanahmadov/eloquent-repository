@@ -4,6 +4,7 @@ namespace Orkhanahmadov\EloquentRepository;
 
 use Exception;
 use BadMethodCallException;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,11 +13,15 @@ use Illuminate\Contracts\Cache\Factory as Cache;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
 
 abstract class EloquentRepository implements Repository
 {
+    /**
+     * @var Application
+     */
+    private $application;
     /**
      * @var Cache
      */
@@ -29,11 +34,13 @@ abstract class EloquentRepository implements Repository
     /**
      * EloquentRepository constructor.
      *
+     * @param Application $application
      * @param Cache $cache
      * @throws BindingResolutionException
      */
-    public function __construct(Cache $cache)
+    public function __construct(Application $application, Cache $cache)
     {
+        $this->application = $application;
         $this->cache = $cache;
         $this->entity = $this->resolveEntity();
     }
@@ -46,7 +53,7 @@ abstract class EloquentRepository implements Repository
      */
     protected function resolveEntity()
     {
-        return app()->make($this->entity());
+        return $this->application->make($this->entity());
     }
 
     /**
@@ -89,7 +96,7 @@ abstract class EloquentRepository implements Repository
      */
     public function get(array $columns = ['*'])
     {
-        if ($this instanceof Cachable) {
+        if ($this instanceof Cacheable) {
             return $this->cache->remember(
                 $this->cacheKey().'.'.implode(',', $columns),
                 $this->cacheTTL(),
@@ -216,7 +223,7 @@ abstract class EloquentRepository implements Repository
      */
     public function find($modelId)
     {
-        if ($this instanceof Cachable) {
+        if ($this instanceof Cacheable) {
             $model = $this->cache->remember(
                 $this->cacheKey().'.'.$modelId,
                 $this->cacheTTL(),
@@ -249,7 +256,7 @@ abstract class EloquentRepository implements Repository
      */
     public function update($model, $properties)
     {
-        if ($this instanceof Cachable) {
+        if ($this instanceof Cacheable) {
             $this->invalidateCache($model);
         }
 
@@ -283,7 +290,7 @@ abstract class EloquentRepository implements Repository
      */
     public function delete($model)
     {
-        if ($this instanceof Cachable) {
+        if ($this instanceof Cacheable) {
             $this->invalidateCache($model);
         }
 
