@@ -4,12 +4,12 @@ namespace Orkhanahmadov\EloquentRepository;
 
 use Exception;
 use BadMethodCallException;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;

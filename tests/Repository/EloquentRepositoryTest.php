@@ -10,8 +10,8 @@ use Orkhanahmadov\EloquentRepository\Tests\Model;
 use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
 
 class EloquentRepositoryTest extends TestCase
 {
