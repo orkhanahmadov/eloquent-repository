@@ -116,7 +116,6 @@ Returns all users where `first_name` is "John" and `last_name` is "Doe".
 **Return first user with given "where" statement:**
 ``` php
 $userRepository->getWhereFirst('first_name', 'John');
-$userRepository->getWhereFirst(['first_name' => 'John', 'last_name' => 'Doe']);
 ```
 Returns first user where `first_name` is "John".
 
@@ -263,23 +262,23 @@ class Ascending implements Criterion
      */
     public function apply($entity)
     {
-        return $entity->orderBy($this->column);
+        return $entity->orderBy($this->column, 'asc');
     }
 }
 ```
 
 ### Caching
 
-Repository also supports caching models. To enable caching implement `Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable` interface to your repository:
+Repository also supports caching models. To enable caching implement `Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable` interface to your repository:
 
 ``` php
 namespace App\Repositories;
 
 use App\User;
-use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cachable;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
-class UserRepository extends EloquentRepository implements Cachable
+class UserRepository extends EloquentRepository implements Cacheable
 {
     /**
      * Defines entity.
