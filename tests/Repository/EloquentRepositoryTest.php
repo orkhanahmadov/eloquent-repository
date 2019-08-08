@@ -3,6 +3,7 @@
 namespace Orkhanahmadov\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
+use ReflectionMethod;
 use BadMethodCallException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
-use ReflectionMethod;
 
 class EloquentRepositoryTest extends TestCase
 {
