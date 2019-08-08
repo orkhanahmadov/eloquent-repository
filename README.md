@@ -59,7 +59,7 @@ This will create repository class inside `Repositories` folder in your app's aut
 
 You can also pass Eloquent model namespace to `make:repository` command to automatically apply add that model to repository.
 ``` bash
-php artisan make:repository UserRepository --model=\App\User
+php artisan make:repository UserRepository --model=User
 ```
 This will create `UserRepository` class and apply `User` model as entity to it.
 
