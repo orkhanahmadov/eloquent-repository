@@ -2,11 +2,12 @@
 
 [![Latest Stable Version](https://poser.pugx.org/orkhanahmadov/eloquent-repository/v/stable)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
 [![Latest Unstable Version](https://poser.pugx.org/orkhanahmadov/eloquent-repository/v/unstable)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
-[![GitHub license](https://img.shields.io/github/license/orkhanahmadov/eloquent-repository.svg)](https://github.com/orkhanahmadov/eloquent-repository/blob/master/LICENSE.md)
+[![Total Downloads](https://img.shields.io/packagist/dt/orkhanahmadov/eloquent-repository)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
+[![License](https://img.shields.io/github/license/orkhanahmadov/eloquent-repository.svg)](https://github.com/orkhanahmadov/eloquent-repository/blob/master/LICENSE.md)
 
 [![Build Status](https://img.shields.io/travis/orkhanahmadov/eloquent-repository.svg)](https://travis-ci.org/orkhanahmadov/eloquent-repository)
-[![Test Coverage](https://img.shields.io/codeclimate/coverage/orkhanahmadov/eloquent-repository.svg)](https://codeclimate.com/github/orkhanahmadov/eloquent-repository/test_coverage)
-[![Maintainability](https://img.shields.io/codeclimate/maintainability/orkhanahmadov/eloquent-repository.svg)](https://codeclimate.com/github/orkhanahmadov/eloquent-repository/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3d5f8ef41004f128df8a/test_coverage)](https://codeclimate.com/github/orkhanahmadov/eloquent-repository/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3d5f8ef41004f128df8a/maintainability)](https://codeclimate.com/github/orkhanahmadov/eloquent-repository/maintainability)
 [![Quality Score](https://img.shields.io/scrutinizer/g/orkhanahmadov/eloquent-repository.svg)](https://scrutinizer-ci.com/g/orkhanahmadov/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
