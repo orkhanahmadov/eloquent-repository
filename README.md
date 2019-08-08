@@ -51,6 +51,19 @@ class UserRepository extends EloquentRepository
 }
 ```
 
+Package also comes with console command that can create repository class. Pass repository class name to `make:repository` command to generate it.
+``` bash
+php artisan make:repository UserRepository
+```
+This will create repository class inside `Repositories` folder in your app's autoload directory.
+
+You can also pass Eloquent model namespace to `make:repository` command to automatically apply add that model to repository.
+``` bash
+php artisan make:repository UserRepository --model=\App\User
+```
+This will create `UserRepository` class and apply `User` model as entity to it.
+
+
 You can use Laravel's container to inject `UserRepository` repository.
 
 ``` php
