@@ -2,6 +2,10 @@
 
 All notable changes to `eloquent-repository` will be documented in this file
 
+## 1.2.0 - 2019-08-08
+
+- `$cacheTTL` property added alongside `cacheTTL()` method for simplicity.
+
 ## 1.1.2 - 2019-08-01
 
 - Container helper method replaced with dependency injection

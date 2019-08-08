@@ -7,6 +7,11 @@ use Orkhanahmadov\EloquentRepository\EloquentRepository;
 class FakeModelRepository extends EloquentRepository
 {
     /**
+     * @var int
+     */
+    protected $cacheTTL = 500;
+
+    /**
      * Defines entity.
      *
      * @return mixed

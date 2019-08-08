@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
+use ReflectionMethod;
 
 class EloquentRepositoryTest extends TestCase
 {
@@ -325,9 +326,20 @@ class EloquentRepositoryTest extends TestCase
         $this->assertEquals((new Model())->getTable(), $this->cachedRepository->cacheKey());
     }
 
-    public function testCacheTTL()
+    public function testCacheTTLValueWithProperty()
     {
-        $this->assertEquals(60 * 60, $this->cachedRepository->cacheTTL());
+        $method = new ReflectionMethod(FakeModelRepository::class, 'cacheTTLValue');
+        $method->setAccessible(true);
+
+        $this->assertEquals(500, $method->invoke(app()->make(FakeModelRepository::class)));
+    }
+
+    public function testCacheTTLValueWithMethod()
+    {
+        $method = new ReflectionMethod(FakeModelCacheableRepository::class, 'cacheTTLValue');
+        $method->setAccessible(true);
+
+        $this->assertEquals(1000, $method->invoke(app()->make(FakeModelCacheableRepository::class)));
     }
 
     public function testInvalidateCache()

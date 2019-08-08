@@ -310,7 +310,9 @@ Repository will empty the cache automatically when `update()`, `findAndUpdate()`
 
 You can implement `cacheKey()` method in your repository to set cache key. Default is model's table name.
 
-You can implement `cacheTTL()` method in your repository to set cache time-to-live. Default is 3600 seconds (1 hour).
+You can set cache time-to-live with `$cacheTTL` property. By default it is set to 3600 (1 hour).
+Alternatively you can implement `cacheTTL()` method in your repository to return cache time-to-live value.
+Repository will ignore `$cacheTTL` property value when `cacheTTL()` method is implemented.
 
 You can implement `invalidateCache($model)` method in your repository to change cache invalidation logic when `update()`, `findAndUpdate()`, `delete()`, `findAndDelete()` methods being used.
 

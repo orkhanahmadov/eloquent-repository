@@ -27,6 +27,10 @@ abstract class EloquentRepository implements Repository
      */
     protected $cache;
     /**
+     * @var int
+     */
+    protected $cacheTTL = 3600;
+    /**
      * @var Builder
      */
     protected $entity;
@@ -99,7 +103,7 @@ abstract class EloquentRepository implements Repository
         if ($this instanceof Cacheable) {
             return $this->cache->remember(
                 $this->cacheKey().'.'.implode(',', $columns),
-                $this->cacheTTL(),
+                $this->cacheTTLValue(),
                 function () use ($columns) {
                     return $this->entity->get($columns);
                 }
@@ -226,7 +230,7 @@ abstract class EloquentRepository implements Repository
         if ($this instanceof Cacheable) {
             $model = $this->cache->remember(
                 $this->cacheKey().'.'.$modelId,
-                $this->cacheTTL(),
+                $this->cacheTTLValue(),
                 function () use ($modelId) {
                     return $this->entity->find($modelId);
                 }
@@ -372,16 +376,6 @@ abstract class EloquentRepository implements Repository
     }
 
     /**
-     * Defines cache time-to-live seconds.
-     *
-     * @return int
-     */
-    public function cacheTTL(): int
-    {
-        return 3600;
-    }
-
-    /**
      * Removes cache for model.
      *
      * @param Model $model
@@ -406,5 +400,19 @@ abstract class EloquentRepository implements Repository
     public function cacheKey(): string
     {
         return $this->resolveEntity()->getTable();
+    }
+
+    /**
+     * Get cache time-to-live value from property or method if available.
+     *
+     * @return int
+     */
+    private function cacheTTLValue(): int
+    {
+        if (method_exists($this, 'cacheTTL')) {
+            return $this->cacheTTL();
+        }
+
+        return $this->cacheTTL;
     }
 }

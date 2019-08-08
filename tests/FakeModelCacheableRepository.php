@@ -16,4 +16,9 @@ class FakeModelCacheableRepository extends EloquentRepository implements Cacheab
     {
         return Model::class;
     }
+
+    public function cacheTTL(): int
+    {
+        return 1000;
+    }
 }
