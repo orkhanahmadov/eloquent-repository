@@ -112,7 +112,7 @@ Paginates all users with given "per page" value and returns paginated result.
 ``` php
 $userRepository->find(1); 
 ```
-Finds user with given primary key and returns model instance. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+Finds user with given primary key and returns model instance. If model is not available `Illuminate\Database\Eloquent\ModelNotFoundException` exception will be thrown.
 
 **Return all users with given "where" statement:**
 ``` php
@@ -152,7 +152,7 @@ Returns first user where `first_name` is "John", "Jane" or "Dave".
 
 **Update a model with given properties:**
 ``` php
-$user = \App\User::find(1);
+$user = $userRepository->find(1);
 $userRepository->update($user, ['first_name' => 'Dave']);
 $userRepository->findAndUpdate(1, ['first_name' => 'Dave']); // finds user with ID=1, updates it with given values and returns instance
 ```
@@ -162,11 +162,11 @@ Updates `$user` model's `first_name` to "Dave" and returns updated instance.
 ``` php
 $userRepository->findAndUpdate(1, ['first_name' => 'Dave']);
 ```
-Finds a user with given primary key, updates `first_name` to "Dave" and returns updated instance. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+Finds a user with given primary key, updates `first_name` to "Dave" and returns updated instance. If model is not available `Illuminate\Database\Eloquent\ModelNotFoundException` exception will be thrown.
 
 **Delete a model:**
 ``` php
-$user = \App\User::find(1);
+$user = $userRepository->find(1);
 $userRepository->delete($user);
 $userRepository->findAndDelete(1); // finds user with ID=1 and deletes it
 ```
@@ -176,11 +176,17 @@ Deletes `$user` model.
 ``` php
 $userRepository->findAndDelete(1);
 ```
-Finds a user with given primary key and deletes. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+Finds a user with given primary key and deletes. If model is not available `Illuminate\Database\Eloquent\ModelNotFoundException` exception will be thrown.
+
+**Find a "soft deleted" model:**
+``` php
+$userRepository->findFromTrashed(1);
+```
+Finds a "soft deleted" user with given primary key. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available `Illuminate\Database\Eloquent\ModelNotFoundException` exception will be thrown.
 
 **Restore a "soft deleted" model:**
 ``` php
-$user = \App\User::onlyTrashed()->find(1);
+$user = $userRepository->findFromTrashed(1);
 $userRepository->restore($user);
 ```
 Restores a "soft deleted" a `$user` model. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception.
@@ -189,13 +195,7 @@ Restores a "soft deleted" a `$user` model. If model is not using "soft delete" f
 ``` php
 $userRepository->findAndRestore(1);
 ```
-Finds a "soft deleted" user with given primary key and restores. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
-
-**Find a "soft deleted" model:**
-``` php
-$userRepository->findFromTrashed(1);
-```
-Finds a "soft deleted" user with given primary key. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available method will throw `Illuminate\Database\Eloquent\ModelNotFoundException` exception.
+Finds a "soft deleted" user with given primary key and restores. If model is not using "soft delete" feature method will throw `BadMethodCallException` exception. If model is not available `Illuminate\Database\Eloquent\ModelNotFoundException` exception will be thrown.
 
 ### Criteria
 
