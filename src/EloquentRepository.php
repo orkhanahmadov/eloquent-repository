@@ -87,27 +87,33 @@ abstract class EloquentRepository implements Repository
      */
     public function all()
     {
+        if ($this instanceof Cacheable) {
+            return $this->cache->remember(
+                $this->cacheKey().'.*',
+                $this->cacheTTLValue(),
+                function () {
+                    return $this->get();
+                }
+            );
+        }
+
         return $this->get();
     }
 
     /**
      * Returns all models with selected columns.
      *
-     * @param array $columns
+     * @param mixed $columns
      *
      * @return Builder[]|Collection
      * @throws BindingResolutionException
      */
-    public function get(array $columns = ['*'])
+    public function get(...$columns)
     {
-        if ($this instanceof Cacheable) {
-            return $this->cache->remember(
-                $this->cacheKey().'.'.implode(',', $columns),
-                $this->cacheTTLValue(),
-                function () use ($columns) {
-                    return $this->entity->get($columns);
-                }
-            );
+        $columns = Arr::flatten($columns);
+
+        if (sizeof($columns) === 0) {
+            $columns = ['*'];
         }
 
         return $this->entity->get($columns);

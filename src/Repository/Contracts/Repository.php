@@ -23,11 +23,11 @@ interface Repository
     /**
      * Returns all models with selected columns.
      *
-     * @param array $columns
+     * @param mixed ...$columns
      *
      * @return mixed
      */
-    public function get(array $columns = ['*']);
+    public function get(...$columns);
 
     /**
      * Paginates models.

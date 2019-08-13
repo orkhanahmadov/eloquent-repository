@@ -305,7 +305,7 @@ class UserRepository extends EloquentRepository implements Cacheable
 }
 ```
 
-Once implemented, `all` , `get()` and `find()` methods will cache models.
+Once implemented, `all` and `find()` methods will cache results.
 Repository will empty the cache automatically when `update()`, `findAndUpdate()`, `delete()` and `findAndDelete()` methods used.
 
 You can implement `cacheKey()` method in your repository to set cache key. Default is model's table name.

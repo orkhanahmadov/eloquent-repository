@@ -2,6 +2,11 @@
 
 All notable changes to `eloquent-repository` will be documented in this file
 
+## 1.2.1 - 2019-08-13
+
+- Cache logic changes.
+- `get` methods no longer caches results because of unpredictable `$columns` argument.
+
 ## 1.2.0 - 2019-08-08
 
 - `$cacheTTL` property added alongside `cacheTTL()` method for simplicity.

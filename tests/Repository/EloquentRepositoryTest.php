@@ -23,7 +23,7 @@ class EloquentRepositoryTest extends TestCase
     {
         $this->assertCount(0, Model::all());
 
-        $result = $this->cachedRepository->create(['id' => 5, 'name' => 'model name']);
+        $result = $this->repository->create(['id' => 5, 'name' => 'model name']);
 
         $this->assertEquals(5, $result->id);
         $this->assertEquals('model name', $result->name);
@@ -35,7 +35,7 @@ class EloquentRepositoryTest extends TestCase
         Model::create(['id' => 5, 'name' => 'model1']);
         Model::create(['id' => 15, 'name' => 'model2']);
 
-        $result = $this->cachedRepository->all();
+        $result = $this->repository->all();
 
         $this->assertCount(2, $result);
         $this->assertEquals([
@@ -50,6 +50,21 @@ class EloquentRepositoryTest extends TestCase
                 'deleted_at' => null,
             ],
         ], $result->toArray());
+    }
+
+    public function testAllCached()
+    {
+        Model::create(['id' => 5, 'name' => 'model1']);
+        Model::create(['id' => 15, 'name' => 'model2']);
+        $this->assertNull(Cache::get('models.*'));
+
+        DB::enableQueryLog();
+        $this->cachedRepository->all();
+        $this->assertNotNull(Cache::get('models.*'));
+
+        $this->cachedRepository->all();
+        DB::disableQueryLog();
+        $this->assertCount(1, DB::getQueryLog());
     }
 
     public function testGet()
@@ -70,27 +85,12 @@ class EloquentRepositoryTest extends TestCase
         ], $result->toArray());
     }
 
-    public function testGetCached()
-    {
-        Model::create(['id' => 5, 'name' => 'model1']);
-        Model::create(['id' => 15, 'name' => 'model2']);
-        $this->assertNull(Cache::get('models.*'));
-
-        DB::enableQueryLog();
-        $this->cachedRepository->get();
-        $this->assertNotNull(Cache::get('models.*'));
-
-        $this->cachedRepository->get();
-        DB::disableQueryLog();
-        $this->assertCount(1, DB::getQueryLog());
-    }
-
     public function testPaginate()
     {
         $model1 = Model::create(['id' => 5, 'name' => 'model1']);
         Model::create(['id' => 15, 'name' => 'model2']);
 
-        $result = $this->cachedRepository->paginate(1);
+        $result = $this->repository->paginate(1);
 
         $this->assertCount(1, $data = $result->toArray()['data']);
         $this->assertEquals($data[0]['id'], $model1->id);
@@ -137,12 +137,12 @@ class EloquentRepositoryTest extends TestCase
         Model::create(['id' => 15, 'name' => 'model name']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->getWhere('name', 'model name');
+        $result = $this->repository->getWhere('name', 'model name');
         $this->assertCount(2, $result);
         $this->assertEquals(5, $result[0]['id']);
         $this->assertEquals(15, $result[1]['id']);
 
-        $result = $this->cachedRepository->getWhere([
+        $result = $this->repository->getWhere([
             'id' => 15,
             'name' => 'model name',
         ]);
@@ -156,7 +156,7 @@ class EloquentRepositoryTest extends TestCase
         Model::create(['id' => 15, 'name' => 'model2']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->getWhereIn('id', [5, 25]);
+        $result = $this->repository->getWhereIn('id', [5, 25]);
         $this->assertCount(2, $result);
         $this->assertEquals(5, $result[0]['id']);
         $this->assertEquals(25, $result[1]['id']);
@@ -190,7 +190,7 @@ class EloquentRepositoryTest extends TestCase
         Model::create(['id' => 15, 'name' => 'model2']);
         Model::create(['id' => 25, 'name' => 'model3']);
 
-        $result = $this->cachedRepository->getWhereInFirst('id', [15, 25]);
+        $result = $this->repository->getWhereInFirst('id', [15, 25]);
         $this->assertEquals(15, $result['id']);
     }
 
@@ -208,7 +208,7 @@ class EloquentRepositoryTest extends TestCase
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
 
-        $result = $this->cachedRepository->findAndUpdate($model->id, [
+        $result = $this->repository->findAndUpdate($model->id, [
             'name' => 'updated name',
         ]);
         $this->assertEquals('updated name', $result->name);
@@ -235,7 +235,7 @@ class EloquentRepositoryTest extends TestCase
         $model = Model::create(['id' => 5, 'name' => 'model name']);
         $this->assertNull($model->deleted_at);
 
-        $result = $this->cachedRepository->findAndDelete($model->id);
+        $result = $this->repository->findAndDelete($model->id);
 
         $this->assertNotNull($model->refresh()->deleted_at);
         $this->assertTrue($result);
@@ -302,7 +302,7 @@ class EloquentRepositoryTest extends TestCase
         $model = Model::create(['id' => 5, 'name' => 'model name', 'deleted_at' => Carbon::now()->subDay()]);
         $this->assertNotNull($model->deleted_at);
 
-        $result = $this->cachedRepository->restore($model);
+        $result = $this->repository->restore($model);
 
         $this->assertNull($model->refresh()->deleted_at);
         $this->assertTrue($result);
@@ -345,12 +345,10 @@ class EloquentRepositoryTest extends TestCase
     public function testInvalidateCache()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
-        Cache::put('models.*', Model::all(), 100);
         Cache::put('models.'.$model->id, $model, 100);
 
         $this->cachedRepository->invalidateCache($model);
 
-        $this->assertNull(Cache::get('models.*'));
         $this->assertNull(Cache::get('models.'.$model->id));
     }
 
