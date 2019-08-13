@@ -10,11 +10,11 @@ class OrderBy implements Criterion
     /**
      * @var string
      */
-    private $column;
+    protected $column;
     /**
      * @var string
      */
-    private $sortBy;
+    protected $sortBy;
 
     /**
      * OrderBy constructor.

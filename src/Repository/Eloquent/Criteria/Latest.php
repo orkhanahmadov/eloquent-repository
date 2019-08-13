@@ -10,7 +10,7 @@ class Latest implements Criterion
     /**
      * @var string
      */
-    private $column;
+    protected $column;
 
     /**
      * Latest constructor.

@@ -2,14 +2,12 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
-use Illuminate\Database\Eloquent\Builder;
-
 interface Criterion
 {
     /**
-     * @param Builder|mixed $entity
+     * @param mixed $entity
      *
-     * @return Builder|mixed
+     * @return mixed
      */
     public function apply($entity);
 }

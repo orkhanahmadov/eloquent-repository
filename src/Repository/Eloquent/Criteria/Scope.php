@@ -11,8 +11,12 @@ class Scope implements Criterion
     /**
      * @var array
      */
-    private $scopes;
+    protected $scopes;
 
+    /**
+     * Scope constructor.
+     * @param mixed ...$scopes
+     */
     public function __construct(...$scopes)
     {
         $this->scopes = Arr::flatten($scopes);
