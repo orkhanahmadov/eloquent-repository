@@ -112,7 +112,7 @@ abstract class EloquentRepository implements Repository
     {
         $columns = Arr::flatten($columns);
 
-        if (sizeof($columns) === 0) {
+        if (count($columns) === 0) {
             $columns = ['*'];
         }
 
