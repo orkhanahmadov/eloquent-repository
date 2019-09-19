@@ -1,4 +1,4 @@
-# Eloquent Repository for Laravel 5
+# Eloquent Repository for Laravel
 
 [![Latest Stable Version](https://poser.pugx.org/orkhanahmadov/eloquent-repository/v/stable)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
 [![Latest Unstable Version](https://poser.pugx.org/orkhanahmadov/eloquent-repository/v/unstable)](https://packagist.org/packages/orkhanahmadov/eloquent-repository)
