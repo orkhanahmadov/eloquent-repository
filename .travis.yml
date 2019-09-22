@@ -42,7 +42,7 @@ install:
     - composer require "illuminate/database:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
     - composer require "illuminate/support:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
     - composer require "orchestra/testbench:${TESTBENCH_VERSION}" --no-update --no-interaction --prefer-dist
-    - composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --no-update --no-interaction --prefer-di
+    - composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --no-update --no-interaction --prefer-dist
     - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script:
@@ -54,3 +54,6 @@ after_script:
 branches:
     only:
         - master
+
+notifications:
+    email: false
