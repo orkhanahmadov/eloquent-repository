@@ -1,35 +1,49 @@
 language: php
 
-php:
-    - 7.1
-    - 7.2
-    - 7.3
-    - 7.4snapshot
+cache:
+    directories:
+        - $HOME/.composer/cache/files
 
 env:
     global:
         - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
-    matrix:
-        - COMPOSER_FLAGS="--prefer-lowest"
-        - COMPOSER_FLAGS=""
 
 matrix:
     fast_finish: true
-    allow_failures:
-        - php: 7.4snapshot
-
-cache:
-    directories:
-        - $HOME/.composer/cache/files
+    include:
+        - php: 7.1
+          env: LARAVEL_VERSION=5.5.* TESTBENCH_VERSION=3.5.* PHPUNIT_VERSION=~6.0
+        - php: 7.1
+          env: LARAVEL_VERSION=5.8.* TESTBENCH_VERSION=3.8.* PHPUNIT_VERSION=~7.0
+        - php: 7.2
+          env: LARAVEL_VERSION=5.5.* TESTBENCH_VERSION=3.5.* PHPUNIT_VERSION=~6.0
+        - php: 7.2
+          env: LARAVEL_VERSION=5.8.* TESTBENCH_VERSION=3.8.* PHPUNIT_VERSION=~7.0
+        - php: 7.2
+          env: LARAVEL_VERSION=~6.0  TESTBENCH_VERSION=~4.0  PHPUNIT_VERSION=~8.0
+        - php: 7.3
+          env: LARAVEL_VERSION=5.5.* TESTBENCH_VERSION=3.5.* PHPUNIT_VERSION=~6.0
+        - php: 7.3
+          env: LARAVEL_VERSION=5.8.* TESTBENCH_VERSION=3.8.* PHPUNIT_VERSION=~7.0
+        - php: 7.3
+          env: LARAVEL_VERSION=~6.0  TESTBENCH_VERSION=~4.0  PHPUNIT_VERSION=~8.0
 
 before_install:
     - travis_retry composer self-update
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - ./cc-test-reporter before-build
+    - composer global require hirak/prestissimo --update-no-dev
 
 install:
-    - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
+    - composer require "illuminate/container:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
+    - composer require "illuminate/console:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
+    - composer require "illuminate/contracts:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
+    - composer require "illuminate/database:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
+    - composer require "illuminate/support:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
+    - composer require "orchestra/testbench:${TESTBENCH_VERSION}" --no-update --no-interaction --prefer-dist
+    - composer require "phpunit/phpunit:${PHPUNIT_VERSION}" --no-update --no-interaction --prefer-di
+    - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script:
     - vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml

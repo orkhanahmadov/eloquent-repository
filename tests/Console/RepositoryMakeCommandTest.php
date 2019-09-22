@@ -9,7 +9,7 @@ class RepositoryMakeCommandTest extends TestCase
 {
     public function testCreatesRepositoryWithoutModel()
     {
-        $this->artisan('make:repository FooRepository')
+        $this->artisan('make:repository', ['name' => 'FooRepository'])
             ->assertExitCode(0);
 
         $this->assertTrue(is_file(app_path().'/Repositories/FooRepository.php'));
@@ -17,7 +17,7 @@ class RepositoryMakeCommandTest extends TestCase
 
     public function testCreatesRepositoryWithModel()
     {
-        $this->artisan('make:repository FooModelRepository --model=FooModel')
+        $this->artisan('make:repository', ['name' => 'FooModelRepository', '--model' => 'FooModel'])
             ->expectsQuestion('A App\FooModel model does not exist. Do you want to generate it?', 'yes')
             ->assertExitCode(0);
 
@@ -29,7 +29,7 @@ class RepositoryMakeCommandTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Model name contains invalid characters.');
 
-        $this->artisan('make:repository FooModelRepository --model=FooModel!')
+        $this->artisan('make:repository', ['name' => 'FooModelRepository', '--model' => 'FooModel!'])
             ->assertExitCode(1);
     }
 
