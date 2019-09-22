@@ -14,33 +14,7 @@ env:
         - COMPOSER_FLAGS=""
 
 matrix:
-    include:
-        - php: 7.1
-          env: LARAVEL_VERSION=5.5.*
-        - php: 7.1
-          env: LARAVEL_VERSION=5.8.*
-        - php: 7.2
-          env: LARAVEL_VERSION=5.5.*
-        - php: 7.2
-          env: LARAVEL_VERSION=5.8.*
-        - php: 7.2
-          env: LARAVEL_VERSION=^6.0
-
-
-        - php: 5.6
-          env: SYMFONY_VERSION=3.3.*@dev
-        - php: 5.6
-          env: SYMFONY_VERSION=3.4.*@dev
-        - php: 7.2
-          env: SYMFONY_VERSION=4.0.*@dev
-        - php: 5.6
-          env: COMPOSER_FLAGS="--prefer-lowest"
-
-
     fast_finish: true
-    exclude:
-        - php: 7.1
-          env: LARAVEL_VERSION="^6.0" TESTBENCH_VERSION="^4.0" PHPUNIT_VERSION="^8.0"
     allow_failures:
         - php: 7.4snapshot
 
@@ -56,7 +30,6 @@ before_install:
 
 install:
     - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction
-    - travis_retry composer require "laravel/laravel:${LARAVEL_VERSION}"
 
 script:
     - vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
