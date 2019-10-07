@@ -9,5 +9,5 @@ interface Criteria
      *
      * @return $this
      */
-    public function withCriteria(...$criteria);
+    public function withCriteria(...$criteria): self;
 }

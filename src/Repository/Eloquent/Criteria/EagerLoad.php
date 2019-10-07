@@ -24,12 +24,12 @@ class EagerLoad implements Criterion
     }
 
     /**
-     * @param Builder|mixed $entity
+     * @param Builder|mixed $model
      *
      * @return Builder|mixed
      */
-    public function apply($entity)
+    public function apply($model)
     {
-        return $entity->with($this->relations);
+        return $model->with($this->relations);
     }
 }

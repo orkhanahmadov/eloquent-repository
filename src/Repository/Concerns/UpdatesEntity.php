@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
- * @property-read Builder|Model $entity
  * @method Builder|Model find(int $modelId)
  * @method void invalidateCache()
  */

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property-read Builder|Model $entity
+ * @property-read Builder|Model $model
  */
 trait CreatesEntity
 {
@@ -19,6 +19,6 @@ trait CreatesEntity
      */
     public function create($properties)
     {
-        return $this->entity->create($properties);
+        return $this->model->create($properties);
     }
 }

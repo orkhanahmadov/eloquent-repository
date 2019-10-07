@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
- * @property-read Builder|Model $entity
+ * @property-read Builder|Model $model
  * @method Builder|Model find(int $modelId)
  * @method void invalidateCache()
  */
@@ -74,11 +74,11 @@ trait DeletesEntity
             throw new \BadMethodCallException('Model is not using "soft delete" feature.');
         }
 
-        $model = $this->entity->onlyTrashed()->find($modelId);
+        $model = $this->model->onlyTrashed()->find($modelId);
 
         if (! $model) {
             throw (new ModelNotFoundException)->setModel(
-                get_class($this->entity->getModel()),
+                get_class($this->model->getModel()),
                 $modelId
             );
         }

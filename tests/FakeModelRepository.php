@@ -10,14 +10,8 @@ class FakeModelRepository extends EloquentRepository
      * @var int
      */
     protected $cacheTTL = 500;
-
     /**
-     * Defines entity.
-     *
-     * @return mixed
+     * @var string
      */
-    protected function entity()
-    {
-        return Model::class;
-    }
+    protected $entity = Model::class;
 }

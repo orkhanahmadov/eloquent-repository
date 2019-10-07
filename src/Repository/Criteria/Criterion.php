@@ -5,9 +5,9 @@ namespace Orkhanahmadov\EloquentRepository\Repository\Criteria;
 interface Criterion
 {
     /**
-     * @param mixed $entity
+     * @param mixed $model
      *
      * @return mixed
      */
-    public function apply($entity);
+    public function apply($model);
 }

@@ -23,16 +23,16 @@ class Scope implements Criterion
     }
 
     /**
-     * @param Builder|mixed $entity
+     * @param Builder|mixed $model
      *
      * @return Builder|mixed
      */
-    public function apply($entity)
+    public function apply($model)
     {
         foreach ($this->scopes as $scope) {
-            $entity = $entity->{$scope}();
+            $model = $model->{$scope}();
         }
 
-        return $entity;
+        return $model;
     }
 }
