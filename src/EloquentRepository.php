@@ -5,21 +5,22 @@ namespace Orkhanahmadov\EloquentRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\CreatesEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Concerns\DeletesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\GetsEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Concerns\UpdatesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
 
 abstract class EloquentRepository implements Repository
 {
-    use CreatesEntity;
     use GetsEntity;
+    use CreatesEntity;
+    use UpdatesEntity;
+    use DeletesEntity;
 
     /**
      * @var Application
