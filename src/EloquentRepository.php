@@ -71,19 +71,18 @@ abstract class EloquentRepository implements Repository
     abstract protected function entity();
 
     /**
-     * Finds a model with ID and updates it with given properties.
+     * Finds a model with ID and deletes it.
      *
      * @param int|string $modelId
-     * @param mixed $properties
      *
-     * @return Builder|Model
-     * @throws BindingResolutionException
+     * @return bool|mixed|null
+     * @throws \Exception
      */
-    public function findAndUpdate($modelId, $properties)
+    public function findAndDelete($modelId)
     {
         $model = $this->find($modelId);
 
-        return $this->update($model, $properties);
+        return $this->delete($model);
     }
 
     /**
