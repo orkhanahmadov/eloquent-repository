@@ -2,19 +2,19 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Cache\Factory as Cache;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\CreatesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\DeletesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\SelectsEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\UpdatesEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 class EloquentRepository implements Repository
 {
@@ -62,7 +62,7 @@ class EloquentRepository implements Repository
     }
 
     /**
-     * @param Builder|Model $entity
+     * @param string $entity
      *
      * @return self
      *
@@ -88,7 +88,7 @@ class EloquentRepository implements Repository
         $criteria = Arr::flatten($criteria);
 
         foreach ($criteria as $criterion) {
-            /* @var Criteria\Criteria $criterion */
+            /* @var Criteria\Criterion $criterion */
             $this->model = $criterion->apply($this->model);
         }
 
