@@ -2,22 +2,17 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\{
-    Model,
-    Builder
-};
 use Illuminate\Contracts\Cache\Factory as Cache;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Orkhanahmadov\EloquentRepository\Repository\{
-    Concerns\CreatesEntity,
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\{Builder, Model, ModelNotFoundException};
+use Illuminate\Support\Arr;
+use Orkhanahmadov\EloquentRepository\Repository\{Concerns\CreatesEntity,
     Concerns\DeletesEntity,
     Concerns\GetsEntity,
     Concerns\UpdatesEntity,
     Contracts\Repository,
-    Criteria
-};
+    Criteria};
 
 class EloquentRepository implements Repository
 {
@@ -59,18 +54,8 @@ class EloquentRepository implements Repository
         $this->application = $application;
         $this->cache = $cache;
 
-        $this->resolveEntity();
-    }
-
-    /**
-     * Resolves entity.
-     *
-     * @throws BindingResolutionException
-     */
-    private function resolveEntity(): void
-    {
         if ($this->entity) {
-            $this->model = $this->application->make($this->entity);
+            $this->resolveEntity();
         }
     }
 
@@ -134,6 +119,16 @@ class EloquentRepository implements Repository
     }
 
     /**
+     * Resolves entity.
+     *
+     * @throws BindingResolutionException
+     */
+    private function resolveEntity(): void
+    {
+        $this->model = $this->application->make($this->entity);
+    }
+
+    /**
      * Get cache time-to-live value from property or method if available.
      *
      * @return int
@@ -145,5 +140,18 @@ class EloquentRepository implements Repository
         }
 
         return $this->cacheTTL;
+    }
+
+    /**
+     * Throws ModelNotFoundException exception
+     *
+     * @param array|int $ids
+     */
+    private function throwModelNotFoundException($ids = [])
+    {
+        throw (new ModelNotFoundException)->setModel(
+            get_class($this->model->getModel()),
+            $ids
+        );
     }
 }

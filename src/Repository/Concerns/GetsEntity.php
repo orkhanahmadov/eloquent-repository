@@ -6,7 +6,6 @@ use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
@@ -78,10 +77,7 @@ trait GetsEntity
         }
 
         if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->model->getModel()),
-                $modelId
-            );
+            $this->throwModelNotFoundException($modelId);
         }
 
         return $model;
@@ -146,9 +142,7 @@ trait GetsEntity
         }
 
         if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->model->getModel())
-            );
+            $this->throwModelNotFoundException();
         }
 
         return $model;
@@ -167,9 +161,7 @@ trait GetsEntity
         $model = $this->model->whereIn($column, $values)->first();
 
         if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->model->getModel())
-            );
+            $this->throwModelNotFoundException();
         }
 
         return $model;

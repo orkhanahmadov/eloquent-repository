@@ -5,7 +5,6 @@ namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
@@ -77,10 +76,7 @@ trait DeletesEntity
         $model = $this->model->onlyTrashed()->find($modelId);
 
         if (! $model) {
-            throw (new ModelNotFoundException)->setModel(
-                get_class($this->model->getModel()),
-                $modelId
-            );
+            $this->throwModelNotFoundException($modelId);
         }
 
         return $model;
