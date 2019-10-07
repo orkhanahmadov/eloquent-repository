@@ -11,9 +11,11 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/orkhanahmadov/eloquent-repository.svg)](https://scrutinizer-ci.com/g/orkhanahmadov/eloquent-repository)
 [![StyleCI](https://github.styleci.io/repos/197324305/shield?branch=master)](https://github.styleci.io/repos/197324305)
 
-Eloquent Repository package for Laravel created with total "repository pattern" in-mind.
+Eloquent Repository package for Laravel created for "repository pattern" approach.
 
 ## Requirements
+
+**Version ^3.0** - Laravel **^6.0** or higher and **PHP 7.2** or higher.
 
 **Version ^2.0** - Laravel **5.8 or ^6.0** or higher and **PHP 7.1** or higher.
 
@@ -29,9 +31,29 @@ composer require orkhanahmadov/eloquent-repository
 
 ## Usage
 
-Create a repository class and extend `Orkhanahmadov\EloquentRepository\EloquentRepository` abstract class.
+Inject `Orkhanahmadov\EloquentRepository\EloquentRepository` class from container,
+use `entity()` method to specify model
+and use repository to fetch resources for that model from database.
 
-Repository class that extends `EloquentRepository` must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from the method.
+``` php
+namespace App\Http\Controllers;
+
+use App\User;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
+
+class UserController extends Controller
+{
+    public function index(EloquentRepository $repository)
+    {
+        return $repository->entity(User::class)->get();
+    }
+}
+```
+
+Or you can create your own repository class and extend `Orkhanahmadov\EloquentRepository\EloquentRepository` 
+and set `$entity` property to your model.
+
+Repository:
 
 ``` php
 namespace App\Repositories;
@@ -41,14 +63,22 @@ use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class UserRepository extends EloquentRepository
 {
-    /**
-     * Defines entity.
-     *
-     * @return mixed
-     */
-    protected function entity()
+    protected $entity = User::class;
+}
+```
+
+Controller:
+
+``` php
+namespace App\Http\Controllers;
+
+use App\Repositories\UserRepository;
+
+class UserController extends Controller
+{
+    public function index(UserRepository $userRepository)
     {
-        return User::class;
+        return $userRepository->get();
     }
 }
 ```
@@ -64,23 +94,6 @@ You can also pass Eloquent model namespace to `make:repository` command to autom
 php artisan make:repository UserRepository --model=User
 ```
 This will create `UserRepository` class and apply `User` model as entity to it.
-
-
-You can use Laravel's container to inject `UserRepository` repository.
-
-``` php
-namespace App\Http\Controllers;
-
-use App\Repositories\UserRepository;
-
-class HomeController extends Controller
-{
-    public function index(UserRepository $userRepository)
-    {
-        return $userRepository->get();
-    }
-}
-```
 
 ### Available methods
 

@@ -8,7 +8,8 @@
         "repository",
         "repository-generator",
         "eloquent",
-        "model"
+        "model",
+        "database"
     ],
     "homepage": "https://github.com/orkhanahmadov/eloquent-repository",
     "license": "MIT",
@@ -52,7 +53,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Orkhanahmadov\\EloquentRepository\\ServiceProvider"
+                "Orkhanahmadov\\EloquentRepository\\EloquentRepositoryServiceProvider"
             ]
         }
     }

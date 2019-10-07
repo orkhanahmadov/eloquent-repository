@@ -2,10 +2,10 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Orkhanahmadov\EloquentRepository\Console\RepositoryMakeCommand;
 
-class ServiceProvider extends BaseServiceProvider
+class EloquentRepositoryServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.

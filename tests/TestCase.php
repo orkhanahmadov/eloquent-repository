@@ -3,9 +3,10 @@
 namespace Orkhanahmadov\EloquentRepository\Tests;
 
 use Illuminate\Foundation\Application;
-use Orkhanahmadov\EloquentRepository\ServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
+use Orkhanahmadov\EloquentRepository\EloquentRepositoryServiceProvider;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends Orchestra
 {
     /**
      * Resolve application aliases.
@@ -17,7 +18,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return [
-            ServiceProvider::class,
+            EloquentRepositoryServiceProvider::class,
         ];
     }
 }

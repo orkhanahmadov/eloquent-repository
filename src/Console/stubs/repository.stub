@@ -2,17 +2,12 @@
 
 namespace DummyNamespace;
 
-use Innoscripta\EloquentRepository\Repository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class DummyClass extends EloquentRepository
 {
     /**
-     * Defines entity.
-     *
-     * @return mixed
+     * @var string
      */
-    protected function entity()
-    {
-        // TODO: specify model
-    }
+    protected $entity = null; // TODO: specify model
 }
