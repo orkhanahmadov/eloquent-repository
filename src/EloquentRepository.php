@@ -41,6 +41,10 @@ class EloquentRepository implements Repository
      * @var Builder|Model
      */
     protected $model;
+    /**
+     * @var string|null
+     */
+    protected $relation = null;
 
     /**
      * EloquentRepository constructor.
@@ -70,6 +74,18 @@ class EloquentRepository implements Repository
     {
         $this->entity = $entity;
         $this->resolveEntity();
+
+        return $this;
+    }
+
+    /**
+     * @param string $relation
+     *
+     * @return self
+     */
+    public function relation(string $relation): self
+    {
+        $this->relation = $relation;
 
         return $this;
     }

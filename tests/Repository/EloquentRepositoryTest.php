@@ -3,15 +3,16 @@
 namespace Orkhanahmadov\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
-use Orkhanahmadov\EloquentRepository\EloquentRepository;
-use Orkhanahmadov\EloquentRepository\Tests\Model;
-use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Orkhanahmadov\EloquentRepository\Tests\Model;
+use Orkhanahmadov\EloquentRepository\Tests\ModelRelation;
+use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 
 class EloquentRepositoryTest extends TestCase
 {
@@ -28,6 +29,18 @@ class EloquentRepositoryTest extends TestCase
         $this->assertEquals(5, $result->id);
         $this->assertEquals('model name', $result->name);
         $this->assertCount(1, Model::all());
+    }
+
+    public function testCreateRelation()
+    {
+        Model::create(['id' => 5, 'name' => 'model1']);
+        $this->assertCount(0, ModelRelation::all());
+
+        $result = $this->repository->entity(Model::class)->relation('hasManyRelation')->create(['id' => 15]);
+
+        $this->assertEquals(15, $result->id);
+        $this->assertCount(1, Model::all());
+        $this->assertCount(1, ModelRelation::all());
     }
 
     public function testAll()
@@ -289,7 +302,6 @@ class EloquentRepositoryTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('Model is not using "soft delete" feature.');
 
-        DB::statement('CREATE TABLE model_relations (id INT, name VARCHAR);');
         $model = Model::create(['id' => 5, 'name' => 'model name']);
         $repository = app()->make(FakeModelRelationRepository::class);
 
@@ -313,7 +325,6 @@ class EloquentRepositoryTest extends TestCase
         $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('Model is not using "soft delete" feature.');
 
-        DB::statement('CREATE TABLE model_relations (id INT, name VARCHAR);');
         $model = Model::create(['id' => 5, 'name' => 'model name']);
         $repository = app()->make(FakeModelRelationRepository::class);
 
@@ -369,6 +380,7 @@ class EloquentRepositoryTest extends TestCase
         parent::setUp();
 
         DB::statement('CREATE TABLE models (id INT, name VARCHAR, deleted_at TIMESTAMP);');
+        DB::statement('CREATE TABLE model_relations (id INT, model_id INT);');
 
         $this->repository = app()->make(EloquentRepository::class);
         $this->modelRepository = app()->make(FakeModelRepository::class);
