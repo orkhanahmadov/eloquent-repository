@@ -2,15 +2,14 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
  * @property-read Builder|Model $entity
- * @property-read Factory $cache
  * @method Builder|Model find(int $modelId)
+ * @method void invalidateCache()
  */
 trait UpdatesEntity
 {

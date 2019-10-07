@@ -13,6 +13,7 @@ use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 /**
  * @property-read Builder|Model $entity
  * @property-read Factory $cache
+ * @method string cacheKey()
  * @method int cacheTTLValue()
  */
 trait GetsEntity
