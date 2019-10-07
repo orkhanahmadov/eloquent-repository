@@ -2,8 +2,8 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property-read Builder|Model $model
