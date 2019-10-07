@@ -2,17 +2,19 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use Illuminate\Contracts\Cache\Factory as Cache;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\{Builder, Model, ModelNotFoundException};
 use Illuminate\Support\Arr;
-use Orkhanahmadov\EloquentRepository\Repository\{Concerns\CreatesEntity,
-    Concerns\DeletesEntity,
-    Concerns\SelectsEntity,
-    Concerns\UpdatesEntity,
-    Contracts\Repository,
-    Criteria};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Orkhanahmadov\EloquentRepository\Repository\Concerns\CreatesEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Concerns\DeletesEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Concerns\SelectsEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Concerns\UpdatesEntity;
 
 class EloquentRepository implements Repository
 {
@@ -143,7 +145,7 @@ class EloquentRepository implements Repository
     }
 
     /**
-     * Throws ModelNotFoundException exception
+     * Throws ModelNotFoundException exception.
      *
      * @param array|int $ids
      */

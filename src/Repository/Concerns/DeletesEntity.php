@@ -2,9 +2,9 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**

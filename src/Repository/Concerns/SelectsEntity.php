@@ -2,11 +2,11 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
+use Illuminate\Support\Arr;
 use Illuminate\Contracts\Cache\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
