@@ -14,7 +14,7 @@ class Model extends BaseModel
     public $timestamps = false;
     protected $guarded = [];
 
-    public function relations()
+    public function hasManyRelation()
     {
         return $this->hasMany(ModelRelation::class);
     }

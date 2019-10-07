@@ -3,8 +3,6 @@
 namespace Orkhanahmadov\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
-use ReflectionMethod;
-use BadMethodCallException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Orkhanahmadov\EloquentRepository\Tests\Model;
@@ -286,7 +284,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testFindFromTrashedBadMethodCallException()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('Model is not using "soft delete" feature.');
 
         DB::statement('CREATE TABLE model_relations (id INT, name VARCHAR);');
@@ -310,7 +308,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testRestoreBadMethodCallException()
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(\BadMethodCallException::class);
         $this->expectExceptionMessage('Model is not using "soft delete" feature.');
 
         DB::statement('CREATE TABLE model_relations (id INT, name VARCHAR);');
@@ -326,9 +324,21 @@ class EloquentRepositoryTest extends TestCase
         $this->assertEquals((new Model())->getTable(), $this->cachedRepository->cacheKey());
     }
 
+//    todo
+//    public function testSyncWith()
+//    {
+//        $model = Model::create(['id' => 5, 'name' => 'model1']);
+//
+//        $result = $this->repository->sync($model, 'something', [1,2]);
+//        $result = $this->repository->entity($model)->relation('something')->sync([1,2]);
+//
+//        $this->assertEquals(15, $result->id);
+//        $this->assertEquals('model2', $result->name);
+//    }
+
     public function testCacheTTLValueWithProperty()
     {
-        $method = new ReflectionMethod(FakeModelRepository::class, 'cacheTTLValue');
+        $method = new \ReflectionMethod(FakeModelRepository::class, 'cacheTTLValue');
         $method->setAccessible(true);
 
         $this->assertEquals(500, $method->invoke(app()->make(FakeModelRepository::class)));
@@ -336,7 +346,7 @@ class EloquentRepositoryTest extends TestCase
 
     public function testCacheTTLValueWithMethod()
     {
-        $method = new ReflectionMethod(FakeModelCacheableRepository::class, 'cacheTTLValue');
+        $method = new \ReflectionMethod(FakeModelCacheableRepository::class, 'cacheTTLValue');
         $method->setAccessible(true);
 
         $this->assertEquals(1000, $method->invoke(app()->make(FakeModelCacheableRepository::class)));
