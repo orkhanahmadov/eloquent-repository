@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\{Builder, Model, ModelNotFoundException};
 use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\{Concerns\CreatesEntity,
     Concerns\DeletesEntity,
-    Concerns\GetsEntity,
+    Concerns\SelectsEntity,
     Concerns\UpdatesEntity,
     Contracts\Repository,
     Criteria};
 
 class EloquentRepository implements Repository
 {
-    use GetsEntity;
+    use SelectsEntity;
     use CreatesEntity;
     use UpdatesEntity;
     use DeletesEntity;

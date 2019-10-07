@@ -15,7 +15,7 @@ use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
  * @method string cacheKey()
  * @method int cacheTTLValue()
  */
-trait GetsEntity
+trait SelectsEntity
 {
     /**
      * Returns all models.
