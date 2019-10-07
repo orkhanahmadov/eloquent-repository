@@ -8,14 +8,9 @@ use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 class FakeModelCacheableRepository extends EloquentRepository implements Cacheable
 {
     /**
-     * Defines entity.
-     *
-     * @return string
+     * @var string
      */
-    protected function entity(): string
-    {
-        return Model::class;
-    }
+    protected $entity = Model::class;
 
     public function cacheTTL(): int
     {

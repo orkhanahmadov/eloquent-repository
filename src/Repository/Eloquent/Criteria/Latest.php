@@ -23,12 +23,12 @@ class Latest implements Criterion
     }
 
     /**
-     * @param Builder|mixed $entity
+     * @param Builder|mixed $model
      *
      * @return Builder|mixed
      */
-    public function apply($entity)
+    public function apply($model)
     {
-        return $entity->orderByDesc($this->column);
+        return $model->orderByDesc($this->column);
     }
 }

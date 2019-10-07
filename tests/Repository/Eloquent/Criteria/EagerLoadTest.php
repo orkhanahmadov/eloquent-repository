@@ -18,9 +18,9 @@ class EagerLoadTest extends TestCase
         $model = Model::create(['id' => 5, 'name' => 'model1']);
         ModelRelation::create(['id' => 12, 'model_id' => $model->id]);
 
-        $result = $this->repository->withCriteria(new EagerLoad('relations'))->find($model->id);
+        $result = $this->repository->withCriteria(new EagerLoad('hasManyRelation'))->find($model->id);
 
-        $this->assertTrue($result->relationLoaded('relations'));
+        $this->assertTrue($result->relationLoaded('hasManyRelation'));
     }
 
     protected function setUp(): void
