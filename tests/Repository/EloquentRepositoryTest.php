@@ -3,16 +3,16 @@
 namespace Orkhanahmadov\EloquentRepository\Tests\Repository;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Orkhanahmadov\EloquentRepository\EloquentRepository;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
-use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Illuminate\Support\Facades\Cache;
 use Orkhanahmadov\EloquentRepository\Tests\Model;
-use Orkhanahmadov\EloquentRepository\Tests\ModelRelation;
 use Orkhanahmadov\EloquentRepository\Tests\TestCase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\Tests\ModelRelation;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelRelationRepository;
+use Orkhanahmadov\EloquentRepository\Tests\FakeModelCacheableRepository;
 
 class EloquentRepositoryTest extends TestCase
 {
