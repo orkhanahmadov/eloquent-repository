@@ -2,19 +2,19 @@
 
 namespace Orkhanahmadov\EloquentRepository;
 
-use Illuminate\Support\Arr;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Cache\Factory as Cache;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\CreatesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\DeletesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\SelectsEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\UpdatesEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 class EloquentRepository implements Repository
 {
@@ -42,7 +42,7 @@ class EloquentRepository implements Repository
     /**
      * @var Builder|Model
      */
-    protected $model;
+    protected $modelInstance;
     /**
      * @var string|null
      */
@@ -66,13 +66,12 @@ class EloquentRepository implements Repository
     }
 
     /**
-     * @param Builder|Model $entity
+     * @param string $entity
      *
      * @return self
-     *
      * @throws BindingResolutionException
      */
-    public function entity($entity): self
+    public function entity(string $entity): self
     {
         $this->entity = $entity;
         $this->resolveEntity();
@@ -104,8 +103,8 @@ class EloquentRepository implements Repository
         $criteria = Arr::flatten($criteria);
 
         foreach ($criteria as $criterion) {
-            /* @var Criteria\Criteria $criterion */
-            $this->model = $criterion->apply($this->model);
+            /* @var Criteria\Criterion $criterion */
+            $this->modelInstance = $criterion->apply($this->modelInstance);
         }
 
         return $this;
@@ -118,21 +117,21 @@ class EloquentRepository implements Repository
      */
     public function cacheKey(): string
     {
-        return $this->model->getTable();
+        return $this->modelInstance->getTable();
     }
 
     /**
      * Removes cache for model.
      *
-     * @param Model $model
+     * @param Model $modelInstance
      */
-    public function invalidateCache($model): void
+    public function invalidateCache($modelInstance): void
     {
         $this->cache->forget(
-            $this->cacheKey().'.*'
+            $this->cacheKey() . '.*'
         );
         $this->cache->forget(
-            $this->cacheKey().'.'.$model->id
+            $this->cacheKey() . '.' . $modelInstance->id
         );
     }
 
@@ -143,7 +142,13 @@ class EloquentRepository implements Repository
      */
     private function resolveEntity(): void
     {
-        $this->model = $this->application->make($this->entity);
+        $this->modelInstance = $this->application->make($this->entity);
+
+        if (! $this->modelInstance instanceof Model) {
+            throw new \InvalidArgumentException(
+                $this->entity . ' is not instance of "Illuminate\Database\Eloquent\Model"'
+            );
+        }
     }
 
     /**
@@ -167,8 +172,8 @@ class EloquentRepository implements Repository
      */
     private function throwModelNotFoundException($ids = [])
     {
-        throw (new ModelNotFoundException)->setModel(
-            get_class($this->model->getModel()),
+        throw (new ModelNotFoundException())->setModel(
+            get_class($this->modelInstance->getModel()),
             $ids
         );
     }

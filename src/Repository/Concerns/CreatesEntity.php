@@ -2,11 +2,11 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property-read Builder|Model $model
+ * @property-read Builder|Model $modelInstance
  * @property-read string $relation
  */
 trait CreatesEntity
@@ -21,9 +21,13 @@ trait CreatesEntity
     public function create($properties)
     {
         if ($this->relation) {
-            return $this->model->{$this->relation}()->create($properties);
+            $model = $this->modelInstance->{$this->relation}()->create($properties);
+
+            $this->relation = null;
+
+            return $model;
         }
 
-        return $this->model->create($properties);
+        return $this->modelInstance->create($properties);
     }
 }

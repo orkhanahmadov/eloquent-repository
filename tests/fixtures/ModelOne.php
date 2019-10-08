@@ -1,22 +1,27 @@
 <?php
 
-namespace Orkhanahmadov\EloquentRepository\Tests;
+namespace Orkhanahmadov\EloquentRepository\Tests\fixtures;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model as BaseModel;
 
-class Model extends BaseModel
+/**
+ * @property-read int id
+ * @property-read string name
+ */
+class ModelOne extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'model_one';
     public $incrementing = false;
     public $timestamps = false;
     protected $guarded = [];
 
-    public function hasManyRelation()
+    public function modelTwo()
     {
-        return $this->hasMany(ModelRelation::class);
+        return $this->hasMany(ModelTwo::class);
     }
 
     public function scopeIdGreaterThan10(Builder $builder)

@@ -5,4 +5,3 @@ There are many edge cases this guide does not cover. PRs are welcome to improve 
 
 ## From v2 to v3
 
-

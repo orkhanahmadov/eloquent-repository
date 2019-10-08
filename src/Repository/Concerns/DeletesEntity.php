@@ -2,13 +2,13 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
- * @property-read Builder|Model $model
+ * @property-read Builder|Model $modelInstance
  * @method Builder|Model find(int $modelId)
  * @method void invalidateCache()
  */
@@ -32,18 +32,18 @@ trait DeletesEntity
     /**
      * Deletes a model.
      *
-     * @param Model $model
+     * @param Model $modelInstance
      *
      * @return bool|mixed|null
      * @throws \Exception
      */
-    public function delete($model)
+    public function delete($modelInstance)
     {
         if ($this instanceof Cacheable) {
-            $this->invalidateCache($model);
+            $this->invalidateCache($modelInstance);
         }
 
-        return $model->delete();
+        return $modelInstance->delete();
     }
 
     /**
@@ -73,7 +73,7 @@ trait DeletesEntity
             throw new \BadMethodCallException('Model is not using "soft delete" feature.');
         }
 
-        $model = $this->model->onlyTrashed()->find($modelId);
+        $model = $this->modelInstance->onlyTrashed()->find($modelId);
 
         if (! $model) {
             $this->throwModelNotFoundException($modelId);
@@ -85,16 +85,16 @@ trait DeletesEntity
     /**
      * Restores soft deleted model.
      *
-     * @param Model $model
+     * @param Builder|Model $modelInstance
      *
      * @return bool|null
      */
-    public function restore($model)
+    public function restore($modelInstance)
     {
         if (! method_exists($this->entity, 'restore')) {
-            throw new \BadMethodCallException('Model is not using "soft delete" feature.');
+            throw new \BadMethodCallException($modelInstance->getModel() . ' is not using "soft delete" feature.');
         }
 
-        return $model->restore();
+        return $modelInstance->restore();
     }
 }

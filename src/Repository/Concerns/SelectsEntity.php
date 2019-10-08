@@ -2,15 +2,15 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Support\Arr;
 use Illuminate\Contracts\Cache\Factory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
- * @property-read Builder|Model $model
+ * @property-read Builder|Model $modelInstance
  * @property-read Factory $cache
  * @method string cacheKey()
  * @method int cacheTTLValue()
@@ -52,7 +52,7 @@ trait SelectsEntity
             $columns = ['*'];
         }
 
-        return $this->model->get($columns);
+        return $this->modelInstance->get($columns);
     }
 
     /**
@@ -69,11 +69,11 @@ trait SelectsEntity
                 $this->cacheKey().'.'.$modelId,
                 $this->cacheTTLValue(),
                 function () use ($modelId) {
-                    return $this->model->find($modelId);
+                    return $this->modelInstance->find($modelId);
                 }
             );
         } else {
-            $model = $this->model->find($modelId);
+            $model = $this->modelInstance->find($modelId);
         }
 
         if (! $model) {
@@ -92,7 +92,7 @@ trait SelectsEntity
      */
     public function paginate(int $perPage)
     {
-        return $this->model->paginate($perPage);
+        return $this->modelInstance->paginate($perPage);
     }
 
     /**
@@ -106,10 +106,10 @@ trait SelectsEntity
     public function getWhere($column, $value = null)
     {
         if (is_array($column)) {
-            return $this->model->where($column)->get();
+            return $this->modelInstance->where($column)->get();
         }
 
-        return $this->model->where($column, $value)->get();
+        return $this->modelInstance->where($column, $value)->get();
     }
 
     /**
@@ -122,7 +122,7 @@ trait SelectsEntity
      */
     public function getWhereIn(string $column, $values)
     {
-        return $this->model->whereIn($column, $values)->get();
+        return $this->modelInstance->whereIn($column, $values)->get();
     }
 
     /**
@@ -136,9 +136,9 @@ trait SelectsEntity
     public function getWhereFirst($column, $value = null)
     {
         if (is_array($column)) {
-            $model = $this->model->where($column)->first();
+            $model = $this->modelInstance->where($column)->first();
         } else {
-            $model = $this->model->where($column, $value)->first();
+            $model = $this->modelInstance->where($column, $value)->first();
         }
 
         if (! $model) {
@@ -158,7 +158,7 @@ trait SelectsEntity
      */
     public function getWhereInFirst(string $column, $values)
     {
-        $model = $this->model->whereIn($column, $values)->first();
+        $model = $this->modelInstance->whereIn($column, $values)->first();
 
         if (! $model) {
             $this->throwModelNotFoundException();
