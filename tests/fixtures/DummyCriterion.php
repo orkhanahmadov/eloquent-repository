@@ -3,7 +3,7 @@
 namespace Orkhanahmadov\EloquentRepository\Tests\fixtures;
 
 use Illuminate\Database\Eloquent\Model;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Criterion;
 
 class DummyCriterion implements Criterion
 {

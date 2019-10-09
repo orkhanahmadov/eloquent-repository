@@ -1,10 +1,10 @@
 <?php
 
-namespace Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria;
+namespace Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
+use Illuminate\Support\Arr;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Criterion;
 
 class Scope implements Criterion
 {
@@ -23,9 +23,9 @@ class Scope implements Criterion
     }
 
     /**
-     * @param Builder|mixed $model
+     * @param Builder $model
      *
-     * @return Builder|mixed
+     * @return Builder
      */
     public function apply($model)
     {

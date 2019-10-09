@@ -1,6 +1,6 @@
 <?php
 
-namespace Orkhanahmadov\EloquentRepository\Repository\Criteria;
+namespace Orkhanahmadov\EloquentRepository\Repository\Contracts;
 
 interface Criterion
 {

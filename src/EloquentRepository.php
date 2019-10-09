@@ -13,9 +13,9 @@ use Orkhanahmadov\EloquentRepository\Repository\Concerns\CreatesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\DeletesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\SelectsEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\UpdatesEntity;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Criteria;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Criterion;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criteria;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
 class EloquentRepository implements Repository, Criteria
 {

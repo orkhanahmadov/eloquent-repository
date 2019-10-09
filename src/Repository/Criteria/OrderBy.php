@@ -1,9 +1,9 @@
 <?php
 
-namespace Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria;
+namespace Orkhanahmadov\EloquentRepository\Repository\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Criterion;
 
 class OrderBy implements Criterion
 {
@@ -29,9 +29,9 @@ class OrderBy implements Criterion
     }
 
     /**
-     * @param Builder|mixed $model
+     * @param Builder $model
      *
-     * @return Builder|mixed
+     * @return Builder
      */
     public function apply($model)
     {

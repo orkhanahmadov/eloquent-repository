@@ -4,7 +4,7 @@ namespace Orkhanahmadov\EloquentRepository\Tests\Repository\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
 use Orkhanahmadov\EloquentRepository\EloquentRepository;
-use Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\Scope;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria\Scope;
 use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelOne;
 use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 
