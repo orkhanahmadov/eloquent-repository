@@ -29,8 +29,8 @@ class ModelOne extends Model
         return $builder->where('id', '>', 10);
     }
 
-    public function scopeIdLessThan20(Builder $builder)
+    public function scopeIdLessThanOrEqual20(Builder $builder)
     {
-        return $builder->where('id', '<', 20);
+        return $builder->where('id', '<=', 20);
     }
 }
