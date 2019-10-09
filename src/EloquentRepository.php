@@ -8,16 +8,16 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\CreatesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\DeletesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\SelectsEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Concerns\UpdatesEntity;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Repository;
-use Orkhanahmadov\EloquentRepository\Repository\Criteria;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criteria;
+use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
-class EloquentRepository implements Repository
+class EloquentRepository implements Repository, Criteria
 {
     use SelectsEntity;
     use CreatesEntity;
@@ -100,55 +100,25 @@ class EloquentRepository implements Repository
      *
      * @param mixed ...$criteria
      *
-     * @return self
+     * @return Criteria
      */
-    public function withCriteria(...$criteria): self
+    public function withCriteria(...$criteria): Criteria
     {
         $criteria = Arr::flatten($criteria);
 
         foreach ($criteria as $criterion) {
-            /* @var Criteria\Criterion $criterion */
+            if (! $criterion instanceof Criterion) {
+                throw new \InvalidArgumentException(
+                    get_class($criterion) .
+                    ' is not an instance of Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion'
+                );
+            }
+
+            /* @var Criterion $criterion */
             $this->modelInstance = $criterion->apply($this->modelInstance);
         }
 
         return $this;
-    }
-
-    /**
-     * Defines cache key.
-     *
-     * @return string
-     */
-    public function cacheKey(): string
-    {
-        return $this->modelInstance->getTable();
-    }
-
-    /**
-     * Cache time-to-live value in seconds.
-     *
-     * @param int $ttl
-     *
-     * @return int
-     */
-    public function cacheTTL(int $ttl = 3600): int
-    {
-        return $ttl;
-    }
-
-    /**
-     * Removes cache for model.
-     *
-     * @param Model $modelInstance
-     */
-    public function invalidateCache($modelInstance): void
-    {
-        $this->cache->forget(
-            $this->cacheKey() . '.*'
-        );
-        $this->cache->forget(
-            $this->cacheKey() . '.' . $modelInstance->id
-        );
     }
 
     /**
@@ -167,16 +137,13 @@ class EloquentRepository implements Repository
         }
     }
 
-    /**
-     * Throws ModelNotFoundException exception.
-     *
-     * @param array|int $ids
-     */
-    private function throwModelNotFoundException($ids = [])
-    {
-        throw (new ModelNotFoundException())->setModel(
-            get_class($this->modelInstance->getModel()),
-            $ids
-        );
-    }
+//    /**
+//     * Throws ModelNotFoundException exception.
+//     *
+//     * @param array|int $ids
+//     */
+//    private function throwModelNotFoundException($ids = [])
+//    {
+//        throw (new ModelNotFoundException())->setModel($this->entity, $ids);
+//    }
 }

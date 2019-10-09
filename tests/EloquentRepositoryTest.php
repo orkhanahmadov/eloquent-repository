@@ -3,23 +3,35 @@
 namespace Orkhanahmadov\EloquentRepository\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\Tests\fixtures\DummyCriterion;
+use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelOne;
 use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelOneRepository;
-use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelTwo;
 
 class EloquentRepositoryTest extends TestCase
 {
-    public function testCacheKeyReturnsTableName()
+    public function testWithCriteriaSetsPropertyToModelFromCriterion()
     {
-        $result = $this->repository->entity(ModelTwo::class)->cacheKey();
+        $class = new \ReflectionClass(EloquentRepository::class);
+        $property = $class->getProperty('modelInstance');
+        $property->setAccessible(true);
 
-        $this->assertSame('model_two', $result);
+        $result = $this->repository
+            ->entity(ModelOne::class)
+            ->withCriteria(new DummyCriterion(true));
+
+        $this->assertTrue($property->getValue($result)->incrementing);
     }
 
-    public function testCacheTTL()
+    public function testThrowsInvalidArgumentExceptionIfCriterionIsNotInstanceOfCriterion()
     {
-        $result = $this->repository->cacheTTL(1800);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelOne ' .
+            'is not an instance of Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion'
+        );
 
-        $this->assertSame(1800, $result);
+        $this->repository->withCriteria(new ModelOne());
     }
 
     public function testThrowsBindingResolutionExceptionIfModelIsInvalid()

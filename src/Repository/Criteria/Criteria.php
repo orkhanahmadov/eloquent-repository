@@ -7,7 +7,7 @@ interface Criteria
     /**
      * @param mixed ...$criteria
      *
-     * @return $this
+     * @return self
      */
     public function withCriteria(...$criteria): self;
 }
