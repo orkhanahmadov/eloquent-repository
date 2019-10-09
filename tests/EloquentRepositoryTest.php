@@ -4,9 +4,24 @@ namespace Orkhanahmadov\EloquentRepository\Tests;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelOneRepository;
+use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelTwo;
 
 class EloquentRepositoryTest extends TestCase
 {
+    public function testCacheKeyReturnsTableName()
+    {
+        $result = $this->repository->entity(ModelTwo::class)->cacheKey();
+
+        $this->assertSame('model_two', $result);
+    }
+
+    public function testCacheTTL()
+    {
+        $result = $this->repository->cacheTTL(1800);
+
+        $this->assertSame(1800, $result);
+    }
+
     public function testThrowsBindingResolutionExceptionIfModelIsInvalid()
     {
         $this->expectException(BindingResolutionException::class);

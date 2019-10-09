@@ -3,6 +3,7 @@
 namespace Orkhanahmadov\EloquentRepository;
 
 use Illuminate\Contracts\Cache\Factory as Cache;
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,13 +29,13 @@ class EloquentRepository implements Repository
      */
     private $application;
     /**
+     * @var Config
+     */
+    protected $config;
+    /**
      * @var Cache
      */
     protected $cache;
-    /**
-     * @var int
-     */
-    protected $cacheTTL = 3600;
     /**
      * @var string|null
      */
@@ -52,12 +53,15 @@ class EloquentRepository implements Repository
      * EloquentRepository constructor.
      *
      * @param Application $application
+     * @param Config $config
      * @param Cache $cache
+     *
      * @throws BindingResolutionException
      */
-    public function __construct(Application $application, Cache $cache)
+    public function __construct(Application $application, Config $config, Cache $cache)
     {
         $this->application = $application;
+        $this->config = $config;
         $this->cache = $cache;
 
         if ($this->entity) {
@@ -121,6 +125,18 @@ class EloquentRepository implements Repository
     }
 
     /**
+     * Cache time-to-live value in seconds.
+     *
+     * @param int $ttl
+     *
+     * @return int
+     */
+    public function cacheTTL(int $ttl = 3600): int
+    {
+        return $ttl;
+    }
+
+    /**
      * Removes cache for model.
      *
      * @param Model $modelInstance
@@ -149,20 +165,6 @@ class EloquentRepository implements Repository
                 $this->entity . ' is not instance of "Illuminate\Database\Eloquent\Model"'
             );
         }
-    }
-
-    /**
-     * Get cache time-to-live value from property or method if available.
-     *
-     * @return int
-     */
-    private function cacheTTLValue(): int
-    {
-        if (method_exists($this, 'cacheTTL')) {
-            return $this->cacheTTL();
-        }
-
-        return $this->cacheTTL;
     }
 
     /**
