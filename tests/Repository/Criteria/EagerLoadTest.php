@@ -13,7 +13,7 @@ class EagerLoadTest extends TestCase
     public function testEagerLoadCriterion()
     {
         $repositoryClass = new \ReflectionClass(EloquentRepository::class);
-        $modelInstanceProp = $repositoryClass->getProperty('modelInstance');
+        $modelInstanceProp = $repositoryClass->getProperty('resolvedEntity');
         $modelInstanceProp->setAccessible(true);
         $builderClass = new \ReflectionClass(Builder::class);
         $eagerLoadProp = $builderClass->getProperty('eagerLoad');

@@ -43,7 +43,11 @@ class EloquentRepository implements Repository, Criteria
     /**
      * @var Builder|Model
      */
-    protected $modelInstance;
+    protected $resolvedEntity;
+    /**
+     * @var Model|null
+     */
+    protected $model = null;
     /**
      * @var string|null
      */
@@ -96,6 +100,18 @@ class EloquentRepository implements Repository, Criteria
     }
 
     /**
+     * @param Model $model
+     *
+     * @return self
+     */
+    public function model(Model $model): self
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
      * Sets listed criteria for entity.
      *
      * @param mixed ...$criteria
@@ -115,7 +131,7 @@ class EloquentRepository implements Repository, Criteria
             }
 
             /* @var Criterion $criterion */
-            $this->modelInstance = $criterion->apply($this->modelInstance);
+            $this->resolvedEntity = $criterion->apply($this->resolvedEntity);
         }
 
         return $this;
@@ -128,9 +144,9 @@ class EloquentRepository implements Repository, Criteria
      */
     private function resolveEntity(): void
     {
-        $this->modelInstance = $this->application->make($this->entity);
+        $this->resolvedEntity = $this->application->make($this->entity);
 
-        if (! $this->modelInstance instanceof Model) {
+        if (! $this->resolvedEntity instanceof Model) {
             throw new \InvalidArgumentException(
                 $this->entity . ' is not instance of "Illuminate\Database\Eloquent\Model"'
             );

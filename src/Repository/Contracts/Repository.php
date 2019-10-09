@@ -110,20 +110,18 @@ interface Repository
     /**
      * Deletes a model.
      *
-     * @param mixed $model
-     *
-     * @return bool|mixed|null
+     * @return bool
      */
-    public function delete($model);
+    public function delete(): bool;
 
-    /**
-     * Finds a model with ID and deletes it.
-     *
-     * @param int|string $modelId
-     *
-     * @return bool|mixed|null
-     */
-    public function findAndDelete($modelId);
+//    /**
+//     * Finds a model with ID and deletes it.
+//     *
+//     * @param int|string $modelId
+//     *
+//     * @return bool
+//     */
+//    public function findAndDelete($modelId): bool;
 
     /**
      * Restores soft deleted model.
@@ -132,16 +130,16 @@ interface Repository
      *
      * @return bool
      */
-    public function restore($model);
+    public function restore();
 
-    /**
-     * Finds a soft deleted model with given ID and restores it.
-     *
-     * @param int|string $modelId
-     *
-     * @return bool
-     */
-    public function findAndRestore($modelId);
+//    /**
+//     * Finds a soft deleted model with given ID and restores it.
+//     *
+//     * @param int|string $modelId
+//     *
+//     * @return bool
+//     */
+//    public function findAndRestore($modelId);
 
     /**
      * Finds a soft deleted model with given ID.

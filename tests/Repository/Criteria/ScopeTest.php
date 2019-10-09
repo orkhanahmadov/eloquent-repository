@@ -13,7 +13,7 @@ class ScopeTest extends TestCase
     public function testScopeCriterion()
     {
         $repositoryClass = new \ReflectionClass(EloquentRepository::class);
-        $modelInstanceProp = $repositoryClass->getProperty('modelInstance');
+        $modelInstanceProp = $repositoryClass->getProperty('resolvedEntity');
         $modelInstanceProp->setAccessible(true);
         $builderClass = new \ReflectionClass(Builder::class);
         $queryProp = $builderClass->getProperty('query');

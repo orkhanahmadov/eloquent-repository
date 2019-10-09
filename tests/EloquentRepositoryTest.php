@@ -13,7 +13,7 @@ class EloquentRepositoryTest extends TestCase
     public function testWithCriteriaSetsPropertyToModelFromCriterion()
     {
         $class = new \ReflectionClass(EloquentRepository::class);
-        $property = $class->getProperty('modelInstance');
+        $property = $class->getProperty('resolvedEntity');
         $property->setAccessible(true);
 
         $result = $this->repository

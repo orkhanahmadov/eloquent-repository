@@ -12,7 +12,7 @@ use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
  * @property-read string $entity
- * @property-read Builder|Model $modelInstance
+ * @property-read Builder|Model $resolvedEntity
  * @property-read Factory $cache
  * @method string cacheKey()
  * @method int cacheTTLValue()
@@ -54,7 +54,7 @@ trait SelectsEntity
             $columns = ['*'];
         }
 
-        return $this->modelInstance->get($columns);
+        return $this->resolvedEntity->get($columns);
     }
 
     /**
@@ -64,7 +64,7 @@ trait SelectsEntity
      */
     public function first()
     {
-        return $this->modelInstance->first();
+        return $this->resolvedEntity->first();
     }
 
     /**
@@ -81,11 +81,11 @@ trait SelectsEntity
                 $this->cacheKey() . '.' . $modelId,
                 $this->cacheTTLValue(),
                 function () use ($modelId) {
-                    return $this->modelInstance->find($modelId);
+                    return $this->resolvedEntity->find($modelId);
                 }
             );
         } else {
-            $model = $this->modelInstance->find($modelId);
+            $model = $this->resolvedEntity->find($modelId);
         }
 
         if (! $model) {
@@ -104,7 +104,7 @@ trait SelectsEntity
      */
     public function paginate(int $perPage)
     {
-        return $this->modelInstance->paginate($perPage);
+        return $this->resolvedEntity->paginate($perPage);
     }
 
     /**
@@ -118,10 +118,10 @@ trait SelectsEntity
     public function getWhere($column, $value = null)
     {
         if (is_array($column)) {
-            return $this->modelInstance->where($column)->get();
+            return $this->resolvedEntity->where($column)->get();
         }
 
-        return $this->modelInstance->where($column, $value)->get();
+        return $this->resolvedEntity->where($column, $value)->get();
     }
 
     /**
@@ -134,7 +134,7 @@ trait SelectsEntity
      */
     public function getWhereIn(string $column, $values)
     {
-        return $this->modelInstance->whereIn($column, $values)->get();
+        return $this->resolvedEntity->whereIn($column, $values)->get();
     }
 
     /**
@@ -148,9 +148,9 @@ trait SelectsEntity
     public function getWhereFirst($column, $value = null)
     {
         if (is_array($column)) {
-            $model = $this->modelInstance->where($column)->first();
+            $model = $this->resolvedEntity->where($column)->first();
         } else {
-            $model = $this->modelInstance->where($column, $value)->first();
+            $model = $this->resolvedEntity->where($column, $value)->first();
         }
 
         if (! $model) {
@@ -170,7 +170,7 @@ trait SelectsEntity
      */
     public function getWhereInFirst(string $column, $values)
     {
-        $model = $this->modelInstance->whereIn($column, $values)->first();
+        $model = $this->resolvedEntity->whereIn($column, $values)->first();
 
         if (! $model) {
             throw (new ModelNotFoundException())->setModel($this->entity);
