@@ -4,27 +4,27 @@ namespace Orkhanahmadov\EloquentRepository\Tests\Repository\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
 use Orkhanahmadov\EloquentRepository\EloquentRepository;
-use Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\EagerLoad;
+use Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria\Latest;
 use Orkhanahmadov\EloquentRepository\Tests\fixtures\ModelOne;
 use Orkhanahmadov\EloquentRepository\Tests\TestCase;
 
-class EagerLoadTest extends TestCase
+class LatestTest extends TestCase
 {
-    public function testEagerLoadCriterion()
+    public function testLatestCriterion()
     {
         $repositoryClass = new \ReflectionClass(EloquentRepository::class);
         $modelInstanceProp = $repositoryClass->getProperty('modelInstance');
         $modelInstanceProp->setAccessible(true);
         $builderClass = new \ReflectionClass(Builder::class);
-        $eagerLoadProp = $builderClass->getProperty('eagerLoad');
-        $eagerLoadProp->setAccessible(true);
+        $queryProp = $builderClass->getProperty('query');
+        $queryProp->setAccessible(true);
 
         $result = $this->repository
             ->entity(ModelOne::class)
-            ->withCriteria(new EagerLoad('someRelationName'));
+            ->withCriteria(new Latest('someColumnName'));
 
-        $eagerLoadedRelations = $eagerLoadProp->getValue($modelInstanceProp->getValue($result));
-        $this->assertCount(1, $eagerLoadedRelations);
-        $this->assertTrue(isset($eagerLoadedRelations['someRelationName']));
+        $ordering = $queryProp->getValue($modelInstanceProp->getValue($result))->orders[0];
+        $this->assertSame('someColumnName', $ordering['column']);
+        $this->assertSame('desc', $ordering['direction']);
     }
 }
