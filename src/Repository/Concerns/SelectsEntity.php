@@ -6,10 +6,12 @@ use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
+ * @property-read string $entity
  * @property-read Builder|Model $modelInstance
  * @property-read Factory $cache
  * @method string cacheKey()
@@ -26,7 +28,7 @@ trait SelectsEntity
     {
         if ($this instanceof Cacheable) {
             return $this->cache->remember(
-                $this->cacheKey().'.*',
+                $this->cacheKey() . '.*',
                 $this->cacheTTLValue(),
                 function () {
                     return $this->get();
@@ -56,6 +58,16 @@ trait SelectsEntity
     }
 
     /**
+     * Returns first model.
+     *
+     * @return Builder|Model|null
+     */
+    public function first()
+    {
+        return $this->modelInstance->first();
+    }
+
+    /**
      * Finds a model with ID.
      *
      * @param int|string $modelId
@@ -66,7 +78,7 @@ trait SelectsEntity
     {
         if ($this instanceof Cacheable) {
             $model = $this->cache->remember(
-                $this->cacheKey().'.'.$modelId,
+                $this->cacheKey() . '.' . $modelId,
                 $this->cacheTTLValue(),
                 function () use ($modelId) {
                     return $this->modelInstance->find($modelId);
@@ -77,7 +89,7 @@ trait SelectsEntity
         }
 
         if (! $model) {
-            $this->throwModelNotFoundException($modelId);
+            throw (new ModelNotFoundException())->setModel($this->entity, $modelId);
         }
 
         return $model;
@@ -142,7 +154,7 @@ trait SelectsEntity
         }
 
         if (! $model) {
-            $this->throwModelNotFoundException();
+            throw (new ModelNotFoundException())->setModel($this->entity);
         }
 
         return $model;
@@ -161,7 +173,7 @@ trait SelectsEntity
         $model = $this->modelInstance->whereIn($column, $values)->first();
 
         if (! $model) {
-            $this->throwModelNotFoundException();
+            throw (new ModelNotFoundException())->setModel($this->entity);
         }
 
         return $model;

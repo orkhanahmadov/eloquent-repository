@@ -5,9 +5,11 @@ namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
+ * @property-read string $entity
  * @property-read Builder|Model $modelInstance
  * @method Builder|Model find(int $modelId)
  * @method void invalidateCache()
@@ -76,7 +78,7 @@ trait DeletesEntity
         $model = $this->modelInstance->onlyTrashed()->find($modelId);
 
         if (! $model) {
-            $this->throwModelNotFoundException($modelId);
+            throw (new ModelNotFoundException())->setModel($this->entity, $modelId);
         }
 
         return $model;

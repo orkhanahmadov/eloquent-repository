@@ -136,14 +136,4 @@ class EloquentRepository implements Repository, Criteria
             );
         }
     }
-
-//    /**
-//     * Throws ModelNotFoundException exception.
-//     *
-//     * @param array|int $ids
-//     */
-//    private function throwModelNotFoundException($ids = [])
-//    {
-//        throw (new ModelNotFoundException())->setModel($this->entity, $ids);
-//    }
 }
