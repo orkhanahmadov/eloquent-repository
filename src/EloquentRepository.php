@@ -151,7 +151,7 @@ class EloquentRepository implements Repository
      */
     private function throwModelNotFoundException($ids = [])
     {
-        throw (new ModelNotFoundException)->setModel(
+        throw (new ModelNotFoundException())->setModel(
             get_class($this->model->getModel()),
             $ids
         );
