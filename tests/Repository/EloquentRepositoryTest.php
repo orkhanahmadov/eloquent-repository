@@ -218,14 +218,14 @@ class EloquentRepositoryTest extends TestCase
     public function testUpdate()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
-        Cache::put('models.'.$model->id, $model, 100);
+        Cache::put('models.' . $model->id, $model, 100);
 
-        $this->assertNotNull(Cache::get('models.'.$model->id));
+        $this->assertNotNull(Cache::get('models.' . $model->id));
         $result = $this->cachedModelRepository->update($model, [
             'name' => 'updated name',
         ]);
 
-        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNull(Cache::get('models.' . $model->id));
         $this->assertEquals('updated name', $result->name);
         $this->assertEquals('updated name', $model->refresh()->name);
     }
@@ -244,13 +244,13 @@ class EloquentRepositoryTest extends TestCase
     public function testDelete()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
-        Cache::put('models.'.$model->id, $model, 100);
-        $this->assertNotNull(Cache::get('models.'.$model->id));
+        Cache::put('models.' . $model->id, $model, 100);
+        $this->assertNotNull(Cache::get('models.' . $model->id));
         $this->assertNull($model->deleted_at);
 
         $result = $this->cachedModelRepository->delete($model);
 
-        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNull(Cache::get('models.' . $model->id));
         $this->assertNotNull($model->refresh()->deleted_at);
         $this->assertTrue($result);
     }
@@ -357,11 +357,11 @@ class EloquentRepositoryTest extends TestCase
     public function testInvalidateCache()
     {
         $model = Model::create(['id' => 5, 'name' => 'model name']);
-        Cache::put('models.'.$model->id, $model, 100);
+        Cache::put('models.' . $model->id, $model, 100);
 
         $this->cachedModelRepository->invalidateCache($model);
 
-        $this->assertNull(Cache::get('models.'.$model->id));
+        $this->assertNull(Cache::get('models.' . $model->id));
     }
 
     protected function setUp(): void

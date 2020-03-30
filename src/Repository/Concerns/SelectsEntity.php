@@ -26,7 +26,7 @@ trait SelectsEntity
     {
         if ($this instanceof Cacheable) {
             return $this->cache->remember(
-                $this->cacheKey().'.*',
+                $this->cacheKey() . '.*',
                 $this->cacheTTLValue(),
                 function () {
                     return $this->get();
@@ -66,7 +66,7 @@ trait SelectsEntity
     {
         if ($this instanceof Cacheable) {
             $model = $this->cache->remember(
-                $this->cacheKey().'.'.$modelId,
+                $this->cacheKey() . '.' . $modelId,
                 $this->cacheTTLValue(),
                 function () use ($modelId) {
                     return $this->model->find($modelId);

@@ -44,7 +44,7 @@ class RepositoryMakeCommand extends GeneratorCommand
             $stub = '/stubs/repository.stub';
         }
 
-        return __DIR__.$stub;
+        return __DIR__ . $stub;
     }
 
     /**
@@ -63,7 +63,9 @@ class RepositoryMakeCommand extends GeneratorCommand
         }
 
         return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
+            array_keys($replace),
+            array_values($replace),
+            parent::buildClass($name)
         );
     }
 
@@ -106,7 +108,7 @@ class RepositoryMakeCommand extends GeneratorCommand
         $model = trim(str_replace('/', '\\', $model), '\\');
 
         if (! Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
-            $model = $rootNamespace.$model;
+            $model = $rootNamespace . $model;
         }
 
         return $model;
@@ -132,6 +134,6 @@ class RepositoryMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Repositories';
+        return $rootNamespace . '\Repositories';
     }
 }
