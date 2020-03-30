@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Innoscripta\EloquentRepository\Repository\EloquentRepository;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class DummyClass extends EloquentRepository
 {

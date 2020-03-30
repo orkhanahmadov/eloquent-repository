@@ -2,6 +2,10 @@
 
 All notable changes to `eloquent-repository` will be documented in this file
 
+## 2.1.1 - 2020-03-30
+
+- Namespace bug fixed
+
 ## 2.1.0 - 2020-03-30
 
 - Laravel ^7.0 support added
