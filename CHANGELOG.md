@@ -2,10 +2,14 @@
 
 All notable changes to `eloquent-repository` will be documented in this file
 
+## 2.1.0 - 2020-03-30
+
+- Laravel ^7.0 support added
+
 ## 2.0.0 - 2019-09-19
 
 - Laravel ^6.0 compatibility added
-- Dropped support for Laravel 5.6 and 5.7
+- Dropped support for Laravel 5.6, 5.7 and 5.8
 
 ## 1.2.1 - 2019-08-13
 
