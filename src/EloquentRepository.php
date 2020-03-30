@@ -113,10 +113,10 @@ class EloquentRepository implements Repository
     public function invalidateCache($model): void
     {
         $this->cache->forget(
-            $this->cacheKey().'.*'
+            $this->cacheKey() . '.*'
         );
         $this->cache->forget(
-            $this->cacheKey().'.'.$model->id
+            $this->cacheKey() . '.' . $model->id
         );
     }
 
