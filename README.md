@@ -170,7 +170,6 @@ Finds a user with given primary key, updates `first_name` to "Dave" and returns 
 ``` php
 $user = $userRepository->find(1);
 $userRepository->delete($user);
-$userRepository->findAndDelete(1); // finds user with ID=1 and deletes it
 ```
 Deletes `$user` model.
 
