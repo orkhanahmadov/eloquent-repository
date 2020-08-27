@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
- * @method Builder|Model find(int $modelId)
- * @method void invalidateCache()
+ * @method Builder|Model find($modelId)
+ * @method void invalidateCache($model)
+ * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
  */
 trait UpdatesEntity
 {

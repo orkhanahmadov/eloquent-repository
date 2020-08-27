@@ -31,7 +31,7 @@ composer require orkhanahmadov/eloquent-repository
 
 Create a repository class and extend `Orkhanahmadov\EloquentRepository\EloquentRepository` abstract class.
 
-Repository class that extends `EloquentRepository` must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from the method.
+Repository class which extends `EloquentRepository` must implement `entity` method. When using Eloquent models it's enough to return model's full namespace from the method.
 
 ``` php
 namespace App\Repositories;
@@ -41,15 +41,7 @@ use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class UserRepository extends EloquentRepository
 {
-    /**
-     * Defines entity.
-     *
-     * @return mixed
-     */
-    protected function entity()
-    {
-        return User::class;
-    }
+    protected $entity = User::class;
 }
 ```
 
@@ -82,9 +74,28 @@ class HomeController extends Controller
 }
 ```
 
+You can also skip creating dedicated repository class altogether, 
+instead inject `Orkhanahmadov\EloquentRepository\EloquentRepository` and set Eloquent model entity dynamically.
+
+``` php
+namespace App\Http\Controllers;
+
+use App\User;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
+
+class HomeController extends Controller
+{
+    public function index(EloquentRepository $repository)
+    {
+        return $repository->setEntity(User::class)->get();
+    }
+}
+```
+
+
 ### Available methods
 
-Extending `EloquentRepository` class offers has many familiar shortcut methods from Eloquent.
+Eloquent Repository class offers has many familiar shortcut methods from Eloquent.
 
 **Create a model:**
 ``` php

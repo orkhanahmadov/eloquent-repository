@@ -7,13 +7,5 @@ use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class DummyClass extends EloquentRepository
 {
-    /**
-     * Defines entity.
-     *
-     * @return mixed
-     */
-    protected function entity()
-    {
-        return DummyModelClass::class;
-    }
+    protected $entity = DummyModelClass::class;
 }

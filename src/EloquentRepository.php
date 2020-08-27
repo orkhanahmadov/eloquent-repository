@@ -68,7 +68,7 @@ class EloquentRepository implements Repository
      *
      * @throws BindingResolutionException
      */
-    public function entity($entity): self
+    public function setEntity($entity): self
     {
         $this->entity = $entity;
         $this->resolveEntity();

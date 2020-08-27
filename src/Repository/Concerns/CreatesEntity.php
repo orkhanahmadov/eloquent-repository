@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property-read Builder|Model $model
+ * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
  */
 trait CreatesEntity
 {

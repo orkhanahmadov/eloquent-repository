@@ -23,7 +23,7 @@ class EloquentRepositoryTest extends TestCase
     {
         $this->assertCount(0, Model::all());
 
-        $result = $this->repository->entity(Model::class)->create(['id' => 5, 'name' => 'model name']);
+        $result = $this->repository->setEntity(Model::class)->create(['id' => 5, 'name' => 'model name']);
 
         $this->assertEquals(5, $result->id);
         $this->assertEquals('model name', $result->name);

@@ -14,6 +14,7 @@ use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
  * @property-read Factory $cache
  * @method string cacheKey()
  * @method int cacheTTLValue()
+ * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
  */
 trait SelectsEntity
 {
