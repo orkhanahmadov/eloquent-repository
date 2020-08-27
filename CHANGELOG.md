@@ -2,6 +2,11 @@
 
 All notable changes to `eloquent-repository` will be documented in this file
 
+## 2.2.0 - 2020-08-27
+
+- Now it is possible to set a model entity with `$entity` property in Repository class
+- Dynamically set model entity with `setEntity()` method
+
 ## 2.1.1 - 2020-03-30
 
 - Namespace bug fixed
