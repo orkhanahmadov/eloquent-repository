@@ -28,7 +28,7 @@ matrix:
         -   php: 7.4
             env: LARAVEL_VERSION=~7.0  TESTBENCH_VERSION=~5.0  PHPUNIT_VERSION=~9.0
         -   php: 7.4
-        env: LARAVEL_VERSION=~8.0  TESTBENCH_VERSION=~5.0  PHPUNIT_VERSION=~9.3
+            env: LARAVEL_VERSION=~8.0  TESTBENCH_VERSION=~5.0  PHPUNIT_VERSION=~9.3
 
 before_install:
     - travis_retry composer self-update
