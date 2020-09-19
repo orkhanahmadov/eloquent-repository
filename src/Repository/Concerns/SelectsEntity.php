@@ -110,7 +110,7 @@ trait SelectsEntity
      *
      * @return Builder[]|Collection
      */
-    public function getWhere(string $column, $value)
+    public function getWhere($column, $value)
     {
         if (is_array($column)) {
             return $this->model
