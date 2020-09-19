@@ -2,14 +2,15 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
  * @method Builder|Model find($modelId)
  * @method void invalidateCache($model)
- * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
+ * @mixin EloquentRepository
  */
 trait UpdatesEntity
 {
@@ -36,7 +37,7 @@ trait UpdatesEntity
      *
      * @return Builder|Model
      */
-    public function update($model, $properties)
+    public function update(Model $model, $properties)
     {
         if ($this instanceof Cacheable) {
             $this->invalidateCache($model);

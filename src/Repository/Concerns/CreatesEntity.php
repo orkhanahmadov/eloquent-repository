@@ -2,12 +2,13 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 /**
  * @property-read Builder|Model $model
- * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
+ * @mixin EloquentRepository
  */
 trait CreatesEntity
 {
@@ -20,6 +21,7 @@ trait CreatesEntity
      */
     public function create($properties)
     {
-        return $this->model->create($properties);
+        return $this->model
+            ->create($properties);
     }
 }

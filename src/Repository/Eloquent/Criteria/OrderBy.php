@@ -11,6 +11,7 @@ class OrderBy implements Criterion
      * @var string
      */
     protected $column;
+
     /**
      * @var string
      */

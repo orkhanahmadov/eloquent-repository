@@ -3,6 +3,7 @@
 namespace Orkhanahmadov\EloquentRepository\Repository\Eloquent\Criteria;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Orkhanahmadov\EloquentRepository\Repository\Criteria\Criterion;
 
 class Latest implements Criterion
@@ -23,7 +24,7 @@ class Latest implements Criterion
     }
 
     /**
-     * @param Builder|mixed $model
+     * @param Model $model
      *
      * @return Builder|mixed
      */

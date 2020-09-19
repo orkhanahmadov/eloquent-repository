@@ -2,11 +2,12 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Support\Arr;
 use Illuminate\Contracts\Cache\Factory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
@@ -14,7 +15,7 @@ use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
  * @property-read Factory $cache
  * @method string cacheKey()
  * @method int cacheTTLValue()
- * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
+ * @mixin EloquentRepository
  */
 trait SelectsEntity
 {
@@ -53,7 +54,8 @@ trait SelectsEntity
             $columns = ['*'];
         }
 
-        return $this->model->get($columns);
+        return $this->model
+            ->get($columns);
     }
 
     /**
@@ -66,15 +68,18 @@ trait SelectsEntity
     public function find($modelId)
     {
         if ($this instanceof Cacheable) {
-            $model = $this->cache->remember(
-                $this->cacheKey() . '.' . $modelId,
-                $this->cacheTTLValue(),
-                function () use ($modelId) {
-                    return $this->model->find($modelId);
-                }
-            );
+            $model = $this->cache
+                ->remember(
+                    $this->cacheKey() . '.' . $modelId,
+                    $this->cacheTTLValue(),
+                    function () use ($modelId) {
+                        return $this->model
+                            ->find($modelId);
+                    }
+                );
         } else {
-            $model = $this->model->find($modelId);
+            $model = $this->model
+                ->find($modelId);
         }
 
         if (! $model) {
@@ -93,7 +98,8 @@ trait SelectsEntity
      */
     public function paginate(int $perPage)
     {
-        return $this->model->paginate($perPage);
+        return $this->model
+            ->paginate($perPage);
     }
 
     /**
@@ -104,13 +110,17 @@ trait SelectsEntity
      *
      * @return Builder[]|Collection
      */
-    public function getWhere($column, $value = null)
+    public function getWhere(string $column, $value)
     {
         if (is_array($column)) {
-            return $this->model->where($column)->get();
+            return $this->model
+                ->where($column)
+                ->get();
         }
 
-        return $this->model->where($column, $value)->get();
+        return $this->model
+            ->where($column, $value)
+            ->get();
     }
 
     /**
@@ -123,7 +133,9 @@ trait SelectsEntity
      */
     public function getWhereIn(string $column, $values)
     {
-        return $this->model->whereIn($column, $values)->get();
+        return $this->model
+            ->whereIn($column, $values)
+            ->get();
     }
 
     /**
@@ -137,9 +149,13 @@ trait SelectsEntity
     public function getWhereFirst($column, $value = null)
     {
         if (is_array($column)) {
-            $model = $this->model->where($column)->first();
+            $model = $this->model
+                ->where($column)
+                ->first();
         } else {
-            $model = $this->model->where($column, $value)->first();
+            $model = $this->model
+                ->where($column, $value)
+                ->first();
         }
 
         if (! $model) {
@@ -159,9 +175,11 @@ trait SelectsEntity
      */
     public function getWhereInFirst(string $column, $values)
     {
-        $model = $this->model->whereIn($column, $values)->first();
+        $model = $this->model
+            ->whereIn($column, $values)
+            ->first();
 
-        if (! $model) {
+        if (!$model) {
             $this->throwModelNotFoundException();
         }
 

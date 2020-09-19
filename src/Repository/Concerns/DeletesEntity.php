@@ -2,16 +2,19 @@
 
 namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
+use BadMethodCallException;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Orkhanahmadov\EloquentRepository\EloquentRepository;
 use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
  * @property-read Builder|Model $model
  * @method Builder|Model find($modelId)
  * @method void invalidateCache($model)
- * @mixin \Orkhanahmadov\EloquentRepository\EloquentRepository
+ * @mixin EloquentRepository
  */
 trait DeletesEntity
 {
@@ -21,7 +24,7 @@ trait DeletesEntity
      * @param int|string $modelId
      *
      * @return bool|mixed|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function findAndDelete($modelId)
     {
@@ -36,9 +39,9 @@ trait DeletesEntity
      * @param Model $model
      *
      * @return bool|mixed|null
-     * @throws \Exception
+     * @throws Exception
      */
-    public function delete($model)
+    public function delete(Model $model)
     {
         if ($this instanceof Cacheable) {
             $this->invalidateCache($model);
@@ -70,13 +73,15 @@ trait DeletesEntity
      */
     public function findFromTrashed($modelId)
     {
-        if (! method_exists($this->entity, 'restore')) {
-            throw new \BadMethodCallException('Model is not using "soft delete" feature.');
+        if (!method_exists($this->entity, 'restore')) {
+            throw new BadMethodCallException('Model is not using "soft delete" feature.');
         }
 
-        $model = $this->model->onlyTrashed()->find($modelId);
+        $model = $this->model
+            ->onlyTrashed()
+            ->find($modelId);
 
-        if (! $model) {
+        if (!$model) {
             $this->throwModelNotFoundException($modelId);
         }
 
@@ -90,10 +95,10 @@ trait DeletesEntity
      *
      * @return bool|null
      */
-    public function restore($model)
+    public function restore(Model $model)
     {
-        if (! method_exists($this->entity, 'restore')) {
-            throw new \BadMethodCallException('Model is not using "soft delete" feature.');
+        if (!method_exists($this->entity, 'restore')) {
+            throw new BadMethodCallException('Model is not using "soft delete" feature.');
         }
 
         return $model->restore();
