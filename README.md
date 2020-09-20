@@ -307,15 +307,7 @@ use Orkhanahmadov\EloquentRepository\EloquentRepository;
 
 class UserRepository extends EloquentRepository implements Cacheable
 {
-    /**
-     * Defines entity.
-     *
-     * @return mixed
-     */
-    protected function entity()
-    {
-        return User::class;
-    }
+    protected $entity = User::class;
 }
 ```
 
