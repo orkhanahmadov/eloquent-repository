@@ -11,10 +11,6 @@ env:
 matrix:
     fast_finish: true
     include:
-        - php: 7.2
-          env: LARAVEL_VERSION=~6.0  TESTBENCH_VERSION=~4.0  PHPUNIT_VERSION=~8.0
-        - php: 7.2
-          env: LARAVEL_VERSION=~7.0  TESTBENCH_VERSION=~5.0  PHPUNIT_VERSION=~8.0
         - php: 7.3
           env: LARAVEL_VERSION=~6.0  TESTBENCH_VERSION=~4.0  PHPUNIT_VERSION=~8.0
         - php: 7.3
@@ -39,7 +35,6 @@ before_install:
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - ./cc-test-reporter before-build
-    - composer global require hirak/prestissimo --update-no-dev
 
 install:
     - composer require "illuminate/container:${LARAVEL_VERSION}" --no-update --no-interaction --prefer-dist
