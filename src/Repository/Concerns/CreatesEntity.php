@@ -4,6 +4,7 @@ namespace Orkhanahmadov\EloquentRepository\Repository\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Orkhanahmadov\EloquentRepository\Repository\Contracts\Cacheable;
 
 /**
  * @property-read Builder|Model $model
@@ -20,6 +21,12 @@ trait CreatesEntity
      */
     public function create($properties)
     {
-        return $this->model->create($properties);
+        $model = $this->model->create($properties);
+
+        if ($this instanceof Cacheable) {
+            $this->invalidateCache($model);
+        }
+
+        return $model;
     }
 }
