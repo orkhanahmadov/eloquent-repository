@@ -65,10 +65,10 @@ trait DeletesEntity
      * Finds a soft deleted model with given ID.
      *
      * @param int|string $modelId
-     *
+     * @param bool $failIfNotFound
      * @return Builder|Builder[]|Collection|Model|null
      */
-    public function findFromTrashed($modelId)
+    public function findFromTrashed($modelId, $failIfNotFound = false)
     {
         if (! method_exists($this->entity, 'restore')) {
             throw new \BadMethodCallException('Model is not using "soft delete" feature.');
@@ -76,7 +76,7 @@ trait DeletesEntity
 
         $model = $this->model->onlyTrashed()->find($modelId);
 
-        if (! $model) {
+        if (! $model && $failIfNotFound) {
             $this->throwModelNotFoundException($modelId);
         }
 
@@ -94,6 +94,10 @@ trait DeletesEntity
     {
         if (! method_exists($this->entity, 'restore')) {
             throw new \BadMethodCallException('Model is not using "soft delete" feature.');
+        }
+
+        if ($this instanceof Cacheable) {
+            $this->invalidateCache($model);
         }
 
         return $model->restore();

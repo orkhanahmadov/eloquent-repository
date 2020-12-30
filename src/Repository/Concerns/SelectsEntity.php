@@ -87,11 +87,11 @@ trait SelectsEntity
     /**
      * Paginates models.
      *
-     * @param int $perPage
+     * @param int|null $perPage
      *
      * @return Builder[]|Collection|mixed
      */
-    public function paginate(int $perPage)
+    public function paginate(?int $perPage = null)
     {
         return $this->model->paginate($perPage);
     }
@@ -114,6 +114,22 @@ trait SelectsEntity
     }
 
     /**
+     * Determine if any rows exist for the current query.
+     *
+     * @param $column
+     * @param null $value
+     * @return bool
+     */
+    public function exists($column, $value = null)
+    {
+        if (is_array($column)) {
+            return $this->model->where($column)->exists();
+        }
+
+        return $this->model->where($column, $value)->exists();
+    }
+
+    /**
      * Finds models with "whereIn" condition.
      *
      * @param string $column
@@ -131,10 +147,10 @@ trait SelectsEntity
      *
      * @param string|array $column
      * @param mixed $value
-     *
+     * @param bool $failIfNotFound
      * @return Builder|Model|object|null
      */
-    public function getWhereFirst($column, $value = null)
+    public function getWhereFirst($column, $value = null, $failIfNotFound = false)
     {
         if (is_array($column)) {
             $model = $this->model->where($column)->first();
@@ -142,7 +158,7 @@ trait SelectsEntity
             $model = $this->model->where($column, $value)->first();
         }
 
-        if (! $model) {
+        if (! $model && $failIfNotFound) {
             $this->throwModelNotFoundException();
         }
 
@@ -154,14 +170,14 @@ trait SelectsEntity
      *
      * @param string $column
      * @param mixed $values
-     *
+     * @param bool $failIfNotFound
      * @return Builder|Model|object|null
      */
-    public function getWhereInFirst(string $column, $values)
+    public function getWhereInFirst(string $column, $values, $failIfNotFound = false)
     {
         $model = $this->model->whereIn($column, $values)->first();
 
-        if (! $model) {
+        if (! $model && $failIfNotFound) {
             $this->throwModelNotFoundException();
         }
 
